@@ -2,6 +2,7 @@ import type { NextAuthOptions } from 'next-auth'
 import GitHubProvider from 'next-auth/providers/github'
 import GoogleProvider from 'next-auth/providers/google'
 import CredentialsProvider from 'next-auth/providers/credentials'
+import { MongoClient } from 'mongodb'
 
 export const options: NextAuthOptions = {
     providers: [
@@ -9,25 +10,39 @@ export const options: NextAuthOptions = {
             clientId: process.env.GITHUB_ID as string,
             clientSecret: process.env.GITHUB_SECRET as string,
         }),
+        GoogleProvider({
+            clientId: process.env.GOOGLE_ID as string,
+            clientSecret: process.env.GOOGLE_SECRET as string,
+        }),
         CredentialsProvider({
             name: 'Credentials',
             credentials: {
                 username: { label: 'Username', type: 'text', placeholder: 'teti-satu!' },
-                password: { label: 'Password', type: 'password', placeholder: 'teti-satu!' },
+                password: { label: 'Password', type: 'password', placeholder: 'Hush, it\'s a secret!' },
             },
             async authorize(credentials) {
-                // Retrieve user data from MongoDB
-                const user = await fetch('http://localhost:3000/api/auth/login', {
-                    method: 'POST',
-                    body: JSON.stringify(credentials),
-                    headers: { 'Content-Type': 'application/json' },
-                }).then((res) => res.json())
+                const uri = process.env.MONGODB_URI;
+                const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true } as any);
 
-                if (credentials?.username === user.username && credentials?.password === user.password) {
-                    return user
+                try {
+                    console.log('Connecting to MongoDB...');
+                    await client.connect();
+                    console.log('Connected to MongoDB!');
+
+                    // Use the appropriate collection and find query based on your MongoDB setup
+                    const user = await client.db('PAW').collection('users').findOne({
+                        username: credentials?.username,
+                        password: credentials?.password,
+                    });
+
+                    if (user) {
+                        return Promise.resolve(user);
+                    } else {
+                        return Promise.resolve(null);
+                    }
+                } finally {
+                    await client.close();
                 }
-                // If you return null or false then the credentials will be rejected
-                return null
             },
         }),
     ],
