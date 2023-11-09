@@ -2,7 +2,7 @@ import { Inter, Quicksand } from 'next/font/google'
 // import localFont from 'next/font/local'
 import './globals.css'
 
-const inter = Inter({ subsets: ['latin'] })
+// const inter = Inter({ subsets: ['latin'] })
 
 const quicksand = Quicksand({
   subsets: ['latin'],
@@ -10,7 +10,7 @@ const quicksand = Quicksand({
 })
 
 export const metadata = {
-  title: 'Academia TETI',
+  title: 'Academia DTETI',
   description: 'ACADEMIA TETI adalah sebuah Aplikasi Web yang dirancang khusus untuk menyediakan berbagai sumber daya seperti dokumen, tugas, kuis, dan berkas terkait mata kuliah di DTETI UGM.'
 }
 
