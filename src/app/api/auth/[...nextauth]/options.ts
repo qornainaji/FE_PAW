@@ -1,8 +1,7 @@
 import type { NextAuthOptions } from 'next-auth'
 import GitHubProvider from 'next-auth/providers/github'
 import GoogleProvider from 'next-auth/providers/google'
-import { CredentialsProvider } from 'next-auth/providers'
-import Credentials from 'next-auth/providers/credentials'
+import CredentialsProvider from 'next-auth/providers/credentials'
 
 export const options: NextAuthOptions = {
     providers: [
@@ -14,7 +13,7 @@ export const options: NextAuthOptions = {
             name: 'Credentials',
             credentials: {
                 username: { label: 'Username', type: 'text', placeholder: 'teti-satu!' },
-                password: { label: 'Password', type: 'password' },
+                password: { label: 'Password', type: 'password', placeholder: 'teti-satu!' },
             },
             async authorize(credentials) {
                 // Retrieve user data from MongoDB
@@ -24,8 +23,7 @@ export const options: NextAuthOptions = {
                     headers: { 'Content-Type': 'application/json' },
                 }).then((res) => res.json())
 
-                // Any object returned will be saved in `user` property of the JWT
-                if (user) {
+                if (credentials?.username === user.username && credentials?.password === user.password) {
                     return user
                 }
                 // If you return null or false then the credentials will be rejected
@@ -33,5 +31,4 @@ export const options: NextAuthOptions = {
             },
         }),
     ],
-    
 }
