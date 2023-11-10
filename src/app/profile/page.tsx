@@ -3,6 +3,7 @@ import { getServerSession } from 'next-auth';
 import { redirect } from 'next/navigation';
 import React from 'react';
 import Link from 'next/link';
+import Navbar from '../components/navbar/navbar';
 
 export default async function ServerPage() {
     const session = await getServerSession(options);
@@ -13,7 +14,8 @@ export default async function ServerPage() {
     }
 
     return (
-        <section className='flex flex-col items-center justify-center w-screen h-screen'>
+        <section className='flex flex-col items-center justify-center w-screen h-screen bg-orange-100 text-neutral-1000 font-sans'>
+            <Navbar isAdmin={true}/>
             <h1 className='text-4xl font-bold'>Profile Page</h1>
             <p className='mt-5'>Welcome {session.user?.name}</p>
             <p className='mt-5'>Email: {session.user?.email}</p>
