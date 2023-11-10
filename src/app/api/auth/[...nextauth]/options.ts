@@ -3,6 +3,7 @@ import GitHubProvider from 'next-auth/providers/github'
 import GoogleProvider from 'next-auth/providers/google'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import { MongoClient } from 'mongodb'
+import SignInPage from '../pages/signin';
 
 export const options: NextAuthOptions = {
     providers: [
@@ -54,13 +55,20 @@ export const options: NextAuthOptions = {
                         return Promise.resolve(null);
                     }
                 }   catch (error) {
-                    return Promise.resolve(null);
+                        return Promise.resolve(null);
                 }   finally {
-                    if (client) {
-                        await client.close();
+                        if (client) {
+                            await client.close();
                     }
                 }
               },
         }),
     ],
+    pages: {
+        signIn: '/signin',
+        signOut: '/signout',
+        error: '/signin',
+        verifyRequest: '/verify-request',
+        newUser: '/new-user',
+    },
 }
