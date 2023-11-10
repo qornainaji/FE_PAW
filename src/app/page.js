@@ -6,6 +6,20 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24 bg-orange-100 text-black font-sans">
       <div className="flex flex-col items-center justify-center max-w-2xl w-full">
+        {/* Logo */}
+        <Image
+          src="/images/AcademiaDTETI.png"
+          alt="Logo"
+          width={500}
+          height={80}
+          className="mb-8"
+        />
+
+        {/* Title */}
+        <h1 className="text-4xl font-bold mb-12 text-center">
+          COMING SOON
+        </h1>
+
         {/* Sign Out Button */}
         <a
           href="/api/auth/signout"
