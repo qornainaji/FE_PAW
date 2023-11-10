@@ -51,7 +51,7 @@ export default function Navbar({ isAdmin }) {
         }, []);
       
   return (
-    <div className=''>
+    <div className='absolute top-0 w-full'>
         <nav className='flex font-sans text-xl text-neutral-500 justify-between px-[120px] py-[24px] bg-orange-100'>
             <h1 className='font-bold text-green-1-900'>ACADEMIA DTETI</h1>
             {isAdmin ? (

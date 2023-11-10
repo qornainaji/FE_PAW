@@ -1,10 +1,12 @@
 import Image from 'next/image'
 import { options } from "./api/auth/[...nextauth]/options"
 import { getServerSession } from 'next-auth'
+import Navbar from "./components/navbar/navbar"
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24 bg-orange-100 text-black font-sans">
+    <main className="flex min-h-screen flex-col items-center justify-between p-24 bg-green-2-600 text-black font-sans">
+      <Navbar isAdmin={true}/>
       <div className="flex flex-col items-center justify-center max-w-2xl w-full">
         {/* Logo */}
         <Image
