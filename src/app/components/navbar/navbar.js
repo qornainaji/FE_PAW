@@ -33,27 +33,16 @@
 "use client";
 import Link from 'next/link';
 import React, {useState, useEffect} from 'react';
+import Image from 'next/image';
 import styles from '../../globals.css';
 
 export default function Navbar({ isAdmin }) {
-        const [isSticky, setIsSticky] = useState(false);
-      
-        useEffect(() => {
-          const handleScroll = () => {
-            setIsSticky(window.scrollY > 0);
-          };
-      
-          window.addEventListener('scroll', handleScroll);
-      
-          return () => {
-            window.removeEventListener('scroll', handleScroll);
-          };
-        }, []);
       
   return (
-    <div className='absolute top-0 w-full'>
-        <nav className='flex font-sans text-xl text-neutral-500 justify-between px-[120px] py-[24px] bg-orange-100'>
-            <h1 className='font-bold text-green-1-900'>ACADEMIA DTETI</h1>
+    <div className='sticky-navbar w-full'>
+        <nav className='flex font-sans text-xl text-neutral-500 justify-between items-center px-[120px] py-[24px] bg-orange-100'>
+            {/* <h1 className='font-bold text-green-1-900'>ACADEMIA DTETI</h1> */}
+            <Image src='/images/AcademiaDTETI.png' alt='Logo' width={195.2} height={32} className=''/>
             {isAdmin ? (
                 <ul className='flex font-semibold text-[16px] space-x-[72px]'>
                 <li className='hover:text-green-2-600 transition-colors'>

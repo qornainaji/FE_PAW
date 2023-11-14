@@ -5,7 +5,7 @@ import Navbar from './components/navbar/navbar'
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24 bg-orange-100 text-neutral-1000 font-sans">
+    <main className="flex min-h-[150vh] flex-col items-center bg-orange-100 text-neutral-1000 font-sans">
       <Navbar isAdmin={true}/>
       <div className="flex flex-col items-center justify-center max-w-2xl w-full">
 
