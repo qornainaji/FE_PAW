@@ -2,11 +2,23 @@ import Image from 'next/image'
 import { options } from "./api/auth/[...nextauth]/options"
 import { getServerSession } from 'next-auth'
 import Navbar from './components/navbar/navbar'
+import { IoArrowDownOutline } from 'react-icons/io5'
 
 export default function Home() {
   return (
-    <main className="flex min-h-[150vh] flex-col items-center bg-orange-100 text-neutral-1000 font-sans">
+    <main className="flex flex-col items-center bg-orange-100 text-neutral-1000 font-sans">
       <Navbar isAdmin={true}/>
+      <div className="flex flex-col items-center  w-full min-h-[100vh] bg-cover bg-bottom bg-[url('../../public/images/Hero_Banner.png')]">
+        <div className='flex flex-col items-center space-y-[12px] mt-[70px]'>
+          <h1 className='font-bold text-[60px] text-center'>
+            Welcome to ACADEMIA DTETI <br/> Your All-in-One LIBRARY
+          </h1>
+          <button className='flex text-[24px] space-x-[10px] items-center text-center text-neutral font-bold py-[12px] px-[24px] hover:scale-110 transition ease-in-out delay-150 duration-300'>
+            <p>Lihat Sekarang</p>
+            <IoArrowDownOutline className='text-neutral'/>
+          </button>
+        </div>
+      </div>
       <div className="flex flex-col items-center justify-center max-w-2xl w-full">
 
         {/* Logo */}
