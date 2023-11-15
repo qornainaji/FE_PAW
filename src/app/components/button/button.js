@@ -12,7 +12,7 @@ export default function Button({
 }){
     return(
         <button
-        className={`${color} rounded-full py-[8px] px-[24px] space-x-[8px] flex items-center ${className}`}
+        className={`${color} rounded-full py-[8px] px-[24px] space-x-[8px] flex items-center transition-colors ${className}`}
         onClick={onClick}
         >
             <p 

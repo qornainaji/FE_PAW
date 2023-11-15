@@ -19,7 +19,7 @@ export default function SearchBar(){
                     // color="bg-transparent"
                     // textColor="text-green-2-500"
                     // picture={<IoFilter className="text-green-2-500"/>}
-                    className="absolute right-[8px]"
+                    className="absolute right-[8px] hover:bg-green-2-600 "
                 />
             </form>
         </div>
