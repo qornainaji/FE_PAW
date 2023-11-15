@@ -44,3 +44,6 @@ body {
   z-index: 1000; /* Adjust the z-index as needed */
   /* Add other styling properties if necessary */
 }
+.shadow-search-bar {
+  box-shadow: 0 12px 20% rgba(220, 155, 107, 0.24);
+}
