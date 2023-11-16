@@ -27,33 +27,41 @@ const Login = () => {
         axios.post(process.env.NEXT_PUBLIC_API_URL + 'users/login', {
         user_email: values.email,
         user_password: values.password,
+        withCredentials: true,
+        Credentials: 'include',
         }).then((response) => {
-        alert(response.data.message);
-        // Handle successful login (e.g., redirect to dashboard)
-        router.push('/dashboard');
+            alert(response.data.message + "\nWelcome, " + response.data.user.user_name + "!");
+            document.cookie = "token=" + response.data.token;
+            // Handle successful login (e.g., redirect to dashboard)
+            router.push('/');
         }).catch((error) => {
-        if (error.response && error.response.status === 401) {
-            alert("Invalid email or password");
-        } else {
-            console.error('An error occurred during login:', error);
-            alert('An unexpected error occurred. Please try again later.');
-        }
+            if (error.response && error.response.status === 401) {
+                alert("Invalid email or password");
+            } else {
+                console.error('An error occurred during login:', error);
+                alert('An unexpected error occurred. Please try again later.');
+            }
         });
     } else {
         axios.post(process.env.NEXT_PUBLIC_API_URL + 'users/login', {
         user_username: values.email,
         user_password: values.password,
+        withCredentials: true,
+        Credentials: 'include',
         }).then((response) => {
-        alert(response.data.message);
-        // Handle successful login (e.g., redirect to dashboard)
-        router.push('/dashboard');
+            alert(response.data.message + "\nWelcome, " + response.data.user.user_name + "!");
+            // insert token to cookie
+            document.cookie = "token=" + response.data.token;
+
+            // Handle successful login (e.g., redirect to dashboard)
+            router.push('/');
         }).catch((error) => {
-        if (error.response && error.response.status === 401) {
-            alert("Invalid username or password");
-        } else {
-            console.error('An error occurred during login:', error);
-            alert(error.message);
-        }
+            if (error.response && error.response.status === 401) {
+                alert("Invalid username or password");
+            } else {
+                console.error('An error occurred during login:', error);
+                alert(error.message);
+            }
         });
     }
   };
