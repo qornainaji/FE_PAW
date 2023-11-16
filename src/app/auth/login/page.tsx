@@ -55,7 +55,10 @@ const Login = () => {
             document.cookie = "token=" + response.data.token;
 
             // Handle successful login (e.g., redirect to dashboard)
-            router.push('/');
+            const currentUrl = window.location.href;
+            const urlObject = new URL(currentUrl);
+            const callbackUrl = urlObject.searchParams.get('callbackUrl') || '/';
+            router.push(callbackUrl);
         }).catch((error) => {
             if (error.response && error.response.status === 401) {
                 alert("Invalid username or password");
