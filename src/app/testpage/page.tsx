@@ -4,6 +4,7 @@ import Head from 'next/head';
 import Navbar from '../components/navbar/navbar';
 import React from 'react';
 import axios from 'axios';
+import FadeIn from '../animations/FadeIn';
 
 const Testpage = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -29,7 +30,7 @@ const Testpage = () => {
     
 
     return (
-        <>
+        <FadeIn>
             <div className="flex flex-col h-full bg-orange-100 text-neutral-1000 font-sans">
                 <Head>
                     <title>Test Page</title>
@@ -66,7 +67,7 @@ const Testpage = () => {
                     
                 </div>
             </div>
-        </>
+        </FadeIn>
     );
 };
 

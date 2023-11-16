@@ -7,6 +7,7 @@ import axios from 'axios';
 import { Form, Input, Button, Typography } from 'antd';
 import CustomAlert from './components/CustomAlert/CustomAlert';
 import { useRouter } from 'next/navigation';
+import FadeIn from './animations/FadeIn';
 
 export default function Home() {
   const router = useRouter();
@@ -18,6 +19,7 @@ export default function Home() {
   }
 
   return (
+    <FadeIn>
     <main className="flex flex-col items-center bg-orange-100 text-neutral-1000 font-sans">
       <Navbar isAdmin={true}/>
       <div className="flex flex-col items-center  w-full min-h-[100vh] bg-cover bg-bottom bg-[url('../../public/images/Hero_Banner.png')]">
@@ -84,5 +86,6 @@ export default function Home() {
           
       </div>
     </main>
+    </FadeIn>
   )
 }
