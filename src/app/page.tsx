@@ -1,8 +1,22 @@
+"use client";
+import React, { useState } from 'react';
 import Image from 'next/image'
 import Navbar from './components/navbar/navbar'
 import { IoArrowDownOutline } from 'react-icons/io5'
+import axios from 'axios';
+import { Form, Input, Button, Typography } from 'antd';
+import CustomAlert from './components/CustomAlert/CustomAlert';
+import { useRouter } from 'next/navigation';
 
 export default function Home() {
+  const router = useRouter();
+
+  // Sign Out function (delete the token from the cookie)
+  const signOut = () => {
+    document.cookie="token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    router.push('/auth/login');
+  }
+
   return (
     <main className="flex flex-col items-center bg-orange-100 text-neutral-1000 font-sans">
       <Navbar isAdmin={true}/>
@@ -53,11 +67,9 @@ export default function Home() {
       
 
         {/* Sign Out Button */}
-        <a
-          href="/api/auth/signout"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors bg-orange-100 hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          // target="_blank"
-          rel="noopener noreferrer"
+        <button
+          className="mb-10 group rounded-lg border border-transparent px-5 py-4 transition-colors bg-orange-100 hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
+          onClick={signOut}
         >
           <h2 className={`mb-3 text-2xl font-semibold`}>
             Sign Out{' '}
@@ -66,9 +78,10 @@ export default function Home() {
             </span>
           </h2>
           <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Sign out of the app.
+            Sign out from your account.
           </p>
-        </a>
+        </button>
+          
       </div>
     </main>
   )
