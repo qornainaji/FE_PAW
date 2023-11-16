@@ -4,11 +4,13 @@ import { Form, Input, Button, Typography } from 'antd';
 import axios from 'axios';
 import CustomAlert from '../../components/CustomAlert/CustomAlert';
 import { GithubOutlined } from '@ant-design/icons';
+import { useRouter } from 'next/navigation';
 
 const { Title } = Typography;
 
 const Login = () => {
     const [githubSignInMessage, setGithubSignInMessage] = useState(null);
+    const router = useRouter();
 
     const handleGitHubSignIn = () => {
         // Set the message when the GitHub sign-in button is clicked
@@ -28,6 +30,7 @@ const Login = () => {
         }).then((response) => {
         alert(response.data.message);
         // Handle successful login (e.g., redirect to dashboard)
+        router.push('/dashboard');
         }).catch((error) => {
         if (error.response && error.response.status === 401) {
             alert("Invalid email or password");
@@ -43,12 +46,13 @@ const Login = () => {
         }).then((response) => {
         alert(response.data.message);
         // Handle successful login (e.g., redirect to dashboard)
+        router.push('/dashboard');
         }).catch((error) => {
         if (error.response && error.response.status === 401) {
             alert("Invalid username or password");
         } else {
             console.error('An error occurred during login:', error);
-            alert(error.response.data.message);
+            alert(error.message);
         }
         });
     }
