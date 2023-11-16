@@ -60,6 +60,9 @@ const Testpage = () => {
                         {/* <pre>{JSON.stringify(users, null, 2)}</pre> */}
                     </div>
                     <p>Test</p>
+                    <div className='flex justify-center align-middle mx-auto'>
+                        <iframe className='rounded-2xl' src='https://drive.google.com/file/d/1qTVy4KRZfSSxLqjTbzi9-t2SD5B5cs6M/view' width='70%' height={1000}></iframe>
+                    </div>
                     
                 </div>
             </div>
