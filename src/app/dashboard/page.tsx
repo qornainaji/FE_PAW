@@ -6,6 +6,7 @@ import React from 'react';
 import axios from 'axios';
 import FadeIn from '../animations/FadeIn';
 import Posts from '../components/posts/posts';
+import SearchBar from '../components/searchbar/searchbar';
 
 const Dashboard = () => {
 
@@ -52,7 +53,8 @@ const Dashboard = () => {
                 <Navbar isAdmin={true} />
 
                 <div className='mt-10 mb-10'>
-                        <h2 className='mx-auto text-center font-sans font-bold text-5xl'>Cari dokumen kamu di bawah!</h2>
+                        <h2 className='mx-auto text-center font-sans font-bold text-5xl mb-10'>Cari dokumen kamu di bawah!</h2>
+                        <SearchBar />
                         <Posts posts={documents} />
 
                         {/* show raw response from API */}
