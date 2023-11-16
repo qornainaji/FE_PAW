@@ -1,5 +1,6 @@
 "use client";
 import axios from 'axios';
+import { redirect } from 'next/dist/server/api-utils';
 import React from 'react';
 import {useState} from 'react';
 
@@ -7,11 +8,11 @@ export default function LoginPage() {
     const [nama, setNama] = useState("");
     const [password, setPassword] = useState("");
     return(
-        <main className="min-h-screen flex justify-center items-center bg-orange-100 text-black font-sans">
+        <main className="h-screen flex justify-center items-center bg-orange-100 text-black font-sans">
             <div className="bg-white p-10 rounded-[20px] flex flex-col gap-5">
                 <div>
                     <h1 className="text-[30px] text-center">Login</h1>
-                    <p>Ready to learn?</p>
+                    <p>Menuju nilai tertinggi dan melampauinya.</p>
                 </div>
                 <form onSubmit={(e) => {
                     e.preventDefault();
@@ -26,6 +27,7 @@ export default function LoginPage() {
                         user_password: password
                     }).then(() => {
                         alert(`success, welcome ${nama}`)
+                        
                     }).catch((err) => {
                         console.log(err.message)
                         alert("gagal")
