@@ -1,12 +1,10 @@
-import { options } from '../api/auth/[...nextauth]/options';
-import { getServerSession } from 'next-auth';
 import { redirect } from 'next/navigation';
 import React from 'react';
 import Link from 'next/link';
 import Navbar from '../components/navbar/navbar';
 
 export default async function ServerPage() {
-    const session = await getServerSession(options);
+    const session = await getSession(); // get session from server-side (Not implemented yet)
 
     if (!session) {
         redirect('/api/auth/signin?callbackUrl=http://localhost:3000/profile')

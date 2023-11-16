@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React from 'react';
 import { Form, Input, Button, Typography } from 'antd';
 import axios from 'axios';
@@ -16,6 +16,7 @@ const Register = () => {
 
     axios.post(process.env.NEXT_PUBLIC_API_URL + 'users/register', {
       user_name: values.name,
+      user_username: values.username,
       user_email: values.email,
       user_password: values.password,
       user_NIM: values.nim,
@@ -45,10 +46,10 @@ const Register = () => {
 
   return (
     <div className="h-screen min-w-screen bg-orange-100" style={{ backgroundImage: "url('/svg/books.svg')", backgroundRepeat: "no-repeat", backgroundPosition: "center", backgroundSize: "cover" }}>
-        <div className="flex justify-center items-center h-10">
+        <div className="flex justify-center items-center h-5">
             {/* Empty Div */}
         </div>
-      <div className="w-1/3 p-1 flex flex-col justify-center items-center bg-neutral-50 rounded-xl gap-0 shadow-xl h-5/6 mx-auto font-sans">
+      <div className="w-1/3 p-1 flex flex-col justify-center items-center bg-neutral-50 rounded-xl gap-0 shadow-xl mx-auto font-sans" style={ {height:'90%'} }>
         <img src="/images/AcademiaDTETI.png" className="w-1/2 h-auto" />
         <p className='px-10 text-center font-sans text-neutral-600 mt-5 mb-7'>
         Langkah pertama menuju pengalaman belajar yang komprehensif!
@@ -66,6 +67,14 @@ const Register = () => {
                 rules={[{ required: true, message: 'Please input your name!' }]}
             >
                 <Input placeholder='Kimi no namae wa?'/>
+            </Form.Item>
+
+            <Form.Item
+                label="Username"
+                name="username"
+                rules={[{ required: true, message: 'Please input your username!' }]}
+            >
+                <Input placeholder='Watashi wa ghoul desu'/>
             </Form.Item>
 
             <Form.Item
@@ -100,7 +109,7 @@ const Register = () => {
                     type="primary"
                     htmlType="submit"
                     className="bg-green-2-500 rounded-full mb-0"
-                    style={{ width: '100%', height: '50px' }}
+                    style={{ width: '100%'}}
                 >
                     Daftar
                 </Button>

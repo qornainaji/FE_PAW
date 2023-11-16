@@ -1,6 +1,4 @@
 import Image from 'next/image'
-import { options } from "./api/auth/[...nextauth]/options"
-import { getServerSession } from 'next-auth'
 import Navbar from './components/navbar/navbar'
 import { IoArrowDownOutline } from 'react-icons/io5'
 

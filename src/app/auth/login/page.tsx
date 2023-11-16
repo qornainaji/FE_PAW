@@ -1,49 +1,88 @@
 "use client";
-import axios from 'axios';
-import { redirect } from 'next/dist/server/api-utils';
 import React from 'react';
-import {useState} from 'react';
+import { Form, Input, Button, Typography } from 'antd';
+import axios from 'axios';
 
-export default function LoginPage() {
-    const [nama, setNama] = useState("");
-    const [password, setPassword] = useState("");
-    return(
-        <main className="h-screen flex justify-center items-center bg-orange-100 text-black font-sans">
-            <div className="bg-white p-10 rounded-[20px] flex flex-col gap-5">
-                <div>
-                    <h1 className="text-[30px] text-center">Login</h1>
-                    <p>Menuju nilai tertinggi dan melampauinya.</p>
-                </div>
-                <form onSubmit={(e) => {
-                    e.preventDefault();
-                    console.log(
-                        {
-                            user_name: nama,
-                            user_password: password
-                        }
-                    )
-                    axios.post("http://localhost:4000/" + "users/login", {
-                        user_name: nama,
-                        user_password: password
-                    }).then(() => {
-                        alert(`success, welcome ${nama}`)
-                        
-                    }).catch((err) => {
-                        console.log(err.message)
-                        alert("gagal")
-                    })
-                }} className="flex flex-col gap-4">
-                    <label className="flex flex-col gap-2">
-                        Nama/Email
-                        <input type="text" className="outline" value={nama} onChange={(e) => {setNama(e.target.value)}} />
-                    </label>
-                    <label className="flex flex-col gap-2">
-                        Password
-                        <input type="password" className="outline" value={password} onChange={(e) => setPassword(e.target.value)} />
-                    </label>
-                    <button type="submit" className="mt-2 block bg-green-2-500 text-white py-2 rounded-full">Masuk</button>
-                </form>
-            </div>
-        </main>
-    )
-}
+const { Title } = Typography;
+
+const Login = () => {
+  const onFinish = (values) => {
+    axios.post(process.env.NEXT_PUBLIC_API_URL + 'users/login', {
+      user_email: values.email,
+      user_password: values.password,
+    }).then((response) => {
+      alert(response.data.message);
+      // Handle successful login (e.g., redirect to dashboard)
+    }).catch((error) => {
+      if (error.response && error.response.status === 401) {
+        alert("Invalid email or password");
+      } else {
+        console.error('An error occurred during login:', error);
+        alert('An unexpected error occurred. Please try again later.');
+      }
+    });
+  };
+
+  const onFinishFailed = (errorInfo) => {
+    console.log('Failed:', errorInfo);
+  };
+
+  return (
+    <div className="h-screen min-w-screen bg-orange-100" style={{ backgroundImage: "url('/svg/books.svg')", backgroundRepeat: "no-repeat", backgroundPosition: "center", backgroundSize: "cover" }}>
+        <div className="flex justify-center items-center h-10">
+            {/* Empty Div */}
+        </div>
+      <div className="w-1/3 p-1 flex flex-col justify-center items-center bg-neutral-50 rounded-xl gap-0 shadow-xl h-5/6 mx-auto font-sans">
+        <img src="/images/AcademiaDTETI.png" className="w-1/2 h-auto" />
+        <p className='px-10 text-center font-sans text-neutral-600 mt-5 mb-7'>
+          Selamat datang kembali! Silakan masuk ke akun Anda.
+        </p>
+        <Form
+          name="basic"
+          initialValues={{ remember: true }}
+          onFinish={onFinish}
+          onFinishFailed={onFinishFailed}
+          className="font-sans"
+        >
+          <Form.Item
+            label="Email"
+            name="email"
+            rules={[
+              { required: true, message: 'Please input your email!' },
+              { type: 'email', message: 'Please enter a valid email address' },
+            ]}
+          >
+            <Input placeholder='Email Anda'/>
+          </Form.Item>
+
+          <Form.Item
+            label="Password"
+            name="password"
+            rules={[{ required: true, message: 'Please input your password!' }]}
+          >
+            <Input.Password placeholder='Password Anda'/>
+          </Form.Item>
+
+          <Form.Item>
+            <Button
+              type="primary"
+              htmlType="submit"
+              className="bg-green-2-500 rounded-full mb-0"
+              style={{ width: '100%', height: '50px' }}
+            >
+              Masuk
+            </Button>
+          </Form.Item>
+        </Form>
+        <p className="font-sans text-neutral-600">
+          Belum punya akun?{' '}
+          <a href="/auth/register" className="font-sans text-green-600">
+            Daftar
+          </a>
+        </p>
+      </div>
+    </div>
+  );
+};
+
+export default Login;
