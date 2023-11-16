@@ -5,6 +5,7 @@ import Navbar from '../components/navbar/navbar';
 import React from 'react';
 import axios from 'axios';
 import FadeIn from '../animations/FadeIn';
+import Posts from '../components/posts/posts';
 
 const Dashboard = () => {
 
@@ -41,7 +42,7 @@ const Dashboard = () => {
 
     return (
         <FadeIn>
-            <div className="flex flex-col h-screen bg-orange-100 text-neutral-1000">
+            <div className="flex flex-col h-min-content bg-orange-100 text-neutral-1000">
                 <Head>
                     <title>Dashboard</title>
                     <meta name="description" content="Dashboard" />
@@ -51,21 +52,11 @@ const Dashboard = () => {
                 <Navbar isAdmin={true} />
 
                 <div className='mt-10 mb-10'>
-                        <h2>Documents</h2>
-                        {/* Print the usernames in a list */}
-                        <ul>
-                            {Array.isArray(documents) && documents.map(document => (
-                            <li key={document._id}>
-                                <p>Document ID: {document._id}</p>
-                                <p>Matkul: {document.doc_major}</p>
-                                <p>Judul: {document.doc_title}</p>
-                                {/* Additional user details */}
-                            </li>
-                            ))}
-                        </ul>
+                        <h2 className='mx-auto text-center font-sans font-bold text-5xl'>Cari dokumen kamu di bawah!</h2>
+                        <Posts posts={documents} />
 
                         {/* show raw response from API */}
-                        <pre>{JSON.stringify(documents, null, 2)}</pre>
+                        {/* <pre>{JSON.stringify(documents, null, 2)}</pre> */}
                     
                 </div>
             </div>
