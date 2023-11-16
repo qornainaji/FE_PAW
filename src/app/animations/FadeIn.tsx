@@ -1,6 +1,12 @@
 import { motion } from 'framer-motion';
+import { Children } from 'react';
+import React, { ReactNode } from 'react';
 
-const FadeIn: React.FC = ({ children }) => {
+interface FadeInProps {
+    children: ReactNode;
+  }
+
+const FadeIn: React.FC<FadeInProps> = ({ children }) => {
   return (
     <div style={{ backgroundColor: '#F9EFE7', width: '100%', height: '100%' }}>
       <motion.div
