@@ -1,8 +1,10 @@
 "use client";
-import { useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import Head from 'next/head';
 import Navbar from '../components/navbar/navbar';
 import React from 'react';
+import SeeBookModal from '../components/modal/seebookmodal';
+import Link from 'next/link';
 import axios from 'axios';
 import FadeIn from '../animations/FadeIn';
 import Posts from '../components/posts/posts';
@@ -15,6 +17,10 @@ const Dashboard = () => {
     const [searchKeyword, setSearchKeyword] = useState('');
     const [loading, setLoading] = useState(true);
     const [refetchTrigger, setRefetchTrigger] = useState(false);
+
+    const [isOpen, setIsOpen] = useState(false);
+
+    const [showModal, setShowModal] = useState(false);
 
     useEffect(() => {
         // Check if 'document' is defined to avoid issues during server-side rendering
@@ -57,17 +63,21 @@ const Dashboard = () => {
         }
     }, [refetchTrigger]);
 
+    const toggle = () => {
+        setIsOpen(!isOpen);
+    };
 
     return (
-        <FadeIn>
-            <div className="flex flex-col min-h-screen h-min-content bg-orange-100 text-neutral-1000">
-                <Head>
-                    <title>Dashboard</title>
-                    <meta name="description" content="Dashboard" />
-                    <link rel="icon" href="/favicon.ico" />
-                </Head>
+        <>
+            <Fragment>
+                <div className="flex flex-col h-screen bg-orange-100 text-neutral-1000">
+                    <Head>
+                        <title>Dashboard</title>
+                        <meta name="description" content="Dashboard" />
+                        <link rel="icon" href="/favicon.ico" />
+                    </Head>
 
-                <Navbar isAdmin={true} />
+                    <Navbar isAdmin={true} />
 
                 <div className='mt-10 mb-10'>
                     <h2 className='mx-auto text-center font-sans font-bold text-5xl mb-10'>Cari dokumen kamu di bawah!</h2>
@@ -135,8 +145,9 @@ const Dashboard = () => {
                     {/* <pre>{JSON.stringify(documents, null, 2)}</pre> */}
 
                 </div>
-            </div>
-        </FadeIn>
+                <SeeBookModal isVisible={showModal} onCLose={() => setShowModal(false)}/>
+            </Fragment>    
+        </>
     );
 };
 
