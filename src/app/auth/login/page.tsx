@@ -53,6 +53,7 @@ const Login = () => {
             alert(response.data.message + "\nWelcome, " + response.data.user.user_name + "!");
             // insert token to cookie
             document.cookie = "token=" + response.data.token;
+            localStorage.setItem('token', response.data.token);
 
             // Handle successful login (e.g., redirect to dashboard)
             const currentUrl = window.location.href;
