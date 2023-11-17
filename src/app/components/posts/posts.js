@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Card } from 'antd';
 import styles from './posts.module.css';
 import Image from 'next/image';
 import { useState } from 'react';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 const { Meta } = Card;
 
@@ -10,6 +12,13 @@ const Posts = ({ posts }) => {
     let rawDate, formattedDate;
     
     const [hoveredCards, setHoveredCards] = useState({});
+
+    useEffect(() => {
+        AOS.init({
+            duration: 1000,
+            once: false,
+        });
+    }, []);
 
     const handleMouseEnter = (postId) => {
         setHoveredCards((prevHoveredCards) => ({ ...prevHoveredCards, [postId]: true }));
@@ -27,7 +36,7 @@ const Posts = ({ posts }) => {
                     rawDate = new Date(post.doc_date_upload),
                     formattedDate = `${rawDate.getDate().toString().padStart(2, '0')}/${(rawDate.getMonth() + 1).toString().padStart(2, '0')}/${rawDate.getFullYear()}`,
                     
-                    <div className='max-w-sm rounded justify-center items-center flex font-sans text-neutral-1000'
+                    <div data-aos='fade-up-left' className='max-w-sm rounded justify-center items-center flex font-sans text-neutral-1000'
                         key={post._id}    
                         onMouseEnter={() => handleMouseEnter(post._id)}
                         onMouseLeave={() => handleMouseLeave(post._id)}>
