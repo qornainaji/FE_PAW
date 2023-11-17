@@ -4,6 +4,7 @@ import Head from 'next/head';
 import Navbar from '../components/navbar/navbar';
 import React from 'react';
 import axios from 'axios';
+import FadeIn from '../animations/FadeIn';
 
 const Testpage = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -29,7 +30,7 @@ const Testpage = () => {
     
 
     return (
-        <>
+        <FadeIn>
             <div className="flex flex-col h-full bg-orange-100 text-neutral-1000 font-sans">
                 <Head>
                     <title>Test Page</title>
@@ -60,10 +61,13 @@ const Testpage = () => {
                         {/* <pre>{JSON.stringify(users, null, 2)}</pre> */}
                     </div>
                     <p>Test</p>
+                    <div className='flex justify-center align-middle mx-auto'>
+                        <iframe className='rounded-2xl' src='https://drive.google.com/file/d/1qTVy4KRZfSSxLqjTbzi9-t2SD5B5cs6M/view' width='70%' height={1000}></iframe>
+                    </div>
                     
                 </div>
             </div>
-        </>
+        </FadeIn>
     );
 };
 

@@ -27,7 +27,7 @@
     ".next/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx"
-, "src/app/verification/page.tsx"  ],
+, "src/app/verification/page.tsx", "src/app/components/posts/posts.js"  ],
   "exclude": [
     "node_modules"
   ]
