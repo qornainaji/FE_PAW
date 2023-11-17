@@ -18,6 +18,8 @@ const Dashboard = () => {
 
     const [isOpen, setIsOpen] = useState(false);
 
+    const [showModal, setShowModal] = useState(false);
+
     useEffect(() => {
         // Check if 'document' is defined to avoid issues during server-side rendering
         if (typeof document !== 'undefined') {
