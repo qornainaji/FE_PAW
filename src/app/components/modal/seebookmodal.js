@@ -1,6 +1,6 @@
 import React from 'react';
 
-const seebookmodal = ({ isVisible, onCLose }) => {
+const seebookmodal = ({ isVisible, onClose }) => {
   if (!isVisible) return null;
 
   return (
@@ -30,16 +30,17 @@ const seebookmodal = ({ isVisible, onCLose }) => {
           </div>
           <button
             className="bg-green-500 text-white py-2 px-4 rounded-full mt-12 w-32 h-12"
-            
+            onClick={() => onClose()}
           >
-            Download
+            Close
           </button>
           
         </div>
         <div className=' w-1/6'>
         <button
           className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
-          onClick={() => onClose()}>
+          onClick={() => onClose()}
+        >
           Close
         </button>
         </div>

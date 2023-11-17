@@ -73,7 +73,7 @@ const Dashboard = () => {
                         
                     </div>
                 </div>
-                <SeeBookModal isVisible={showModal} onCLose={() => setShowModal(false)}/>
+                <SeeBookModal isVisible={showModal} onClose={() => setShowModal(false)}/>
             </Fragment>    
         </>
     );
