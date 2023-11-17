@@ -43,7 +43,7 @@ const Dashboard = () => {
 
     return (
         <FadeIn>
-            <div className="flex flex-col h-min-content bg-orange-100 text-neutral-1000">
+            <div className="flex flex-col min-h-screen h-min-content bg-orange-100 text-neutral-1000">
                 <Head>
                     <title>Dashboard</title>
                     <meta name="description" content="Dashboard" />

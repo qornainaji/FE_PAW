@@ -1,3 +1,4 @@
+"use client";
 import { useRouter } from 'next/navigation';
 import React from 'react';
 import Link from 'next/link';
@@ -25,8 +26,8 @@ export default async function ServerPage() {
             {/* <svg className='mt-5' viewBox='0 0 100 100'>
                 <image xlinkHref={session.user?.image} type="image/png" width="20" height="20" />
             </svg> */}
-            <Link legacyBehavior href='/api/auth/signout'>
-                <a className='mt-5 text-blue-500'>Sign Out</a>
+            <Link legacyBehavior href='/auth/login'>
+                <a className='mt-5 text-green-2-500'>Sign Out</a>
             </Link>
         </section>
     )
