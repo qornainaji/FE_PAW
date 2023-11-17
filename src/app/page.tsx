@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from 'react';
+import React, { use, useEffect, useState } from 'react';
 import Image from 'next/image'
 import Navbar from './components/navbar/navbar'
 import { IoArrowDownOutline } from 'react-icons/io5'
@@ -12,9 +12,18 @@ import FadeIn from './animations/FadeIn';
 export default function Home() {
   const router = useRouter();
 
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if(!token) {
+      router.push('/auth/login');
+    }
+  }, [])
+
   // Sign Out function (delete the token from the cookie)
   const signOut = () => {
     document.cookie="token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    localStorage.removeItem('token');
+    localStorage.removeItem('name');
     router.push('/auth/login');
   }
 
