@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from 'react';
-import { Form, Input, Button, Typography } from 'antd';
+import { Form, Input, Button, Typography, ConfigProvider } from 'antd';
 import axios from 'axios';
 import CustomAlert from '../../components/CustomAlert/CustomAlert';
 import { GithubOutlined } from '@ant-design/icons';
@@ -95,38 +95,46 @@ const Login = () => {
             labelCol={{ span: 24 }} // Adjust the span value based on your layout preference
             wrapperCol={{ span: 24 }} // Adjust the span value based on your layout preference
             >
-            <Form.Item
-                label="Email/Username"
-                name="email"
-                rules={[
-                { required: true, message: 'Please input your email/username!' },
-                //   { type: 'email', message: 'Please enter a valid email address' },
-                ]}
-                style={{ marginBottom: '0px', marginTop: '0px' }
-                }
+            <ConfigProvider 
+                theme={{
+                    token: {
+                    // Seed Token
+                    colorPrimary: '#48A516',
+                    },
+                }}
             >
-                <Input placeholder='Email/Username'/>
-            </Form.Item>
-
-            <Form.Item
-                label="Password"
-                name="password"
-                rules={[{ required: true, message: 'Please input your password!' }]}
-            >
-                <Input.Password placeholder='Secret Password!'/>
-            </Form.Item>
-
-            <Form.Item>
-                <Button
-                type="primary"
-                htmlType="submit"
-                className="bg-green-2-500 rounded-full mb-0"
-                style={{ width: '100%', height: 'auto' }}
+                <Form.Item
+                    label="Email/Username"
+                    name="email"
+                    rules={[
+                    { required: true, message: 'Please input your email/username!' },
+                    //   { type: 'email', message: 'Please enter a valid email address' },
+                    ]}
+                    style={{ marginBottom: '0px', marginTop: '0px' }
+                    }
                 >
-                Masuk
-                </Button>
-            </Form.Item>
+                    <Input placeholder='Email/Username'/>
+                </Form.Item>
 
+                <Form.Item
+                    label="Password"
+                    name="password"
+                    rules={[{ required: true, message: 'Please input your password!' }]}
+                >
+                    <Input.Password placeholder='Secret Password!'/>
+                </Form.Item>
+
+                <Form.Item>
+                    <Button
+                    type="primary"
+                    htmlType="submit"
+                    className="bg-green-2-500 rounded-full mb-0"
+                    style={{ width: '100%', height: 'auto' }}
+                    >
+                    Masuk
+                    </Button>
+                </Form.Item>
+            </ConfigProvider>
             {/* line break with "or" */}
                 <div className="flex justify-center items-center mb-5">
                     <div className="border-t border-neutral-300 w-1/3"></div>
