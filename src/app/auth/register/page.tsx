@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from 'react';
-import { Form, Input, Button, Typography } from 'antd';
+import { Form, Input, Button, Typography, ConfigProvider } from 'antd';
 import axios from 'axios';
 import CustomAlert from '../../components/CustomAlert/CustomAlert';
 import { error } from 'console';
@@ -76,49 +76,57 @@ const Register = () => {
                         onFinishFailed={onFinishFailed}
                         className="font-sans"
                     >
-                        <Form.Item
-                            label="Name"
-                            name="name"
-                            rules={[{ required: true, message: 'Please input your name!' }]}
+                        <ConfigProvider 
+                            theme={{
+                                token: {
+                                // Seed Token
+                                colorPrimary: '#48A516',
+                                },
+                            }}
                         >
-                            <Input placeholder='Kimi no namae wa?'/>
-                        </Form.Item>
+                            <Form.Item
+                                label="Name"
+                                name="name"
+                                rules={[{ required: true, message: 'Please input your name!' }]}
+                            >
+                                <Input placeholder='Kimi no namae wa?'/>
+                            </Form.Item>
 
-                        <Form.Item
-                            label="Username"
-                            name="username"
-                            rules={[{ required: true, message: 'Please input your username!' }]}
-                        >
-                            <Input placeholder='Watashi wa ghoul desu'/>
-                        </Form.Item>
+                            <Form.Item
+                                label="Username"
+                                name="username"
+                                rules={[{ required: true, message: 'Please input your username!' }]}
+                            >
+                                <Input placeholder='Watashi wa ghoul desu'/>
+                            </Form.Item>
 
-                        <Form.Item
-                            label="Email"
-                            name="email"
-                            rules={[
-                                { required: true, message: 'Please input your email!' },
-                                { validator: validateUgmEmail }
-                            ]}
-                        >
-                            <Input placeholder='CanItBeatGokuTho@gmail.com'/>
-                        </Form.Item>
+                            <Form.Item
+                                label="Email"
+                                name="email"
+                                rules={[
+                                    { required: true, message: 'Please input your email!' },
+                                    { validator: validateUgmEmail }
+                                ]}
+                            >
+                                <Input placeholder='CanItBeatGokuTho@gmail.com'/>
+                            </Form.Item>
 
-                        <Form.Item
-                            label="Password"
-                            name="password"
-                            rules={[{ required: true, message: 'Please input your password!' }]}
-                        >
-                            <Input.Password placeholder='Pasuwado ni ore wa naru!'/>
-                        </Form.Item>
+                            <Form.Item
+                                label="Password"
+                                name="password"
+                                rules={[{ required: true, message: 'Please input your password!' }]}
+                            >
+                                <Input.Password placeholder='Pasuwado ni ore wa naru!'/>
+                            </Form.Item>
 
-                        <Form.Item
-                            label="NIM"
-                            name="nim"
-                            rules={[{ required: true, message: 'Please input your NIM!' }]}
-                        >
-                            <Input placeholder='BakaSlayerID69'/>
-                        </Form.Item>
-
+                            <Form.Item
+                                label="NIM"
+                                name="nim"
+                                rules={[{ required: true, message: 'Please input your NIM!' }]}
+                            >
+                                <Input placeholder='BakaSlayerID69'/>
+                            </Form.Item>
+                        </ConfigProvider>
                         <Form.Item>
                             <Button
                                 type="primary"
