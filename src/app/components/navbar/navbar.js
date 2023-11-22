@@ -60,8 +60,8 @@ export default function Navbar({ isAdmin }) {
                     </ul>
                 ) : null}
                 <div className='flex space-x-[8px]'>
-                    <p className='text-[16px] font-semibold text-green-1-900'>Halo, {name}</p>
-                    <p className='w-[32px] h-[32px] rounded-full bg-green-600'></p>
+                    <Link className='text-[16px] font-semibold text-green-1-900' href="/profile">Halo, {name}</Link>
+                    <Link className='w-[32px] h-[32px] rounded-full bg-green-600' href="/profile"></Link>
                 </div>
             </nav>
         </div>
