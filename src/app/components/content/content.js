@@ -1,12 +1,22 @@
+'use client';
+
+import { useState } from "react";
 import Button from "../button/button";
 import SearchBar from "../searchbar/searchbar";
 import Filter from "../filter/filter";
 import { IoFilter } from "react-icons/io5";
 
 export default function Content(){
+
+    const [isFilterInvisible, setFilterInvisible] = useState(false);
+
+    const handleFilter = () => {
+        setFilterInvisible(!isFilterInvisible);
+    }
+
     return(
         <div className="flex flex-col items-center justify-between bg-orange-100 py-[60px] px-[120px] font-sans text-neutral-1000 ">
-            <h1 className="font-bold text-[38px] mb-[24px] ">Cari dokumen kamu di bawah!</h1>
+            <h1 className="font-bold text-[38px] ">Cari dokumen kamu di bawah!</h1>
             <SearchBar/>
             <div className="flex flex-row items-center justify-between w-full mt-[40px] mb-[24px]">
                 <div className="flex space-x-[119px]">
@@ -19,6 +29,7 @@ export default function Content(){
                         </div>
                 </div>
                 <Button
+                    onClick={handleFilter}
                     className="group right-[8px] border-[1px] border-green-2-500 hover:border-green-1-500"
                     text="Filter"
                     color="bg-transparent"
@@ -26,7 +37,7 @@ export default function Content(){
                     picture={<IoFilter className="text-green-2-500 group-hover:text-green-1-500"/>}
                 />
             </div>
-            <Filter/>
+            {isFilterInvisible && <Filter/>}
         </div>
     )
 }
