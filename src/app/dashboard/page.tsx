@@ -85,7 +85,7 @@ const Dashboard = () => {
                         <form className="flex w-[90%] max-w-[794px] py-[18px] bg-neutral pl-[20px] rounded-full pr-[8px] relative items-center">
                             <input
                                 type="text"
-                                className="w-full font-medium text-[16px] text-neutral-900 placeholder:text-neutral-500 focus:outline-none"
+                                className="w-full font-medium  text-[16px] text-neutral-900 placeholder:text-neutral-500 focus:outline-none"
                                 placeholder="Cari dokumen kamu disini..."
                                 value={searchKeyword}
                                 onChange={(e) => setSearchKeyword(e.target.value)}
@@ -115,6 +115,7 @@ const Dashboard = () => {
                             />
                         </form>
                     </div>
+                    <h3 className='mx-auto text-center font-sans font-thin text-xl mt-10'>[!TODO: Filter dan kategori di sini]</h3>
                     <Posts posts={documents} />
 
                     {/* Clickable Page Number to change pages */}
@@ -129,7 +130,7 @@ const Dashboard = () => {
                                 2
                             </div>
                         </a>
-                        <a href="/dashboard?page=3">
+                        {/* <a href="/dashboard?page=3">
                             <div className="flex items-center justify-center h-10 w-10 mr-1 rounded-full bg-green-2-500 text-white font-sans cursor-pointer">
                                 3
                             </div>
@@ -138,7 +139,7 @@ const Dashboard = () => {
                             <div className="flex items-center justify-center h-10 w-10 mr-1 rounded-full bg-green-2-500 text-white font-sans cursor-pointer">
                                 4
                             </div>
-                        </a>
+                        </a> */}
                     </div>
 
                     {/* show raw response from API */}

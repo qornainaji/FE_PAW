@@ -31,12 +31,12 @@ const Posts = ({ posts }) => {
     return (
         <div className={styles.container}>
             <div className={styles.grid}>
-                {posts.map((post) => (
+                {posts.map((post, index) => (
                     // Format the date to be more readable
                     rawDate = new Date(post.doc_date_upload),
                     formattedDate = `${rawDate.getDate().toString().padStart(2, '0')}/${(rawDate.getMonth() + 1).toString().padStart(2, '0')}/${rawDate.getFullYear()}`,
                     
-                    <div data-aos='fade-up-left' className='max-w-sm rounded justify-center items-center flex font-sans text-neutral-1000'
+                    <div data-aos='fade-up-left' data-aos-delay={`${index * 100}`} className='max-w-sm rounded justify-center items-center flex font-sans text-neutral-1000'
                         key={post._id}    
                         onMouseEnter={() => handleMouseEnter(post._id)}
                         onMouseLeave={() => handleMouseLeave(post._id)}>
@@ -47,6 +47,7 @@ const Posts = ({ posts }) => {
                                 width: '90%',
                                 height: '95%',
                                 borderRadius: '10px',
+                                padding: '10px',
                                 backgroundColor: hoveredCards[post._id] ? 'rgba(255, 255, 255, 1)' : 'rgba(255, 255, 255, 0)',
                                 boxShadow: hoveredCards[post._id] ? '0 4px 8px rgba(41, 55, 33, 1)' : '0 4px 8px rgba(41, 55, 33, 0)',
                                 transition: hoveredCards[post._id] ? 'all 0.3s ease-in-out' : 'all 0.3s ease-in-out',
@@ -58,6 +59,8 @@ const Posts = ({ posts }) => {
                             <p className='font-bold'>{post.doc_major}</p>
                             {/* Limit description to two rows only. If more, use ellipses */}
                             <p className='line-clamp-2'>{post.doc_description}</p>
+                            {/* Tags */}
+                            <Meta tags={post.doc_year} />
                         </Card>
                     </div>
                 ))}
