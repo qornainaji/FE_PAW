@@ -42,7 +42,10 @@ export default function Navbar({ isAdmin }) {
             {/* {id} */}
             <nav className='flex font-sans text-xl text-neutral-500 justify-between items-center px-[120px] py-[24px] bg-orange-100'>
                 {/* <h1 className='font-bold text-green-1-900'>ACADEMIA DTETI</h1> */}
-                <Image src='/images/AcademiaDTETI.png' alt='Logo' width={195.2} height={32} className=''/>
+                <div className='flex items-center'>
+                    <Image src='/images/AcademiaDTETI.png' alt='Logo' width={195.2} height={32} className='mb-2 items-center justify-center' />
+                    {isAdmin && <p className='ml-2 font-semibold text-green-1-900 items-center justify-center'>Admin</p>}
+                </div>
                 {isAdmin ? (
                     <ul className='flex font-semibold text-[16px] space-x-[72px]'>
                     <li className='hover:text-green-2-600 transition-colors'>
