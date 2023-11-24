@@ -91,7 +91,7 @@ const Login = () => {
             initialValues={{ remember: true }}
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
-            className="font-sans"
+            className="!font-sans"
             labelCol={{ span: 24 }} // Adjust the span value based on your layout preference
             wrapperCol={{ span: 24 }} // Adjust the span value based on your layout preference
             >
@@ -106,6 +106,7 @@ const Login = () => {
                 <Form.Item
                     label="Email/Username"
                     name="email"
+                    className='!font-sans'
                     rules={[
                     { required: true, message: 'Please input your email/username!' },
                     //   { type: 'email', message: 'Please enter a valid email address' },

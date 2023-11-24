@@ -60,11 +60,8 @@ const Register = () => {
 
     return (
         <FadeIn>
-            <div className="h-screen min-w-screen bg-orange-100" style={{ backgroundImage: "url('/svg/books.svg')", backgroundRepeat: "no-repeat", backgroundPosition: "center", backgroundSize: "cover" }}>
-                <div className="flex justify-center items-center h-5">
-                    {/* Empty Div */}
-                </div>
-                <div className="w-1/3 p-1 flex flex-col justify-center items-center bg-neutral-50 rounded-xl gap-0 shadow-xl mx-auto font-sans" style={ {height:'90%'} }>
+            <div className="min-h-screen h-fill min-w-screen bg-orange-100 py-10" style={{ backgroundImage: "url('/svg/books.svg')", backgroundRepeat: "no-repeat", backgroundPosition: "center", backgroundSize: "cover" }}>
+                <div className="py-10 w-1/3 p-1 flex flex-col justify-center items-center bg-neutral-50 rounded-xl gap-0 shadow-xl mx-auto font-sans" style={ {height:'90%'} }>
                     <img src="/images/AcademiaDTETI.png" className="w-1/2 h-auto" />
                     <p className='px-10 text-center font-sans text-neutral-600 mt-5 mb-7'>
                     Langkah pertama menuju pengalaman belajar yang komprehensif!
@@ -75,6 +72,8 @@ const Register = () => {
                         onFinish={onFinish}
                         onFinishFailed={onFinishFailed}
                         className="font-sans"
+                        labelCol={{ span: 24 }}
+                        wrapperCol={{ span: 24 }}
                     >
                         <ConfigProvider 
                             theme={{
