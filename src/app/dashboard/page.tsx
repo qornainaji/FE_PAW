@@ -70,7 +70,7 @@ const Dashboard = () => {
     return (
         <>
             <Fragment>
-                <div className="flex flex-col h-screen bg-orange-100 text-neutral-1000">
+                <div className="flex flex-col h-full bg-orange-100 text-neutral-1000">
                     <Head>
                         <title>Dashboard</title>
                         <meta name="description" content="Dashboard" />
@@ -81,7 +81,7 @@ const Dashboard = () => {
 
                 <div className='mt-10 mb-10'>
                     <h2 className='mx-auto text-center font-sans font-bold text-5xl mb-10'>Cari dokumen kamu di bawah!</h2>
-                    <div className="w-full flex justify-center h-full font-sans drop-shadow-[0_12px_20px_rgba(220,155,107,0.24)]">
+                    <div className="w-full flex justify-center h-auto font-sans drop-shadow-[0_12px_20px_rgba(220,155,107,0.24)]">
                         <form className="flex w-[90%] max-w-[794px] py-[18px] bg-neutral pl-[20px] rounded-full pr-[8px] relative items-center">
                             <input
                                 type="text"
@@ -147,6 +147,7 @@ const Dashboard = () => {
 
                 </div>
                 <SeeBookModal isVisible={showModal} onClose={() => setShowModal(false)}/>
+                </div>
             </Fragment>    
         </>
     );

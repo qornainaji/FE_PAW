@@ -4,11 +4,13 @@ import React, {useState, useEffect} from 'react';
 import Image from 'next/image';
 import styles from '../../globals.css';
 import axios from 'axios';
+import { Router, useRouter } from 'next/navigation';
 
 const jwt = require('jsonwebtoken');
 
 
 export default function Navbar({ isAdmin }) {
+    const router = useRouter();
     const [token, setToken] = useState(null);
     const [id, setId] = useState(null);
     const [name, setName] = useState("");
@@ -40,7 +42,7 @@ export default function Navbar({ isAdmin }) {
         <div className='sticky-navbar w-full'>
             {/* {token} */}
             {/* {id} */}
-            <nav className='flex font-sans text-xl text-neutral-500 justify-between items-center px-[120px] py-[24px] bg-orange-100'>
+            <nav className='flex font-sans text-xl text-neutral-500 justify-between items-center px-[120px] py-[0px] bg-orange-100'>
                 {/* <h1 className='font-bold text-green-1-900'>ACADEMIA DTETI</h1> */}
                 <div className='flex items-center'>
                     <Image src='/images/AcademiaDTETI.png' alt='Logo' width={195.2} height={32} className='mb-2 items-center justify-center' />
@@ -59,10 +61,12 @@ export default function Navbar({ isAdmin }) {
                     </li>
                     </ul>
                 ) : null}
-                <div className='flex space-x-[8px]'>
-                    <Link className='text-[16px] font-semibold text-green-1-900' href="/profile">Halo, {name}</Link>
-                    <Link className='w-[32px] h-[32px] rounded-full bg-green-600' href="/profile"></Link>
-                </div>
+                <Link href='/profile' className='h-full py-6 px-6 hover:bg-green-2-200 transition-all'>
+                    <div className='flex space-x-[8px]'>
+                        <p className='text-[16px] font-semibold text-green-1-900'>Halo, {name}</p>
+                        <p className='w-[32px] h-[32px] rounded-full bg-green-600'></p>
+                    </div>
+                </Link>
             </nav>
         </div>
   );
