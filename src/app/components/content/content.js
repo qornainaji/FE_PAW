@@ -4,14 +4,19 @@ import { useState } from "react";
 import Button from "../button/button";
 import SearchBar from "../searchbar/searchbar";
 import Filter from "../filter/filter";
-import { IoFilter } from "react-icons/io5";
+import { IoFilter, IoAddCircleOutline } from "react-icons/io5";
+import UploadFile from "../uploadfile/uploadfile";
 
 export default function Content(){
 
     const [isFilterInvisible, setFilterInvisible] = useState(false);
+    const [isUploadFileInvisible, setUploadFileInvisible] = useState(false);
 
     const handleFilter = () => {
         setFilterInvisible(!isFilterInvisible);
+    }
+    const handleModal = () => {
+        setUploadFileInvisible(!isUploadFileInvisible);
     }
 
     return(
@@ -28,16 +33,27 @@ export default function Content(){
                             </button>
                         </div>
                 </div>
-                <Button
-                    onClick={handleFilter}
-                    className="group right-[8px] border-[1px] border-green-2-500 hover:border-green-1-500"
-                    text="Filter"
-                    color="bg-transparent"
-                    textColor="text-green-2-500 group-hover:text-green-1-500"
-                    picture={<IoFilter className="text-green-2-500 group-hover:text-green-1-500"/>}
-                />
+                <div className="flex flex-row space-x-[21px]">
+                    <Button
+                        onClick={handleFilter}
+                        className="group border-[1px] border-green-2-500 hover:border-green-1-500"
+                        text="Filter"
+                        color="bg-transparent"
+                        textColor="text-green-2-500 group-hover:text-green-1-500"
+                        picture={<IoFilter className="text-green-2-500 group-hover:text-green-1-500"/>}
+                    />
+                    <Button
+                        onClick={handleModal}
+                        text="Tambah"
+                        color="bg-transparent"
+                        textColor="text-green-2-500 group-hover:text-green-1-500"
+                        className="group border-[1px] border-green-2-500 hover:border-green-1-500"
+                        picture={<IoAddCircleOutline className="text-green-2-500 group-hover:text-green-1-500"/>}                        
+                    />
+                </div>
             </div>
             {isFilterInvisible && <Filter/>}
+            {isUploadFileInvisible && <UploadFile onClose = {handleModal}/>}
         </div>
     )
 }
