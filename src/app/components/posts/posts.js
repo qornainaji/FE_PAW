@@ -36,7 +36,7 @@ const Posts = ({ posts }) => {
                     rawDate = new Date(post.doc_date_upload),
                     formattedDate = `${rawDate.getDate().toString().padStart(2, '0')}/${(rawDate.getMonth() + 1).toString().padStart(2, '0')}/${rawDate.getFullYear()}`,
                     
-                    <div data-aos='fade-up-left' data-aos-delay={`${index * 100}`} className='max-w-sm rounded justify-center items-center flex font-sans text-neutral-1000'
+                    <div data-aos='fade-up-left' data-aos-delay={`${index * 50}`} className='max-w-sm rounded justify-center items-center flex font-sans text-neutral-1000'
                         key={post._id}    
                         onMouseEnter={() => handleMouseEnter(post._id)}
                         onMouseLeave={() => handleMouseLeave(post._id)}>
