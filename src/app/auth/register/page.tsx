@@ -34,6 +34,7 @@ const Register = () => {
         user_password: values.password,
         user_NIM: values.nim,
         user_isAdmin: false,
+        user_isVerified: false,
         }).then((response) => {
             showAlert(response.data.message, 'success');
             window.location.href = '/auth/login';

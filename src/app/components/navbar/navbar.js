@@ -1,11 +1,13 @@
 "use client";
 import Link from 'next/link';
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import styles from '../../globals.css';
 import axios from 'axios';
 import { Router, useRouter } from 'next/navigation';
 import cookieCutter from 'cookie-cutter';
+import { Modal, Button } from 'antd';
+
 
 const jwt = require('jsonwebtoken');
 
@@ -15,6 +17,36 @@ export default function Navbar({ isAdmin }) {
     const [token, setToken] = useState(null);
     const [id, setId] = useState(null);
     const [name, setName] = useState("");
+    const [showModal, setShowModal] = useState(false);
+    const [pictureUrl, setPictureUrl] = useState('');
+
+    const handleMouseEnter = () => {
+        setShowModal(true);
+    }
+
+    const handleMouseLeave = () => {
+        setShowModal(false);
+    }
+
+    const modalRef = useRef(null);
+
+    useEffect(() => {
+        const handleOutsideClick = (e) => {
+        if (modalRef.current && !modalRef.current.contains(e.target)) {
+            setShowModal(false);
+        }
+        };
+
+        if (showModal) {
+        document.addEventListener('mousedown', handleOutsideClick);
+        document.addEventListener('mousemove', handleOutsideClick);
+        }
+
+        return () => {
+        document.removeEventListener('mousedown', handleOutsideClick);
+        document.removeEventListener('mousemove', handleOutsideClick);
+        };
+    }, [showModal]);
 
     useEffect(() => {
         if(cookieCutter.get('token')) {
@@ -63,12 +95,43 @@ export default function Navbar({ isAdmin }) {
                     </li>
                     </ul>
                 ) : null}
-                <Link href='/profile' className='h-full py-6 px-6 hover:bg-green-2-200 transition-all'>
+                <div
+                    onMouseEnter={handleMouseEnter}
+                    onMouseLeave={handleMouseLeave}
+                    className='relative h-full py-6 px-6 hover:bg-green-2-200 transition-all relative cursor-pointer'
+                >
                     <div className='flex space-x-[8px]'>
                         <p className='text-[16px] font-semibold text-green-1-900'>Halo, {name}</p>
                         <p className='w-[32px] h-[32px] rounded-full bg-green-600'></p>
                     </div>
-                </Link>
+                    <Modal
+                        open={showModal}
+                        onCancel={() => setShowModal(false)}
+                        onMouseLeave={handleMouseLeave}
+                        footer={null}
+                        closable={false}
+                        mask={false}
+                        maskClosable={true}
+                        width={200}
+                        style={{ position: 'absolute', top: '80px', right: '118px' }}
+                        getContainer={false}
+                        modalRoot={() => document.getElementById('modal-root')}
+                        ref={modalRef}
+                    >
+                        <div>
+                        <Button block onClick={() => router.push('/profile')}>
+                            Profile
+                        </Button>
+                        <Button block danger onClick={() => {
+                            cookieCutter.set('token', '');
+                            router.push('/auth/login');
+                        }}>
+                            Sign Out
+                        </Button>
+                        </div>
+                    </Modal>
+                </div>
+                
             </nav>
         </div>
   );
