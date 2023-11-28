@@ -6,6 +6,7 @@ import CustomAlert from '../../components/CustomAlert/CustomAlert';
 import { GithubOutlined } from '@ant-design/icons';
 import { useRouter } from 'next/navigation';
 import FadeIn from '../../animations/FadeIn';
+import cookieCutter from 'cookie-cutter';
 
 const { Title } = Typography;
 
@@ -24,17 +25,22 @@ const Login = () => {
     // treat it as a username.
     const isEmail = values.email.includes('@') && values.email.includes('.');
 
-    if(isEmail) {
+    if(isEmail) { // If email
         axios.post(process.env.NEXT_PUBLIC_API_URL + 'users/login', {
         user_email: values.email,
         user_password: values.password,
         withCredentials: true,
         Credentials: 'include',
         }).then((response) => {
-            alert(response.data.message + "\nWelcome, " + response.data.user.user_name + "!");
-            document.cookie = "token=" + response.data.token;
             // Handle successful login (e.g., redirect to dashboard)
-            router.push('/');
+            alert(response.data.message + "\nWelcome, " + response.data.user.user_name + "!");
+            // document.cookie = "token=" + response.data.token;
+            cookieCutter.set('token', response.data.token);
+            
+            const currentUrl = window.location.href;
+            const urlObject = new URL(currentUrl);
+            const callbackUrl = urlObject.searchParams.get('callbackUrl') || '/';
+            router.push(callbackUrl);
         }).catch((error) => {
             if (error.response && error.response.status === 401) {
                 alert("Invalid email or password");
@@ -43,7 +49,7 @@ const Login = () => {
                 alert('An unexpected error occurred. Please try again later.');
             }
         });
-    } else {
+    } else { // if username
         axios.post(process.env.NEXT_PUBLIC_API_URL + 'users/login', {
         user_username: values.email,
         user_password: values.password,
@@ -52,8 +58,9 @@ const Login = () => {
         }).then((response) => {
             alert(response.data.message + "\nWelcome, " + response.data.user.user_name + "!");
             // insert token to cookie
-            document.cookie = "token=" + response.data.token;
-            localStorage.setItem('token', response.data.token);
+            cookieCutter.set('token', response.data.token);
+            // document.cookie = "token=" + response.data.token;
+            // localStorage.setItem('token', response.data.token);
 
             // Handle successful login (e.g., redirect to dashboard)
             const currentUrl = window.location.href;

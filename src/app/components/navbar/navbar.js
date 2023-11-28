@@ -5,6 +5,7 @@ import Image from 'next/image';
 import styles from '../../globals.css';
 import axios from 'axios';
 import { Router, useRouter } from 'next/navigation';
+import cookieCutter from 'cookie-cutter';
 
 const jwt = require('jsonwebtoken');
 
@@ -16,14 +17,15 @@ export default function Navbar({ isAdmin }) {
     const [name, setName] = useState("");
 
     useEffect(() => {
-        if(localStorage.getItem('token')) {
-            setToken(localStorage.getItem('token'));
+        if(cookieCutter.get('token')) {
+            setToken(cookieCutter.get('token'));
         console.log(token);
         if(token)
         {
             const decodedToken = jwt.decode(token);
             setId(decodedToken._id);
-        } // console.log(decodedToken);
+            // console.log(decodedToken);
+        } 
     }
     }, [token])
 
@@ -32,7 +34,7 @@ export default function Navbar({ isAdmin }) {
             // fetch user.username
             axios.get(`http://localhost:4000/users/${id}`)
             .then(res => {
-                console.log(res.data);
+                // console.log(res.data);
                 setName(res.data.user_username);
             })
         }

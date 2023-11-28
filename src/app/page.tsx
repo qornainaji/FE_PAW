@@ -8,12 +8,17 @@ import { Form, Input, Button, Typography } from 'antd';
 import CustomAlert from './components/CustomAlert/CustomAlert';
 import { useRouter } from 'next/navigation';
 import FadeIn from './animations/FadeIn';
+import cookieCutter from 'cookie-cutter';
 
 export default function Home() {
   const router = useRouter();
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    // const token = localStorage.getItem('token');
+    
+    // Get cookie called "token" using cookie-cutter
+    const token = cookieCutter.get('token');
+
     if(!token) {
       router.push('/auth/login');
     }
@@ -21,7 +26,8 @@ export default function Home() {
 
   // Sign Out function (delete the token from the cookie)
   const signOut = () => {
-    document.cookie="token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    cookieCutter.set('token', '', { expires: new Date(0) });
+    // document.cookie="token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     localStorage.removeItem('token');
     localStorage.removeItem('name');
     router.push('/auth/login');
