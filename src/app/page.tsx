@@ -19,15 +19,6 @@ export default function Home() {
     checkAuthentication( router );
   }, [])
 
-  // Sign Out function (delete the token from the cookie)
-  const signOut = () => {
-    cookieCutter.set('token', '', { expires: new Date(0) });
-    // document.cookie="token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-    localStorage.removeItem('token');
-    localStorage.removeItem('name');
-    router.push('/auth/login');
-  }
-
   return (
     <FadeIn>
     <main className="flex flex-col items-center bg-orange-100 text-neutral-1000 font-sans">
@@ -58,41 +49,6 @@ export default function Home() {
         <h1 className="mt-10 text-4xl font-bold mb-20 text-center">
           COMING SOON
         </h1>
-
-        {/* Profile Page Button */}
-        <a
-          href="/profile"
-          className="mb-10 group rounded-lg border border-transparent px-5 py-4 transition-colors bg-orange-100 hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          // target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Profile Page{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            View your profile page (Github only, currently).
-          </p>
-        </a>
-      
-
-        {/* Sign Out Button */}
-        <button
-          className="mb-10 group rounded-lg border border-transparent px-5 py-4 transition-colors bg-orange-100 hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          onClick={signOut}
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Sign Out{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Sign out from your account.
-          </p>
-        </button>
           
       </div>
     </main>

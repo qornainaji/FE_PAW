@@ -70,10 +70,6 @@ const Dashboard = () => {
         }
     }, [refetchTrigger]);
 
-    const toggle = () => {
-        setIsOpen(!isOpen);
-    };
-
     return (
         <>
             <Fragment>
@@ -103,8 +99,8 @@ const Dashboard = () => {
                                 // color="bg-transparent"
                                 // textColor="text-green-2-500"
                                 // picture={<IoFilter className="text-green-2-500"/>}
-                                className="absolute right-[8px] hover:bg-green-2-600 "
-                                onClick={(e) => {
+                                className="absolute right-[8px] hover:bg-green-2-600"
+                                onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
                                     e.preventDefault();
                                     if(searchKeyword == '') {
                                         setRefetchTrigger(!refetchTrigger);
