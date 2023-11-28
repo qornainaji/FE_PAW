@@ -117,12 +117,13 @@ export default function Navbar({ isAdmin }) {
                         getContainer={false}
                         modalRoot={() => document.getElementById('modal-root')}
                         ref={modalRef}
+                        cursor='default'
                     >
                         <div>
-                        <Button block onClick={() => router.push('/profile')}>
+                        <Button block type='primary' size='large' className='!bg-green-2-600 !hover:orange-100 mb-2 transition-colors' onClick={() => router.push('/profile')}>
                             Profile
                         </Button>
-                        <Button block danger onClick={() => {
+                        <Button block danger type='primary' size='large' onClick={() => {
                             cookieCutter.set('token', '');
                             router.push('/auth/login');
                         }}>

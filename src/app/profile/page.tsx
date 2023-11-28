@@ -11,6 +11,7 @@ import CustomAlert from '../components/CustomAlert/CustomAlert';
 import { GithubOutlined } from '@ant-design/icons';
 import FadeIn from '../animations/FadeIn';
 import Head from 'next/head';
+import { checkAuthentication } from '../auth/checkAuthentication';
 
 const { Title } = Typography;
 
@@ -23,6 +24,10 @@ const Profile = () => {
     const [NIM, setNIM] = useState(null);
     const [isVerified, setIsVerified] = useState(null);
     const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        checkAuthentication( router );
+      }, [])
 
     useEffect(() => {
         if(cookieCutter.get('token')) {

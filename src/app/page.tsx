@@ -9,19 +9,14 @@ import CustomAlert from './components/CustomAlert/CustomAlert';
 import { useRouter } from 'next/navigation';
 import FadeIn from './animations/FadeIn';
 import cookieCutter from 'cookie-cutter';
+import jwt from 'jsonwebtoken';
+import { checkAuthentication } from './auth/checkAuthentication';
 
 export default function Home() {
   const router = useRouter();
 
   useEffect(() => {
-    // const token = localStorage.getItem('token');
-    
-    // Get cookie called "token" using cookie-cutter
-    const token = cookieCutter.get('token');
-
-    if(!token) {
-      router.push('/auth/login');
-    }
+    checkAuthentication( router );
   }, [])
 
   // Sign Out function (delete the token from the cookie)

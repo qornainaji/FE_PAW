@@ -10,8 +10,11 @@ import FadeIn from '../animations/FadeIn';
 import Posts from '../components/posts/posts';
 import SearchBar from '../components/searchbar/searchbar';
 import Button from '../components/button/button';
+import { checkAuthentication } from '../auth/checkAuthentication';
+import { useRouter } from 'next/navigation';
 
 const Dashboard = () => {
+    const router = useRouter();
 
     const [documents, setDocuments] = useState([]);
     const [searchKeyword, setSearchKeyword] = useState('');
@@ -21,6 +24,10 @@ const Dashboard = () => {
     const [isOpen, setIsOpen] = useState(false);
 
     const [showModal, setShowModal] = useState(false);
+
+    useEffect(() => {
+        checkAuthentication( router );
+      }, [])
 
     useEffect(() => {
         // Check if 'document' is defined to avoid issues during server-side rendering
