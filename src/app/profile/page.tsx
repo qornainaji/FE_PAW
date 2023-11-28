@@ -53,7 +53,7 @@ const Profile = () => {
     }, [token])
 
     return (
-        <div className='font-sans'>
+        <div className='flex flex-col font-sans bg-orange-100 text-neutral-1000 w-auto h-fill min-h-screen'>
             <div className='flex flex-col h-fit bg-orange-100 text-neutral-1000'>
                 <Head>
                     <title>Profile</title>
@@ -64,10 +64,10 @@ const Profile = () => {
             </div>
 
             {/* Forms */}
-            <div className="flex flex-col items-center justify-center w-fill h-screen bg-orange-100 text-neutral-1000">
+            <div className="flex flex-col items-center justify-center w-fill h-fit min-h-full mb-10 py-5">
                 <h2 className="text-4xl font-bold mb-5">Profile</h2>
                 {loading ? (
-                    <div>Loading...</div>
+                    <div className='text-2xl mt-5'>Loading . . . </div>
                  ) : (
                     <Form
                         name="basic"
@@ -106,6 +106,9 @@ const Profile = () => {
                             initialValue=""
                         >
                             <Input.Password disabled={true} placeholder='See "Change Password"'/>
+                            <Link href="/profile/change-password">
+                                Change Password
+                            </Link>
                         </Form.Item>
 
                         <Form.Item
@@ -115,6 +118,31 @@ const Profile = () => {
                         >
                             <Input disabled={false}/>
                         </Form.Item>
+
+                        <Form.Item
+                            label="NIM"
+                            name="NIM"
+                            initialValue={NIM}
+                        >
+                            <Input disabled={false}/>
+                        </Form.Item>
+
+                        <Form.Item
+                            label="Verified"
+                            name="verified"
+                            initialValue={isVerified}
+                        >
+                            <Input disabled={true}/>
+                        </Form.Item>
+
+                        <Button
+                            type="primary"
+                            htmlType="submit"
+                            className="bg-green-2-500 rounded-full mb-0 font-bold"
+                            style={{ width: '100%', minHeight: '50px' }}
+                        >
+                            Save
+                        </Button>
 
 
                         </ConfigProvider>
