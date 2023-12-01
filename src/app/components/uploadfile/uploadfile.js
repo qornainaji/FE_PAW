@@ -11,76 +11,54 @@ import { use, useState } from 'react';
 
 
 export default function UploadFile({ onClose }) {
-    const [fileList, setFileList] = useState([]);
+    // const [fileList, setFileList] = useState([]);
+    const [selectedFile, setSelectedFile] = useState(null);
     const closeModal = () => {
         onClose();
     }
 
     const { TextArea } = Input;
 
-    // const beforeUpload = (file) => {
-    //     const maxSizeInBytes = 10 * 1024 * 1024; // Set the maximum file size (10MB in this case)
-    //     if (file.size > maxSizeInBytes) {
-    //         message.error(`${file.name} is too large, please upload a file smaller than 10MB.`);
-    //         return false; // Returning false will prevent the upload
-    //     }
-    //     return true; // Allow the upload
-    // };
-
     const onFinish = async (values) => {
-        // Handle form submission here
-        // console.log('Received values:', values);
-        // You can perform any additional logic or API calls upon form submission
+        
 
 
-        // try {
-        //     const response = await axios.post(process.env.TEST_NEXT_PUBLIC_API_URL + '/documents', values);
-
-        //     if (response.status === 200) {
-        //         const data = response.data;
-        //         message.success('Data uploaded.');
-        //         console.log('Data uploaded:', data);
-        //         onClose();
-        //     // Perform any additional actions based on the response
-        //     } else {
-        //         // Handle error scenarios
-        //         message.error('Failed to upload data!');
-        //         console.error('Failed to upload data!');
-        //     }
-        // } catch (error) {
-        //     // Handle error scenarios
-        //     message.error('Error occurred while uploading data!');
-        //     console.error('Error occurred while uploading data:', error);
-        // }
-        try {
             const formData = new FormData();
-            formData.append('doc_link', fileList[0]); // Assuming only one file is uploaded
-            formData.append('doc_major', values.doc_major);
-            formData.append('doc_year', values.doc_year);
             formData.append('doc_title', values.doc_title);
+            formData.append('doc_year', values.doc_year);
+            formData.append('doc_major', values.doc_major);
             formData.append('doc_description', values.doc_description);
-            const response = await axios.post('https://plain-toad-sweater.cyclic.app'+ '/documents', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
-            });
-
-            if (response.status === 200) {
-                const data = response.data;
-                message.success('Data uploaded.');
-                console.log('Data uploaded:', data);
-                onClose();
-            } else {
-                message.error('Failed to upload data!');
-                console.error('Failed to upload data!');
+            formData.append('doc_view', 0);
+            // get current date
+            const currentDate = new Date();
+            formData.append('doc_date_upload', currentDate);
+            formData.append('doc_download', 0);
+            formData.append('doc_file', selectedFile); // Assuming only one file is uploaded
+            for (const pair of formData.entries()) {
+                console.log(pair[0] + ', ' + pair[1]); // Logging key-value pairs
             }
+            try {
+                // const response = await axios.post('https://plain-toad-sweater.cyclic.app'+'/documents/', formData, {
+                const response = await axios.post('http://localhost:4000'+'/documents/', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                });
 
-        } catch (error) {
-            message.error('Error occurred while uploading data!');
-            console.error('Error occurred while uploading data:', error);
-        }
-
-    };
+                if (response.status === 200) {
+                    message.success('Data uploaded successfully.');
+                    closeModal();
+                    // Handle success response if needed
+                } else {
+                    message.error('Failed to upload data.');
+                    // Handle error scenarios
+                }
+                
+            } catch (error) {
+                message.error('Error occurred while uploading data. Please try again later.');
+            }
+        };
+    // }; 
 
     // const props = {
     //     name: 'file',
@@ -118,6 +96,31 @@ export default function UploadFile({ onClose }) {
     //         }
     //     }
     // };
+
+    //     const formData = {
+    //         doc_link: selectedFile,
+    //     }
+
+    //     try {
+    //         const response = await axios.post('https://plain-toad-sweater.cyclic.app'+'/documents/', formData, {
+    //             headers: {
+    //                 'Content-Type': 'application/json',
+    //             },
+    //         });
+    //         if (response.status === 200) {
+    //             message.success('Data uploaded successfully.');
+    //             closeModal();
+    //             // Handle success response if needed
+    //         } else {
+    //             message.error('Failed to upload data.');
+    //             // Handle error scenarios
+    //         }
+    //     } catch (error) {
+    //         message.error('Error occurred while uploading data.');
+    //     }
+    // };
+
+
     const props = {
         name: 'file',
         multiple: false,
@@ -132,7 +135,7 @@ export default function UploadFile({ onClose }) {
                 return false; // Returning false will prevent the upload
             }else{
             // Example: Storing the file in state
-            setFileList([file]); // Assuming fileList is a state variable
+            setSelectedFile(file); // Assuming fileList is a state variable
             }
             return false;
             // Prevent actual upload for now
@@ -141,10 +144,12 @@ export default function UploadFile({ onClose }) {
         onChange: (info) => {
             const { status } = info.file;
             if (status !== 'uploading') {
-                console.log(info.file, info.fileList);
+                console.log(info.file, info.selectedFile);
             }
             if (status === 'done') {
                 message.success(`${info.file.name} file uploaded successfully.`);
+                // const fileData = info.file.originFileObj;
+                // setSelectedFile(fileData);
                 // Perform any additional logic after successful upload
                 // For MongoDB upload, use the stored file from the state (fileList)
             } else if (status === 'error') {
@@ -180,6 +185,7 @@ export default function UploadFile({ onClose }) {
                                 layout='vertical'
                                 autoComplete='off'
                                 onFinish={onFinish}
+                                // enctype="multipart/form-data"
                             >
                                 <Form.Item
                                     label='Program Studi'
@@ -194,14 +200,12 @@ export default function UploadFile({ onClose }) {
                                     <Select
                                         placeholder="e.g. Teknologi Informasi"
                                         style={{ borderColor: '#48A516' }}
-
-                                        // onChange={{/*onChange*/}}
                                         options={[
-                                            { value: null, label: null },
                                             { value: 'tif', label: 'Teknologi Informasi' },
                                             { value: 'te', label: 'Teknik Elektro' },
                                             { value: 'tb', label: 'Teknik Biomedis' },
                                         ]}
+                                        allowClear
                                     />
                                 </Form.Item>
                                 <Form.Item
@@ -243,17 +247,11 @@ export default function UploadFile({ onClose }) {
                                     <TextArea placeholder='Materi tentang ...' autoSize={{ minRows: 3, maxRows: 6 }} />
                                 </Form.Item>
                                 <Form.Item
-                                    name='doc_link'
+                                    name='doc_file'
                                     rules={[
                                         {
                                             required: true,
                                             message: 'Please upload a file',
-                                            validator: (_, value) => {
-                                                if (!value || value.fileList.length === 0) {
-                                                    return Promise.reject(new Error('Please upload a file'));
-                                                }
-                                                return Promise.resolve();
-                                            },
                                         },
                                     ]}
                                 >
