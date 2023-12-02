@@ -94,13 +94,8 @@ const Dashboard = () => {
                                 onChange={(e) => setSearchKeyword(e.target.value)}
                             />
                             <Button
-                                // className="absolute right-[8px] border-[1px] border-green-2-500"
-                                // text="Filter"
-                                // color="bg-transparent"
-                                // textColor="text-green-2-500"
-                                // picture={<IoFilter className="text-green-2-500"/>}
                                 className="absolute right-[8px] hover:bg-green-2-600"
-                                onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+                                onClick={(e) => {
                                     e.preventDefault();
                                     if(searchKeyword == '') {
                                         setRefetchTrigger(!refetchTrigger);
@@ -133,16 +128,6 @@ const Dashboard = () => {
                                 2
                             </div>
                         </a>
-                        {/* <a href="/dashboard?page=3">
-                            <div className="flex items-center justify-center h-10 w-10 mr-1 rounded-full bg-green-2-500 text-white font-sans cursor-pointer">
-                                3
-                            </div>
-                        </a>
-                        <a href="/dashboard?page=4">
-                            <div className="flex items-center justify-center h-10 w-10 mr-1 rounded-full bg-green-2-500 text-white font-sans cursor-pointer">
-                                4
-                            </div>
-                        </a> */}
                     </div>
 
                     {/* show raw response from API */}
