@@ -11,8 +11,23 @@ import { use, useState } from 'react';
 
 
 export default function UploadFile({ onClose }) {
-    // const [fileList, setFileList] = useState([]);
     const [selectedFile, setSelectedFile] = useState(null);
+    const [pdfPreview, setPdfPreview] = useState(null);
+    
+    const onFileChange = (e) => {
+        const file = e.target.files[0];
+        const reader = new FileReader();
+
+        reader.onloadend = () => {
+            setPdfPreview(reader.result);
+        };
+
+        if (file) {
+            reader.readAsDataURL(file);
+            // setSelectedFile(file);
+        }
+    }
+
     const closeModal = () => {
         onClose();
     }
@@ -58,67 +73,6 @@ export default function UploadFile({ onClose }) {
                 message.error('Error occurred while uploading data. Please try again later.');
             }
         };
-    // }; 
-
-    // const props = {
-    //     name: 'file',
-    //     multiple: false,
-    //     // action: 'https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188',
-    //     beforeUpload: beforeUpload,
-    //     onChange(info) {
-    //         const { status } = info.file;
-    //         if (status !== 'uploading') {
-    //             console.log(info.file, info.fileList);
-    //         }
-    //         if (status === 'done') {
-    //             message.success(`${info.file.name} file uploaded successfully.`);
-    //         } else if (status === 'error') {
-    //             message.error(`${info.file.name} file upload failed.`);
-    //         }
-    //     },
-    //     onDrop(e) {
-    //         console.log('Dropped files', e.dataTransfer.files);
-    //     },
-    // };
-    // const props = {
-    //     name: 'file',
-    //     multiple: false,
-    //     fileList,
-    //     beforeUpload,
-    //     onChange(info) {
-    //         const { status, fileList: newFileList } = info;
-    //         setFileList(newFileList.slice(-1)); // Limit file list to one file
-
-    //         if (status === 'done') {
-    //             message.success(`${info.file.name} file uploaded successfully.`);
-    //         } else if (status === 'error') {
-    //             message.error(`${info.file.name} file upload failed.`);
-    //         }
-    //     }
-    // };
-
-    //     const formData = {
-    //         doc_link: selectedFile,
-    //     }
-
-    //     try {
-    //         const response = await axios.post('https://plain-toad-sweater.cyclic.app'+'/documents/', formData, {
-    //             headers: {
-    //                 'Content-Type': 'application/json',
-    //             },
-    //         });
-    //         if (response.status === 200) {
-    //             message.success('Data uploaded successfully.');
-    //             closeModal();
-    //             // Handle success response if needed
-    //         } else {
-    //             message.error('Failed to upload data.');
-    //             // Handle error scenarios
-    //         }
-    //     } catch (error) {
-    //         message.error('Error occurred while uploading data.');
-    //     }
-    // };
 
 
     const props = {
@@ -164,7 +118,7 @@ export default function UploadFile({ onClose }) {
 
     return (
         <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 " >
-            <div className="bg-white p-10 rounded-lg">
+            <div className="bg-white p-10 rounded-lg flex flex-row-reverse  ">
                 <div>
                     <div>
                         <h1 className="text-[30px] font-bold text-neutral-900 pb-[8px] ">Unggah Dokumen Anda!</h1>
@@ -185,6 +139,7 @@ export default function UploadFile({ onClose }) {
                                 layout='vertical'
                                 autoComplete='off'
                                 onFinish={onFinish}
+                                className='space-y-[8px]'
                                 // enctype="multipart/form-data"
                             >
                                 <Form.Item
@@ -254,6 +209,7 @@ export default function UploadFile({ onClose }) {
                                             message: 'Please upload a file',
                                         },
                                     ]}
+                                    onChange={onFileChange}
                                 >
                                     <Dragger {...props}>
                                         <p className="ant-upload-drag-icon">
@@ -286,9 +242,17 @@ export default function UploadFile({ onClose }) {
                         </ConfigProvider>
                     </div>
                 </div>
-                {/* <div>
-
-                </div> */}
+                {pdfPreview && (
+                <div className='mr-10'>
+                    
+                        <div>
+                            {/* <h3>Preview:</h3> */}
+                            <embed src={pdfPreview} type="application/pdf" width="100%" height="400px" className='rounded-[12px]' />
+                        </div>
+                        {/* // <object data={`${pdfPreview}#page=1`} type="application/pdf" width="100%" height="600px">
+                        // </object> */}
+                </div>
+                )}
             </div>
         </div>
     )
