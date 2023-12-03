@@ -13,26 +13,28 @@ import { Modal, Button } from 'antd';
 const jwt = require('jsonwebtoken');
 
 const CustomModal = forwardRef((props, ref) => {
-    const { open, onCancel, children, ...rest } = props;
-    return (
-      <Modal
-        {...rest}
-        open={open}
-        onCancel={onCancel}
-        footer={null}
-        closable={false}
-        mask={false}
-        maskClosable={true}
-        width={200}
-        style={{ position: 'absolute', top: '80px', right: '118px' }}
-        getContainer={false}
-        modalRoot={() => document.getElementById('modal-root')}
-        ref={ref}
-        cursor='default'
-      >
-        {children}
-      </Modal>
-    );
+        const { open, onCancel, children, ...rest } = props;
+        return (
+            <Modal
+                {...rest}
+                open={open}
+                onCancel={onCancel}
+                footer={null}
+                closable={true}
+                closeIcon={<span className="custom-close-icon ml-7 -mt-5">X</span>} // Update the close icon here
+                mask={true}
+                maskClosable={true}
+                width={220}
+                style={{ position: 'absolute', top: '80px', right: '118px', zIndex: 1000 }}
+                getContainer={false}
+                modalRoot={() => document.getElementById('modal-root')}
+                ref={ref}
+                cursor='default'
+                onMouseLeave={onCancel}
+            >
+                {children}
+            </Modal>
+        );
 });
 
 export default function Navbar({ isAdmin }) {
@@ -47,6 +49,10 @@ export default function Navbar({ isAdmin }) {
         setShowModal(true);
     }
 
+    const handleMouseClick = () => {
+        setShowModal(!showModal); // Toggle the modal visibility on click
+    }
+
     const handleMouseLeave = () => {
         setShowModal(false);
     }
@@ -56,19 +62,17 @@ export default function Navbar({ isAdmin }) {
 
     useEffect(() => {
         const handleOutsideClick = (e) => {
-        if (modalRef.current && !modalRef.current.contains(e.target)) {
-            setShowModal(false);
-        }
+            if (modalRef.current && !modalRef.current.contains(e.target)) {
+                setShowModal(false);
+            }
         };
 
         if (showModal) {
-        document.addEventListener('mousedown', handleOutsideClick);
-        document.addEventListener('mousemove', handleOutsideClick);
+            document.addEventListener('mousedown', handleOutsideClick);
         }
 
         return () => {
-        document.removeEventListener('mousedown', handleOutsideClick);
-        document.removeEventListener('mousemove', handleOutsideClick);
+            document.removeEventListener('mousedown', handleOutsideClick);
         };
     }, [showModal]);
 
@@ -126,8 +130,7 @@ export default function Navbar({ isAdmin }) {
                     </ul>
                 ) : null}
                 <div
-                    onMouseEnter={handleMouseEnter}
-                    onMouseLeave={handleMouseLeave}
+                    onClick={handleMouseClick} // Handle the click event
                     className='flex h-full py-6 px-6 hover:bg-green-2-200 transition-all relative cursor-pointer'
                 >
                     <div className='flex space-x-[8px]'>
@@ -139,9 +142,10 @@ export default function Navbar({ isAdmin }) {
                         onCancel={() => setShowModal(false)}
                         onMouseLeave={() => setShowModal(false)}
                         ref={modalRef}
+                        
                     >
                         <div>
-                        <Button block type='primary' size='large' className='!bg-green-2-600 !hover:orange-100 mb-2 transition-colors' onClick={() => router.push('/profile')}>
+                        <Button block type='primary' size='large' className='bg-green-2-600 hover:orange-100 mb-2 transition-colors' onClick={() => router.push('/profile')}>
                             Profile
                         </Button>
                         <Button block danger type='primary' size='large' onClick={() => {

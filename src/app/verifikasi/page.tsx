@@ -71,9 +71,11 @@ const Verifikasi = () => {
   
     const handleDelete = (userId) => {
       // delete user with userId
+      const deleteURL = process.env.NEXT_PUBLIC_API_URL + "users/" + userId;
+      console.log(deleteURL);
 
       // Mengirim permintaan DELETE untuk menghapus data di server
-      axios.delete(process.env.NEXT_PUBLIC_API_URL + "users/" + userId)
+      axios.delete(deleteURL)
       .then((response) => {
         console.log(response);
         console.log('Data deleted successfully on the server');
