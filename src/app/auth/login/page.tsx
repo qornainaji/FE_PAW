@@ -14,10 +14,14 @@ const Login = () => {
     const [githubSignInMessage, setGithubSignInMessage] = useState(null);
     const router = useRouter();
 
-    const handleGitHubSignIn = () => {
-        // Set the message when the GitHub sign-in button is clicked
-        // setGithubSignInMessage('Implementation coming soon');
-        alert('Implementation coming soon');
+    const handleGitHubSignIn = async () => {
+        const githubURL = process.env.NEXT_PUBLIC_API_URL + 'auth/signup/github';
+        try{
+            router.push(githubURL);
+        } catch (error) {
+            console.error('Error signing in with GitHub:', error);
+            setGithubSignInMessage('Error signing in with GitHub');
+        }
     };
 
   const onFinish = (values) => {

@@ -16,6 +16,17 @@ export default function Home() {
   const router = useRouter();
 
   useEffect(() => {
+    // check if there is a token in the URL parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get('token');
+    // If token is defined, store it in a cookie
+    if (token) {
+        // Store the token in a cookie
+        cookieCutter.set('token', token);
+        // Redirect to the home page
+        router.push('/');
+    }
+    
     checkAuthentication( router );
   }, [])
 
