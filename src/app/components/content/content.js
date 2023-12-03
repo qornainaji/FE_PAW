@@ -6,6 +6,7 @@ import SearchBar from "../searchbar/searchbar";
 import Filter from "../filter/filter";
 import { IoFilter, IoAddCircleOutline } from "react-icons/io5";
 import UploadFile from "../uploadfile/uploadfile";
+import Etalase from "../etalase/etalase";
 
 export default function Content(){
 
@@ -54,6 +55,8 @@ export default function Content(){
             </div>
             {isFilterInvisible && <Filter/>}
             {isUploadFileInvisible && <UploadFile onClose = {handleModal}/>}
+            {/* List Bank Soal / Meteri */}
+            <Etalase/>
         </div>
     )
 }
