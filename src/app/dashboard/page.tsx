@@ -43,20 +43,13 @@ const Dashboard = () => {
                 const urlParams = new URLSearchParams(window.location.search);
                 let page = urlParams.get('page');
                 let limit = urlParams.get('limit');
-                // If page is not defined, set it to 1
-                if(!page) {
-                    page = '1';
-                }
-                // If limit is not defined, set it to 10
-                if(!limit) {
-                    limit = '12';
-                }
+                
                 // Convert page & limit to number
                 const pageNum = parseInt(page);
                 const limitNum = parseInt(limit);
                 axios.get(process.env.NEXT_PUBLIC_API_URL + 'documents' + '?page=' + String(pageNum) + '&limit=' + String(limitNum), { headers: { 'Authorization': `Bearer ${token}` } })
                     .then((response) => {
-                        console.log(JSON.stringify(response.data.results));
+                        // console.log(JSON.stringify(response.data.results));
                         setDocuments(response.data.results);
                     })
                     .catch((error) => {
