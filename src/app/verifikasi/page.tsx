@@ -5,6 +5,7 @@ import Navbar from '../components/navbar/navbar';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import UserTable from '../components/Table/UserTable.js';
+import FadeIn from '../animations/FadeIn';
 
 const Verifikasi = () => {
     const [usersData, setUsersData] = useState([]);
@@ -92,7 +93,7 @@ const Verifikasi = () => {
     };
   
     return (
-      <>
+      <FadeIn>
         <div className="flex flex-col min-h-screen h-fit bg-orange-100 text-neutral-1000">
           <Head>
             <title>Dashboard</title>
@@ -117,7 +118,7 @@ const Verifikasi = () => {
             </div>
           </div>
         </div>
-      </>
+      </FadeIn>
     );
   };
   

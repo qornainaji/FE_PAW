@@ -8,6 +8,7 @@ import axios from 'axios';
 import { Router, useRouter } from 'next/navigation';
 import cookieCutter from 'cookie-cutter';
 import { Modal, Button } from 'antd';
+import FadeIn from '../../animations/FadeIn';
 
 
 const jwt = require('jsonwebtoken');
@@ -108,63 +109,66 @@ export default function Navbar({ isAdmin }) {
     }, [id])
       
     return (
-        <div className='sticky-navbar w-full'>
-            {/* {token} */}
-            {/* {id} */}
-            <nav className='flex font-sans text-xl text-neutral-500 justify-between items-center px-[120px] py-[0px] bg-orange-100'>
-                {/* <h1 className='font-bold text-green-1-900'>ACADEMIA DTETI</h1> */}
-                <div className='flex items-center'>
-                    <Image src='/images/AcademiaDTETI.png' alt='Logo' width={195.2} height={32} className='mb-2 items-center justify-center' />
-                    {isAdmin && <p className='ml-2 font-semibold text-green-1-900 items-center justify-center'>Admin</p>}
-                </div>
-                {isAdmin ? (
-                    <ul className='flex font-semibold text-[16px] space-x-[72px]'>
-                    <li className='hover:text-green-2-600 transition-colors'>
-                        <Link href='/'>Beranda</Link>
-                    </li>
-                    <li className='hover:text-green-2-600 transition-colors'>
-                        <Link href='/dashboard'>Dashboard</Link>
-                    </li>
-                    <li className='hover:text-green-2-600 transition-colors'>
-                        <Link href='/verifikasi'>Verifikasi</Link>
-                    </li>
-                    </ul>
-                ) : null}
-                <div
-                    onClick={handleMouseClick} // Handle the click event
-                    className='flex h-full py-6 px-6 hover:bg-green-2-200 transition-all relative cursor-pointer'
-                >
-                    <div className='flex space-x-[8px]'>
-                        <p className='text-[16px] font-semibold text-green-1-900'>Halo, {name}</p>
-                        <Image 
-                            src={pictureUrl} 
-                            width={32} 
-                            height={32} 
-                            className='w-[32px] h-[32px] rounded-full bg-green-600'/>
+        <FadeIn>
+            <div className='sticky-navbar w-full'>
+                {/* {token} */}
+                {/* {id} */}
+                <nav className='flex font-sans text-xl text-neutral-500 justify-between items-center px-[120px] py-[0px] bg-orange-100'>
+                    {/* <h1 className='font-bold text-green-1-900'>ACADEMIA DTETI</h1> */}
+                    <div className='flex items-center'>
+                        <Image src='/images/AcademiaDTETI.png' alt='Logo' width={195.2} height={32} className='mb-2 items-center justify-center' />
+                        {isAdmin && <p className='ml-2 font-semibold text-green-1-900 items-center justify-center'>Admin</p>}
                     </div>
-                    <CustomModal
-                        open={showModal}
-                        onCancel={() => setShowModal(false)}
-                        onMouseLeave={() => setShowModal(false)}
-                        ref={modalRef}
-                        
+                    {isAdmin ? (
+                        <ul className='flex font-semibold text-[16px] space-x-[72px]'>
+                        <li className='hover:text-green-2-600 transition-colors'>
+                            <Link href='/'>Beranda</Link>
+                        </li>
+                        <li className='hover:text-green-2-600 transition-colors'>
+                            <Link href='/dashboard'>Dashboard</Link>
+                        </li>
+                        <li className='hover:text-green-2-600 transition-colors'>
+                            <Link href='/verifikasi'>Verifikasi</Link>
+                        </li>
+                        </ul>
+                    ) : null}
+                    <div
+                        onClick={handleMouseClick} // Handle the click event
+                        className='flex h-full py-6 px-6 hover:bg-green-2-200 transition-all relative cursor-pointer'
                     >
-                        <div>
-                        <Button block type='primary' size='large' className='bg-green-2-600 hover:orange-100 mb-2 transition-colors' onClick={() => router.push('/profile')}>
-                            Profile
-                        </Button>
-                        <Button block danger type='primary' size='large' onClick={() => {
-                            cookieCutter.set('token', '');
-                            router.push('/auth/login');
-                        }}>
-                            Sign Out
-                        </Button>
+                        <div className='flex space-x-[8px]'>
+                            <p className='text-[16px] font-semibold text-green-1-900'>Halo, {name}</p>
+                            <Image 
+                                src={pictureUrl} 
+                                alt='Avatar'
+                                width={32} 
+                                height={32} 
+                                className='w-[32px] h-[32px] rounded-full bg-green-600'/>
                         </div>
-                    </CustomModal>
-                </div>
-                
-            </nav>
-        </div>
+                        <CustomModal
+                            open={showModal}
+                            onCancel={() => setShowModal(false)}
+                            onMouseLeave={() => setShowModal(false)}
+                            ref={modalRef}
+                            
+                        >
+                            <div>
+                            <Button block type='primary' size='large' className='bg-green-2-600 hover:orange-100 mb-2 transition-colors' onClick={() => router.push('/profile')}>
+                                Profile
+                            </Button>
+                            <Button block danger type='primary' size='large' onClick={() => {
+                                cookieCutter.set('token', '');
+                                router.push('/auth/login');
+                            }}>
+                                Sign Out
+                            </Button>
+                            </div>
+                        </CustomModal>
+                    </div>
+                    
+                </nav>
+            </div>
+        </FadeIn>
   );
 
 }
