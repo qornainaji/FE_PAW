@@ -75,12 +75,14 @@ export default function Navbar({ isAdmin }) {
     useEffect(() => {
         if(cookieCutter.get('token')) {
             setToken(cookieCutter.get('token'));
-        console.log(token);
+        console.log("Token: " + token);
         if(token)
         {
             const decodedToken = jwt.decode(token);
             setId(decodedToken._id);
-            // console.log(decodedToken);
+            isAdmin = decodedToken.user_isAdmin;
+            // console.log("isAdmin: " + isAdmin);
+            // console.log("Decoded: " + JSON.stringify(decodedToken));
         } 
     }
     }, [token])

@@ -15,6 +15,7 @@ import { ToastContainer } from 'react-toastify';
 
 export default function Home() {
   const router = useRouter();
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     // check if there is a token in the URL parameter
@@ -31,12 +32,26 @@ export default function Home() {
     checkAuthentication( router );
   }, [])
 
+  useEffect(() => {
+    // decode the token
+    const token = cookieCutter.get('token');
+    if (token) {
+        const decodedToken = jwt.decode(token);
+        // console.log(decodedToken);
+        // console.log(decodedToken.user_isAdmin);
+        // set the isAdmin state variable to true if the user is an admin
+        if(decodedToken.user_isAdmin) {
+            setIsAdmin(true);
+        }
+    }
+  }, [])
+
   return (
     <FadeIn>
     <ToastContainer />
     <main className="flex flex-col items-center bg-orange-100 text-neutral-1000 font-sans">
-      <Navbar isAdmin={true}/>
-      <div className="flex flex-col items-center  w-full min-h-[100vh] bg-cover bg-bottom bg-[url('../../public/images/Hero_Banner.png')]">
+      <Navbar isAdmin={isAdmin}/>
+      <div className="flex flex-col items-center  w-full min-h-[100vh] bg-cover bg-bottom bg-[url('/images/Hero_Banner.png')]">
         <div className='flex flex-col items-center space-y-[12px] mt-[70px]'>
           <h1 className='font-bold text-[60px] text-center'>
             Welcome to ACADEMIA DTETI <br/> Your All-in-One LIBRARY
