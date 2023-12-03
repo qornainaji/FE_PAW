@@ -1,7 +1,7 @@
 "use client";
 require('dotenv').config();
 import Link from 'next/link';
-import React, {useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, forwardRef } from 'react';
 import Image from 'next/image';
 import styles from '../../globals.css';
 import axios from 'axios';
@@ -12,6 +12,28 @@ import { Modal, Button } from 'antd';
 
 const jwt = require('jsonwebtoken');
 
+const CustomModal = forwardRef((props, ref) => {
+    const { open, onCancel, children, ...rest } = props;
+    return (
+      <Modal
+        {...rest}
+        open={open}
+        onCancel={onCancel}
+        footer={null}
+        closable={false}
+        mask={false}
+        maskClosable={true}
+        width={200}
+        style={{ position: 'absolute', top: '80px', right: '118px' }}
+        getContainer={false}
+        modalRoot={() => document.getElementById('modal-root')}
+        ref={ref}
+        cursor='default'
+      >
+        {children}
+      </Modal>
+    );
+});
 
 export default function Navbar({ isAdmin }) {
     const router = useRouter();
@@ -30,6 +52,7 @@ export default function Navbar({ isAdmin }) {
     }
 
     const modalRef = useRef(null);
+
 
     useEffect(() => {
         const handleOutsideClick = (e) => {
@@ -65,7 +88,11 @@ export default function Navbar({ isAdmin }) {
     useEffect(() => {
         if(id) {
             // fetch user.username
-            axios.get()
+            axios.get(`${process.env.NEXT_PUBLIC_API_URL}users/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
             .then(res => {
                 // console.log(res.data);
                 setName(res.data.user_username);
@@ -99,26 +126,17 @@ export default function Navbar({ isAdmin }) {
                 <div
                     onMouseEnter={handleMouseEnter}
                     onMouseLeave={handleMouseLeave}
-                    className='relative h-full py-6 px-6 hover:bg-green-2-200 transition-all relative cursor-pointer'
+                    className='flex h-full py-6 px-6 hover:bg-green-2-200 transition-all relative cursor-pointer'
                 >
                     <div className='flex space-x-[8px]'>
                         <p className='text-[16px] font-semibold text-green-1-900'>Halo, {name}</p>
                         <p className='w-[32px] h-[32px] rounded-full bg-green-600'></p>
                     </div>
-                    <Modal
+                    <CustomModal
                         open={showModal}
                         onCancel={() => setShowModal(false)}
-                        onMouseLeave={handleMouseLeave}
-                        footer={null}
-                        closable={false}
-                        mask={false}
-                        maskClosable={true}
-                        width={200}
-                        style={{ position: 'absolute', top: '80px', right: '118px' }}
-                        getContainer={false}
-                        modalRoot={() => document.getElementById('modal-root')}
+                        onMouseLeave={() => setShowModal(false)}
                         ref={modalRef}
-                        cursor='default'
                     >
                         <div>
                         <Button block type='primary' size='large' className='!bg-green-2-600 !hover:orange-100 mb-2 transition-colors' onClick={() => router.push('/profile')}>
@@ -131,7 +149,7 @@ export default function Navbar({ isAdmin }) {
                             Sign Out
                         </Button>
                         </div>
-                    </Modal>
+                    </CustomModal>
                 </div>
                 
             </nav>
