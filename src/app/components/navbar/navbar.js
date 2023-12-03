@@ -102,6 +102,7 @@ export default function Navbar({ isAdmin }) {
             .then(res => {
                 // console.log(res.data);
                 setName(res.data.user_username);
+                setPictureUrl(res.data.user_avatarURL);
             })
         }
     }, [id])
@@ -135,7 +136,11 @@ export default function Navbar({ isAdmin }) {
                 >
                     <div className='flex space-x-[8px]'>
                         <p className='text-[16px] font-semibold text-green-1-900'>Halo, {name}</p>
-                        <p className='w-[32px] h-[32px] rounded-full bg-green-600'></p>
+                        <Image 
+                            src={pictureUrl} 
+                            width={32} 
+                            height={32} 
+                            className='w-[32px] h-[32px] rounded-full bg-green-600'/>
                     </div>
                     <CustomModal
                         open={showModal}
