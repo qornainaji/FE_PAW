@@ -79,6 +79,7 @@ const Profile = () => {
     // Update profile based on the form
     const updateProfile = async () => {
         const data = {
+            _id: id,
             user_email: email,
             user_NIM: NIM,
             user_avatarURL: avatar,
@@ -91,16 +92,18 @@ const Profile = () => {
             const response = await axios.patch(process.env.NEXT_PUBLIC_API_URL + 'users/' + id, data, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
-
+            
             // Alert the whole data
-            alert(JSON.stringify(response.data.message));
+            // alert(JSON.stringify(response.data));
+
+            alert("Profile updated successfully!")
+
             // Refresh the page
             window.location.reload();
         } catch(error) {
             if (error.response && error.response.status === 400) {
-                successToast(error.response.data.message);
-
-                // alert(error.response.data.error);
+                // successToast(error.response.data.message);
+                alert(error.response.data.error);
 
             } else {
                 console.error('An error occurred during registration:', error);
