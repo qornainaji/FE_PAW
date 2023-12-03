@@ -11,6 +11,7 @@ import FadeIn from './animations/FadeIn';
 import cookieCutter from 'cookie-cutter';
 import jwt from 'jsonwebtoken';
 import { checkAuthentication } from './auth/checkAuthentication';
+import { ToastContainer } from 'react-toastify';
 
 export default function Home() {
   const router = useRouter();
@@ -26,12 +27,13 @@ export default function Home() {
         // Redirect to the home page
         router.push('/');
     }
-    
+
     checkAuthentication( router );
   }, [])
 
   return (
     <FadeIn>
+    <ToastContainer />
     <main className="flex flex-col items-center bg-orange-100 text-neutral-1000 font-sans">
       <Navbar isAdmin={true}/>
       <div className="flex flex-col items-center  w-full min-h-[100vh] bg-cover bg-bottom bg-[url('../../public/images/Hero_Banner.png')]">

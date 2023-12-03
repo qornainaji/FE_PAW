@@ -12,6 +12,8 @@ import { GithubOutlined } from '@ant-design/icons';
 import FadeIn from '../animations/FadeIn';
 import Head from 'next/head';
 import { checkAuthentication } from '../auth/checkAuthentication';
+import { toast, ToastContainer } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 
 const { Title } = Typography;
 
@@ -59,6 +61,14 @@ const Profile = () => {
     }
     }, [token])
 
+    // function to show success toast
+    const successToast = (message) => {
+        toast.success(message, {
+            position: toast.POSITION.TOP_CENTER
+        });
+    };
+
+
     const validateUgmEmail = (rule, value) => {
         if (value && (!value.includes("@mail.ugm.ac.id") || value.includes("@ugm.ac.id") || value.includes("@365.ugm.ac.id"))) {
         return Promise.reject("Please register using UGM mail");
@@ -67,8 +77,7 @@ const Profile = () => {
     };
 
     // Update profile based on the form
-    const updateProfile = () => {
-        setEmail(document.getElementsByName('basic_email'));
+    const updateProfile = async () => {
         const data = {
             user_email: email,
             user_NIM: NIM,
@@ -77,22 +86,27 @@ const Profile = () => {
         };
         // console.log(data);
 
-        // Update the data
-        axios.patch(process.env.NEXT_PUBLIC_API_URL + 'users/' + id, data, { headers: { 'Authorization': `Bearer ${token}` } })
-            .then((response) => {
-                // Alert the whole data
-                alert(JSON.stringify(data));
-                // Refresh the page
-                window.location.reload();
-            })
-            .catch((error) => {
-                if (error.response && error.response.status === 400) {
-                    alert(error.response.data.message);
-                } else {
-                    console.error('An error occurred during registration:', error);
-                    alert('An unexpected error occurred. Please try again later.');
-                }
+        try {
+            // Update the data
+            const response = await axios.patch(process.env.NEXT_PUBLIC_API_URL + 'users/' + id, data, {
+                headers: { 'Authorization': `Bearer ${token}` }
             });
+
+            // Alert the whole data
+            alert(JSON.stringify(response.data.message));
+            // Refresh the page
+            window.location.reload();
+        } catch(error) {
+            if (error.response && error.response.status === 400) {
+                successToast(error.response.data.message);
+
+                // alert(error.response.data.error);
+
+            } else {
+                console.error('An error occurred during registration:', error);
+                alert('An unexpected error occurred. Please try again later.');
+            }
+        };
     };
 
     return (

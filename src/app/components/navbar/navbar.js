@@ -1,4 +1,5 @@
 "use client";
+require('dotenv').config();
 import Link from 'next/link';
 import React, {useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
@@ -64,7 +65,7 @@ export default function Navbar({ isAdmin }) {
     useEffect(() => {
         if(id) {
             // fetch user.username
-            axios.get(`http://localhost:4000/users/${id}`)
+            axios.get()
             .then(res => {
                 // console.log(res.data);
                 setName(res.data.user_username);
