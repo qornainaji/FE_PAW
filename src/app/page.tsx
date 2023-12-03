@@ -12,10 +12,50 @@ import cookieCutter from 'cookie-cutter';
 import jwt from 'jsonwebtoken';
 import { checkAuthentication } from './auth/checkAuthentication';
 import { ToastContainer } from 'react-toastify';
+import Posts from './components/posts/posts';
+import SearchBar from './components/searchbar/searchbar';
 
 export default function Home() {
   const router = useRouter();
   const [isAdmin, setIsAdmin] = useState(false);
+  const [documents, setDocuments] = useState([]);
+  const [searchKeyword, setSearchKeyword] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [refetchTrigger, setRefetchTrigger] = useState(false);
+
+  useEffect(() => {
+    // Check if 'document' is defined to avoid issues during server-side rendering
+    if (typeof document !== 'undefined') {
+        const token = document.cookie
+            .split('; ')
+            .find(row => row.startsWith('token='))
+            ?.split('=')[1];
+
+        // Ensure token is defined before making the API request
+        if (token) {
+            // Get parameter from URL
+            const urlParams = new URLSearchParams(window.location.search);
+            let page = urlParams.get('page');
+            let limit = urlParams.get('limit');
+            
+            // Convert page & limit to number
+            const pageNum = parseInt(page);
+            const limitNum = parseInt(limit);
+            axios.get(process.env.NEXT_PUBLIC_API_URL + 'documents' + '?page=' + String(pageNum) + '&limit=' + String(limitNum), { headers: { 'Authorization': `Bearer ${token}` } })
+                .then((response) => {
+                    // console.log(JSON.stringify(response.data.results));
+                    setDocuments(response.data.results);
+                })
+                .catch((error) => {
+                    console.error('Error fetching documents:', error);
+                    // Handle error (e.g., show an error message to the user)
+                })
+                .finally(() => {
+                    setLoading(false);
+                });
+        }
+    }
+  }, [])
 
   useEffect(() => {
     // check if there is a token in the URL parameter
@@ -45,18 +85,26 @@ export default function Home() {
         }
     }
   }, [])
+  
+  const handleButtonClick = () => {
+    window.scrollTo({
+      top: document.getElementById('academiaDTETI').offsetTop,
+      behavior: 'smooth'
+    });
+  }
 
   return (
     <FadeIn>
     <ToastContainer />
-    <main className="flex flex-col items-center bg-orange-100 text-neutral-1000 font-sans">
+    <div className="flex flex-col h-fit items-center bg-orange-100 text-neutral-1000 font-sans">
       <Navbar isAdmin={isAdmin}/>
       <div className="flex flex-col items-center  w-full min-h-[100vh] bg-cover bg-bottom bg-[url('/images/Hero_Banner.png')]">
         <div className='flex flex-col items-center space-y-[12px] mt-[70px]'>
           <h1 className='font-bold text-[60px] text-center'>
             Welcome to ACADEMIA DTETI <br/> Your All-in-One LIBRARY
           </h1>
-          <button className='flex text-[24px] space-x-[10px] items-center text-center text-neutral font-bold py-[12px] px-[24px] hover:scale-110 transition ease-in-out delay-150 duration-300'>
+          <button className='flex text-[24px] space-x-[10px] items-center text-center text-neutral font-bold py-[12px] px-[24px] hover:scale-110 transition ease-in-out delay-150 duration-300'
+            onClick={handleButtonClick}>
             <p>Lihat Sekarang</p>
             <IoArrowDownOutline className='text-neutral'/>
           </button>
@@ -66,20 +114,23 @@ export default function Home() {
 
         {/* Logo */}
         <Image
+          id="academiaDTETI"
           src="/images/AcademiaDTETI.png"
           alt="Logo"
           width={500}
           height={80}
           className="mt-10 mb-8"
         />
-
-        {/* Title */}
-        <h1 className="mt-10 text-4xl font-bold mb-20 text-center">
-          COMING SOON
-        </h1>
           
       </div>
-    </main>
+
+      {/* Search Bar */}
+      <SearchBar/>
+      <div className='flex justify-center align-middle bg-center w-full bg-green-2-200'>
+        {/* Posts */}
+        <Posts posts={documents}/>
+      </div>
+    </div>
     </FadeIn>
   )
 }
