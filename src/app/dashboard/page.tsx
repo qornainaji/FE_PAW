@@ -72,7 +72,7 @@ const Dashboard = () => {
 
     return (
         <>
-            <Fragment>
+            <FadeIn>
                 <div className="flex flex-col h-fit bg-orange-100 text-neutral-1000">
                     <Head>
                         <title>Dashboard</title>
@@ -113,7 +113,7 @@ const Dashboard = () => {
                             />
                         </form>
                     </div>
-                    <h3 className='mx-auto text-center font-sans font-thin text-xl mt-10'>[!TODO: Filter dan kategori di sini]</h3>
+                    <h3 className='mx-auto text-center font-sans font-thin text-xl mt-10'><strong>[!TODO: Filter dan kategori di sini]</strong></h3>
                     <Posts posts={documents} />
 
                     {/* Clickable Page Number to change pages */}
@@ -136,7 +136,7 @@ const Dashboard = () => {
                 </div>
                 <SeeBookModal isVisible={showModal} onClose={() => setShowModal(false)}/>
                 </div>
-            </Fragment>    
+            </FadeIn>    
         </>
     );
 };
