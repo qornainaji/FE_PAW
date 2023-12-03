@@ -1,4 +1,5 @@
 "use client";
+require('dotenv').config();
 import Head from 'next/head';
 import Navbar from '../components/navbar/navbar';
 import React, { useState, useEffect } from 'react';
@@ -15,7 +16,7 @@ const Verifikasi = () => {
 
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:4000/users');
+        const response = await axios.get(process.env.NEXT_PUBLIC_API_URL + 'users');
         console.log('Data from server:', response.data);
   
         const formattedData = response.data.results.map(user => ({
@@ -45,7 +46,7 @@ const Verifikasi = () => {
     
       try {
         // Mengirim permintaan PUT untuk memperbarui data di server
-        await axios.put(`http://localhost:4000/users/${userId}`, { allowedLogin: checked });
+        await axios.patch(process.env.NEXT_PUBLIC_API_URL + "users/" + userId , { allowedLogin: checked });
         console.log('Data updated successfully on the server');
       } catch (error) {
         console.error('Error updating user:', error);
@@ -69,14 +70,28 @@ const Verifikasi = () => {
     };
   
     const handleDelete = (userId) => {
-      const updatedUsers = usersData.filter(user => user.id !== userId);
-      setUsersData(updatedUsers);
-      console.log(`Deleting user with ID: ${userId}`);
+      // delete user with userId
+
+      // Mengirim permintaan DELETE untuk menghapus data di server
+      axios.delete(process.env.NEXT_PUBLIC_API_URL + "users/" + userId)
+      .then((response) => {
+        console.log(response);
+        console.log('Data deleted successfully on the server');
+      })
+      .catch((error) => {
+        console.error('Error deleting user:', error);
+        // Handle error jika permintaan ke server gagal
+      })
+      .finally(() => {
+        // Menghapus data dari state setelah permintaan ke server berhasil
+        const updatedUsers = usersData.filter(user => user.id !== userId);
+        setUsersData(updatedUsers);
+      });
     };
   
     return (
       <>
-        <div className="flex flex-col h-screen bg-orange-100 text-neutral-1000">
+        <div className="flex flex-col min-h-screen h-fit bg-orange-100 text-neutral-1000">
           <Head>
             <title>Dashboard</title>
             <meta name="description" content="Dashboard" />
