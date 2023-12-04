@@ -14,6 +14,7 @@ import { checkAuthentication } from './auth/checkAuthentication';
 import { ToastContainer } from 'react-toastify';
 import Posts from './components/posts/posts';
 import SearchBar from './components/searchbar/searchbar';
+import { Footer } from 'antd/es/layout/layout';
 
 export default function Home() {
   const router = useRouter();
@@ -126,10 +127,31 @@ export default function Home() {
 
       {/* Search Bar */}
       <SearchBar/>
-      <div className='flex justify-center align-middle bg-center w-full bg-green-2-200'>
-        {/* Posts */}
+      <div className='flex flex-col justify-center align-middle bg-center w-full'>
+        {/* Posts. Show 4 items per row */}
         <Posts posts={documents}/>
       </div>
+
+      {/* Contact Admin for Upload Requests */}
+      <div className='flex flex-col items-center justify-center max-w-fill w-full'>
+        <h1 className='font-bold text-[60px] text-center'>
+          Contact Admin for Upload Requests
+        </h1>
+        <div className='flex flex-col items-center space-y-[12px] mt-[70px]'>
+          <h1 className='font-bold text-[60px] text-center'>
+            {/* Button to Admin Whatsapp */}
+            <a href="https://wa.me/6281212121212" target="_blank">
+              <button className='flex bg-green-600 rounded-full mb-32 text-[24px] space-x-[10px] items-center text-center text-neutral font-bold py-[12px] px-[24px] hover:scale-110 transition ease-in-out delay-150 duration-300'>
+                <p>Hubungi Admin</p>
+              </button>
+            </a>
+          </h1>
+        </div>
+      </div>
+
+      <Footer className='font-sans text-neutral-1000 text-center py-10 w-full bg-white'>
+        Academia DTETI ©{new Date().getFullYear()} Created by <strong>PAW Team 9</strong>
+      </Footer>
     </div>
     </FadeIn>
   )
