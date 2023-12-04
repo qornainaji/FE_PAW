@@ -13,7 +13,8 @@ import { use, useState } from 'react';
 export default function UploadFile({ onClose }) {
     const [selectedFile, setSelectedFile] = useState(null);
     const [pdfPreview, setPdfPreview] = useState(null);
-    
+    const [loading, setLoading] = useState(false);
+
     const onFileChange = (e) => {
         const file = e.target.files[0];
         const reader = new FileReader();
@@ -35,44 +36,45 @@ export default function UploadFile({ onClose }) {
     const { TextArea } = Input;
 
     const onFinish = async (values) => {
-        
+        setLoading(true);
 
+        const formData = new FormData();
+        formData.append('doc_title', values.doc_title);
+        formData.append('doc_year', values.doc_year);
+        formData.append('doc_major', values.doc_major);
+        formData.append('doc_description', values.doc_description);
+        formData.append('doc_view', 0);
+        // get current date
+        const currentDate = new Date();
+        formData.append('doc_date_upload', currentDate);
+        formData.append('doc_download', 0);
+        formData.append('doc_file', selectedFile); // Assuming only one file is uploaded
+        for (const pair of formData.entries()) {
+            console.log(pair[0] + ', ' + pair[1]); // Logging key-value pairs
+        }
+        try {
+            // const response = await axios.post('https://plain-toad-sweater.cyclic.app'+'/documents/', formData, {
+            const response = await axios.post('http://localhost:4000' + '/documents/', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
 
-            const formData = new FormData();
-            formData.append('doc_title', values.doc_title);
-            formData.append('doc_year', values.doc_year);
-            formData.append('doc_major', values.doc_major);
-            formData.append('doc_description', values.doc_description);
-            formData.append('doc_view', 0);
-            // get current date
-            const currentDate = new Date();
-            formData.append('doc_date_upload', currentDate);
-            formData.append('doc_download', 0);
-            formData.append('doc_file', selectedFile); // Assuming only one file is uploaded
-            for (const pair of formData.entries()) {
-                console.log(pair[0] + ', ' + pair[1]); // Logging key-value pairs
+            if (response.status === 200) {
+                message.success('Data uploaded successfully.');
+                closeModal();
+                // Handle success response if needed
+            } else {
+                message.error('Failed to upload data.');
+                // Handle error scenarios
             }
-            try {
-                // const response = await axios.post('https://plain-toad-sweater.cyclic.app'+'/documents/', formData, {
-                const response = await axios.post('http://localhost:4000'+'/documents/', formData, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data',
-                    },
-                });
 
-                if (response.status === 200) {
-                    message.success('Data uploaded successfully.');
-                    closeModal();
-                    // Handle success response if needed
-                } else {
-                    message.error('Failed to upload data.');
-                    // Handle error scenarios
-                }
-                
-            } catch (error) {
-                message.error('Error occurred while uploading data. Please try again later.');
-            }
-        };
+        } catch (error) {
+            message.error('Error occurred while uploading data. Please try again later.');
+        } finally {
+            setLoading(false);
+        }
+    };
 
 
     const props = {
@@ -87,9 +89,9 @@ export default function UploadFile({ onClose }) {
             if (file.size > maxSizeInBytes) {
                 message.error(`${file.name} is too large, please upload a file smaller than 10MB.`);
                 return false; // Returning false will prevent the upload
-            }else{
-            // Example: Storing the file in state
-            setSelectedFile(file); // Assuming fileList is a state variable
+            } else {
+                // Example: Storing the file in state
+                setSelectedFile(file); // Assuming fileList is a state variable
             }
             return false;
             // Prevent actual upload for now
@@ -117,7 +119,7 @@ export default function UploadFile({ onClose }) {
     };
 
     return (
-        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 " >
+        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-10" >
             <div className="bg-white p-10 rounded-lg flex flex-row-reverse  ">
                 <div>
                     <div>
@@ -140,7 +142,7 @@ export default function UploadFile({ onClose }) {
                                 autoComplete='off'
                                 onFinish={onFinish}
                                 className='space-y-[8px]'
-                                // enctype="multipart/form-data"
+                            // enctype="multipart/form-data"
                             >
                                 <Form.Item
                                     label='Program Studi'
@@ -228,6 +230,7 @@ export default function UploadFile({ onClose }) {
                                             htmlType='submit'
                                             text='Unggah'
                                             className="hover:bg-green-2-600 "
+                                            loading={loading}
                                         />
                                         <Button
                                             text='Batal'
@@ -243,15 +246,15 @@ export default function UploadFile({ onClose }) {
                     </div>
                 </div>
                 {pdfPreview && (
-                <div className='mr-10'>
-                    
+                    <div className='mr-10'>
+
                         <div>
                             {/* <h3>Preview:</h3> */}
                             <embed src={pdfPreview} type="application/pdf" width="100%" height="400px" className='rounded-[12px]' />
                         </div>
                         {/* // <object data={`${pdfPreview}#page=1`} type="application/pdf" width="100%" height="600px">
                         // </object> */}
-                </div>
+                    </div>
                 )}
             </div>
         </div>
