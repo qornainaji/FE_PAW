@@ -2,7 +2,7 @@
 
 
 
-export default function Button({
+export default function SearchButton({
     text = "Search",
     color = "bg-green-2-500",
     textColor = "text-neutral-50",

@@ -15,6 +15,7 @@ import { ToastContainer } from 'react-toastify';
 import Posts from './components/posts/posts';
 import SearchBar from './components/searchbar/searchbar';
 import { Footer } from 'antd/es/layout/layout';
+import SearchButton from './components/button/button';
 
 export default function Home() {
   const router = useRouter();
@@ -50,13 +51,14 @@ export default function Home() {
                 .catch((error) => {
                     console.error('Error fetching documents:', error);
                     // Handle error (e.g., show an error message to the user)
+                    alert('Error fetching documents');
                 })
                 .finally(() => {
                     setLoading(false);
                 });
         }
     }
-  }, [])
+  }, [refetchTrigger])
 
   useEffect(() => {
     // check if there is a token in the URL parameter
@@ -129,7 +131,37 @@ export default function Home() {
       </div>
 
       {/* Search Bar */}
-      <SearchBar/>
+      <h2 className='mx-auto text-center font-sans font-bold text-[38px] mb-10'>Cari dokumen kamu di bawah!</h2>
+      <div className="w-full flex justify-center h-auto font-sans drop-shadow-[0_12px_20px_rgba(220,155,107,0.24)]">
+          <form className="flex w-[90%] max-w-[794px] py-[18px] bg-neutral pl-[20px] rounded-full pr-[8px] relative items-center">
+              <input
+                  type="text"
+                  className="w-full font-medium  text-[16px] text-neutral-900 placeholder:text-neutral-500 focus:outline-none"
+                  placeholder="Cari dokumen kamu disini..."
+                  value={searchKeyword}
+                  onChange={(e) => setSearchKeyword(e.target.value)}
+              />
+              <SearchButton
+                  className="absolute right-[8px] hover:bg-green-2-600"
+                  onClick={(e) => {
+                      e.preventDefault();
+                      if(searchKeyword == '') {
+                          setRefetchTrigger(!refetchTrigger);
+                          return;
+                      }
+                      const result = documents.filter((document) => {
+                          return document.doc_title.toLowerCase().includes(searchKeyword.toLowerCase());
+                      })
+                      setDocuments(result)
+                      if(!result.length) {
+                          alert("Dokumen tidak ditemukan");
+                          setRefetchTrigger(!refetchTrigger);
+                      }
+                  }}
+              />
+          </form>
+      </div>
+      
       <div className='flex flex-col justify-center align-middle bg-center w-full'>
         {/* Posts. Show 4 items per row */}
         <Posts posts={documents}/>
@@ -144,7 +176,7 @@ export default function Home() {
           <h1 className='font-bold text-[60px] text-center'>
             {/* Button to Admin Whatsapp */}
             <a href={WhatsappURL} target="_blank">
-              <button className='flex bg-green-600 rounded-full text-[24px] space-x-[10px] items-center text-center text-neutral font-bold py-[12px] px-[24px] hover:scale-110 hover:bg-white hover:text-green-2-600 hover:border-green-600 hover:border-2 transition ease-in-out duration-300'>
+              <button className='flex bg-green-600 rounded-full text-[24px] space-x-[10px] items-center text-center text-neutral font-bold py-[12px] px-[24px] hover:scale-110 hover:bg-white hover:text-green-2-600 hover:border-green-2-600 hover:border-2 hover:shadow-md hover:shadow-green-2-600 transition-all ease-in-out duration-300'>
                 <p>Hubungi Admin</p>
               </button>
             </a>
