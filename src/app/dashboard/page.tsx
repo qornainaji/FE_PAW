@@ -13,6 +13,7 @@ import SearchBar from '../components/searchbar/searchbar';
 import Button from '../components/button/button';
 import { checkAuthentication } from '../auth/checkAuthentication';
 import { useRouter } from 'next/navigation';
+import SearchButton from '../components/button/button';
 
 const Dashboard = () => {
     const router = useRouter();
@@ -87,7 +88,7 @@ const Dashboard = () => {
                                     value={searchKeyword}
                                     onChange={(e) => setSearchKeyword(e.target.value)}
                                 />
-                                <Button
+                                <SearchButton
                                     className="absolute right-[8px] hover:bg-green-2-600"
                                     onClick={(e) => {
                                         e.preventDefault();
