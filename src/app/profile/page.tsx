@@ -23,8 +23,13 @@ const Profile = () => {
     const [avatar, setAvatar] = useState('/images/default-avatar.png');
     const [id, setId] = useState(null);
     const [username, setUsername] = useState(null);
+    const [name, setName] = useState(null);
+    const [password, setPassword] = useState(null);
     const [email, setEmail] = useState(null);
     const [NIM, setNIM] = useState(null);
+    const [github, setGithub] = useState(null);
+    const [bio, setBio] = useState(null);
+    const [location, setLocation] = useState(null);
     const [isVerified, setIsVerified] = useState(null);
     const [loading, setLoading] = useState(true);
 
@@ -47,9 +52,13 @@ const Profile = () => {
                     // console.log(response.data.user_name);
                     if (response.data.user_avatarURL != null)
                         setAvatar(response.data.user_avatarURL);
-                    setUsername(response.data.user_name);
+                    setUsername(response.data.user_username);
+                    setName(response.data.user_name);
+                    setBio(response.data.user_bio);
+                    setLocation(response.data.user_location);
                     setEmail(response.data.user_email);
                     setNIM(response.data.user_NIM);
+                    setGithub(response.data.user_github);
                     setIsVerified(response.data.isVerified);
                     setLoading(false);
                 })
@@ -85,6 +94,10 @@ const Profile = () => {
             user_NIM: NIM,
             user_avatarURL: avatar,
             user_username: username,
+            user_name: name,
+            user_bio: bio,
+            user_github: github,
+            user_location: location,
         };
         // console.log(data);
 
@@ -141,6 +154,10 @@ const Profile = () => {
                                 setEmail(allValues.email);
                                 setNIM(allValues.NIM);
                                 setUsername(allValues.username);
+                                setName(allValues.name);
+                                setBio(allValues.bio);
+                                setLocation(allValues.location);
+                                setGithub(allValues.githubURL);
                             }}
                         >
                             <ConfigProvider
@@ -191,6 +208,14 @@ const Profile = () => {
                             </Form.Item>
 
                             <Form.Item
+                                label="Name"
+                                name="name"
+                                initialValue={name}
+                            >
+                                <Input disabled={false}/>
+                            </Form.Item>
+
+                            <Form.Item
                                 label="Password"
                                 name="password"
                                 initialValue=""
@@ -217,6 +242,25 @@ const Profile = () => {
                                 label="NIM"
                                 name="NIM"
                                 initialValue={NIM}
+                            >
+                                <Input disabled={false}/>
+                            </Form.Item>
+
+                            <Form.Item
+                                label="Github URL"
+                                name="githubURL"
+                                initialValue={github}
+                            >
+                                <Input disabled={false}/>
+                            </Form.Item>
+
+                            <Form.Item
+                                label="Bio"
+                                name="bio"
+                                initialValue={bio}
+                                rules={[
+                                    { max: 300, message: 'Bio must be less than 300 characters!' },
+                                ]}
                             >
                                 <Input disabled={false}/>
                             </Form.Item>
