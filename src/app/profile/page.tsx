@@ -124,124 +124,126 @@ const Profile = () => {
                 <Navbar isAdmin={true}/>
             </div>
 
-            {/* Forms */}
-            <div className="flex flex-col items-center justify-center w-fill h-fit min-h-full mb-10 py-5">
-                <h2 className="text-4xl font-bold mb-5">Profile</h2>
-                {loading ? (
-                    <div className='text-2xl mt-5'>Loading . . . </div>
-                 ) : (
-                    <Form
-                        name="basic"
-                        labelCol={{ span: 24 }}
-                        wrapperCol={{ span: 24 }}
-                        initialValues={{ remember: true }}
-                        onValuesChange={(changedValues, allValues) => {
-                            console.log(allValues);
-                            setEmail(allValues.email);
-                            setNIM(allValues.NIM);
-                            setUsername(allValues.username);
-                        }}
-                    >
-                        <ConfigProvider
-                            theme={{
-                                token: {
-                                    colorPrimary: '#48A516',
-                                },
+            <div className='flex justify-center align-middle items-center w-fill'>
+                {/* Forms */}
+                <div className="flex flex-col items-center justify-center w-5/6 h-fit min-h-full mb-10 py-7 bg-white rounded-2xl">
+                    <h2 className="text-4xl font-bold mb-5">Profile</h2>
+                    {loading ? (
+                        <div className='text-2xl mt-5'>Loading . . . </div>
+                    ) : (
+                        <Form
+                            name="basic"
+                            labelCol={{ span: 24 }}
+                            wrapperCol={{ span: 24 }}
+                            initialValues={{ remember: true }}
+                            onValuesChange={(changedValues, allValues) => {
+                                console.log(allValues);
+                                setEmail(allValues.email);
+                                setNIM(allValues.NIM);
+                                setUsername(allValues.username);
                             }}
                         >
-                        {/* Avatar */}
-                        <Form.Item
-                            name="avatar"
-                            initialValue={avatar}
-                            className='flex justify-center'
-                        >
-                            {/* Rounded Image */}
-                            <Image
-                                src={avatar}
-                                alt="Avatar"
-                                width={200}
-                                height={200}
-                                className="rounded-full justify-center align-middle text-center flex items-center"
-                            />
-                            <style jsx global>{`
-                                .ant-image-mask {
-                                    border-radius: 50%;
+                            <ConfigProvider
+                                theme={{
+                                    token: {
+                                        colorPrimary: '#48A516',
+                                    },
+                                }}
+                            >
+                            {/* Avatar */}
+                            <Form.Item
+                                name="avatar"
+                                initialValue={avatar}
+                                className='flex justify-center'
+                            >
+                                {/* Rounded Image */}
+                                <Image
+                                    src={avatar}
+                                    alt="Avatar"
+                                    width={200}
+                                    height={200}
+                                    className="rounded-full justify-center align-middle text-center flex items-center"
+                                />
+                                <style jsx global>{`
+                                    .ant-image-mask {
+                                        border-radius: 50%;
 
-                                }
-                            `}</style>
-                        </Form.Item>
-            
-                        
-                        {/* Create forms pre-filled with the data from the user */}
-                        <Form.Item
-                            label="ID"
-                            name="id"
-                            initialValue={id}
-                        >
-                            <Input disabled={true}/> 
-                        </Form.Item>
+                                    }
+                                `}</style>
+                            </Form.Item>
+                
+                            
+                            {/* Create forms pre-filled with the data from the user */}
+                            <Form.Item
+                                label="ID"
+                                name="id"
+                                initialValue={id}
+                            >
+                                <Input disabled={true}/> 
+                            </Form.Item>
 
-                        <Form.Item
-                            label="Username"
-                            name="username"
-                            initialValue={username}
-                        >
-                            <Input disabled={false}/>
-                        </Form.Item>
+                            <Form.Item
+                                label="Username"
+                                name="username"
+                                initialValue={username}
+                            >
+                                <Input disabled={false}/>
+                            </Form.Item>
 
-                        <Form.Item
-                            label="Password"
-                            name="password"
-                            initialValue=""
-                        >
-                            <Input.Password disabled={true} placeholder='See "Change Password"'/>
-                            <Link href="/profile/change-password">
-                                Change Password
-                            </Link>
-                        </Form.Item>
+                            <Form.Item
+                                label="Password"
+                                name="password"
+                                initialValue=""
+                            >
+                                <Input.Password disabled={true} placeholder='See "Change Password"'/>
+                                <Link href="/profile/change-password">
+                                    Change Password
+                                </Link>
+                            </Form.Item>
 
-                        <Form.Item
-                            label="Email"
-                            name="email"
-                            initialValue={email}
-                            rules={[
-                                { required: true, message: 'Please input your email!' },
-                                { validator: validateUgmEmail }
-                            ]}
-                        >
-                            <Input disabled={false}/>
-                        </Form.Item>
+                            <Form.Item
+                                label="Email"
+                                name="email"
+                                initialValue={email}
+                                rules={[
+                                    { required: true, message: 'Please input your email!' },
+                                    { validator: validateUgmEmail }
+                                ]}
+                            >
+                                <Input disabled={false}/>
+                            </Form.Item>
 
-                        <Form.Item
-                            label="NIM"
-                            name="NIM"
-                            initialValue={NIM}
-                        >
-                            <Input disabled={false}/>
-                        </Form.Item>
+                            <Form.Item
+                                label="NIM"
+                                name="NIM"
+                                initialValue={NIM}
+                            >
+                                <Input disabled={false}/>
+                            </Form.Item>
 
-                        <Form.Item
-                            label="Verified"
-                            name="verified"
-                            initialValue={isVerified}
-                        >
-                            <Input disabled={true}/>
-                        </Form.Item>
+                            <Form.Item
+                                label="Verified"
+                                name="verified"
+                                initialValue={isVerified}
+                            >
+                                <Input disabled={true}/>
+                            </Form.Item>
 
-                        <Button
-                            type="primary"
-                            htmlType="submit"
-                            className="bg-green-2-500 rounded-full mb-0 font-bold"
-                            style={{ width: '100%', minHeight: '50px' }}
-                            onClick={updateProfile}
-                        >
-                            Save
-                        </Button>
+                            <Button
+                                type="primary"
+                                htmlType="submit"
+                                className="bg-green-2-500 rounded-full mb-0 font-bold"
+                                style={{ width: '100%', minHeight: '50px' }}
+                                onClick={updateProfile}
+                            >
+                                Save
+                            </Button>
 
 
-                        </ConfigProvider>
-                    </Form>
-                 )}
+                            </ConfigProvider>
+                        </Form>
+                    )}
+                </div>
             </div>
         </div>
     )

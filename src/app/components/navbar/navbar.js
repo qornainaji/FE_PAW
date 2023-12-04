@@ -146,7 +146,7 @@ export default function Navbar({ isAdmin }) {
                                 alt='Avatar'
                                 width={32} 
                                 height={32} 
-                                className='w-[32px] h-[32px] rounded-full bg-green-600'/>
+                                className='w-[32px] h-[32px] rounded-full bg-white'/>
                         </div>
                         <CustomModal
                             open={showModal}
