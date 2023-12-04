@@ -94,6 +94,9 @@ export default function Home() {
     });
   }
 
+  const URLEncodedWhatsAppMessage = "Halo%20Mas%2C%20saya%20ingin%20menambahkan%20entri%20ke%20Academia%20DTETI."
+  const WhatsappURL = "https://wa.me/6281227360323?text=" + URLEncodedWhatsAppMessage
+
   return (
     <FadeIn>
     <ToastContainer />
@@ -133,15 +136,15 @@ export default function Home() {
       </div>
 
       {/* Contact Admin for Upload Requests */}
-      <div className='flex flex-col items-center justify-center max-w-fill w-full'>
+      <div className='flex flex-col items-center justify-center max-w-fill w-full mb-32 mt-20'>
         <h1 className='font-bold text-[60px] text-center'>
           Contact Admin for Upload Requests
         </h1>
-        <div className='flex flex-col items-center space-y-[12px] mt-[70px]'>
+        <div className='flex flex-col items-center space-y-[12px] mt-16'>
           <h1 className='font-bold text-[60px] text-center'>
             {/* Button to Admin Whatsapp */}
-            <a href="https://wa.me/6281212121212" target="_blank">
-              <button className='flex bg-green-600 rounded-full mb-32 text-[24px] space-x-[10px] items-center text-center text-neutral font-bold py-[12px] px-[24px] hover:scale-110 transition ease-in-out delay-150 duration-300'>
+            <a href={WhatsappURL} target="_blank">
+              <button className='flex bg-green-600 rounded-full text-[24px] space-x-[10px] items-center text-center text-neutral font-bold py-[12px] px-[24px] hover:scale-110 hover:bg-white hover:text-green-2-600 hover:border-green-600 hover:border-2 transition ease-in-out duration-300'>
                 <p>Hubungi Admin</p>
               </button>
             </a>
