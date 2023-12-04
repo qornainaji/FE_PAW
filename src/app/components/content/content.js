@@ -21,10 +21,10 @@ export default function Content(){
     }
 
     return(
-        <div className="flex flex-col items-center justify-between bg-orange-100 py-[60px] px-[120px] font-sans text-neutral-1000 ">
-            <h1 className="font-bold text-[38px] ">Cari dokumen kamu di bawah!</h1>
-            <SearchBar/>
-            <div className="flex flex-row items-center justify-between w-full mt-[40px] mb-[24px]">
+        <div className="flex flex-col items-center justify-between bg-orange-100 px-[120px] font-sans text-neutral-1000 w-[1200px]">
+            {/* <h1 className="font-bold text-[38px] ">Cari dokumen kamu di bawah!</h1>
+            <SearchBar/> */}
+            <div className="flex flex-row items-center justify-between w-full mt-[40px]">
                 <div className="flex space-x-[119px]">
                     <p className="font-bold text-[16px] text-neutral-1000 py-[8px] pr-[20px] ">Populer:</p>
                         <div>
@@ -56,7 +56,7 @@ export default function Content(){
             {isFilterInvisible && <Filter/>}
             {isUploadFileInvisible && <UploadFile onClose = {handleModal}/>}
             {/* List Bank Soal / Meteri */}
-            <Etalase/>
+            {/* <Etalase/> */}
         </div>
     )
 }

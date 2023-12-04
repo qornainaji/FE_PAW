@@ -4,6 +4,7 @@ import Head from 'next/head';
 import Navbar from '../components/navbar/navbar';
 import React from 'react';
 import SeeBookModal from '../components/modal/seebookmodal';
+import Content from '../components/content/content';
 import Link from 'next/link';
 import axios from 'axios';
 import FadeIn from '../animations/FadeIn';
@@ -75,8 +76,8 @@ const Dashboard = () => {
 
                     <Navbar isAdmin={true} />
 
-                    <div className='mt-10 mb-10'>1
-                        <h2 className='mx-auto text-center font-sans font-bold text-5xl mb-10'>Cari dokumen kamu di bawah!</h2>
+                    <div className='mt-10 mb-10 flex flex-col items-center'>1
+                        <h2 className='mx-auto text-center font-sans font-bold text-[38px] mb-10'>Cari dokumen kamu di bawah!</h2>
                         <div className="w-full flex justify-center h-auto font-sans drop-shadow-[0_12px_20px_rgba(220,155,107,0.24)]">
                             <form className="flex w-[90%] max-w-[794px] py-[18px] bg-neutral pl-[20px] rounded-full pr-[8px] relative items-center">
                                 <input
@@ -106,7 +107,8 @@ const Dashboard = () => {
                                 />
                             </form>
                         </div>
-                        <h3 className='mx-auto text-center font-sans font-thin text-xl mt-10'><strong>[!TODO: Filter dan kategori di sini]</strong></h3>
+                        {/* <h3 className='mx-auto text-center font-sans font-thin text-xl mt-10'><strong>[!TODO: Filter dan kategori di sini]</strong></h3> */}
+                        <Content/>
                         <Posts posts={documents} />
 
                         {/* Clickable Page Number to change pages */}

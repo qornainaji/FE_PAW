@@ -33,7 +33,7 @@ export default function EtalaseCard({data}) {
     const formattedDate = formatDate(doc_date_upload);
     
     return(
-        <div className="flex flex-col justify-center items-center w-[285px] space-y-[8px] rounded-[12px] hover:drop-shadow-[0_12px_20px_rgba(220,155,107,0.5)] duration-1000 ease-in-out transition-shadow">
+        <div className="flex flex-col justify-center items-center w-[285px] space-y-[8px] rounded-[12px] hover:shadow-[0_12px_20px_rgba(220,155,107,0.5)] duration-300 ease-in-out transition-all hover:scale-[101%] p-[10px]">
             {/* Thumbnail */}
             <div className='relative h-[185px] w-[285px]' >
                 <Image
@@ -48,7 +48,7 @@ export default function EtalaseCard({data}) {
                 />
             </div>
             <div className='w-full space-y-1'>
-                <h2 className='font-bold text-neutral-900 text-[16px] '>{doc_title}</h2>
+                <h2 className='font-bold text-neutral-900 text-[16px] truncate'>{doc_title}</h2>
                 <div className=' text-[12px] flex items-center justify-between'>
                     <div className='flex items-center text-green-2-600 space-x-[8px]'>
                         <p>{mappedMajor}</p>
