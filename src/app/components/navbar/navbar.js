@@ -44,7 +44,7 @@ export default function Navbar({ isAdmin }) {
     const [id, setId] = useState(null);
     const [name, setName] = useState("");
     const [showModal, setShowModal] = useState(false);
-    const [pictureUrl, setPictureUrl] = useState('');
+    const [pictureUrl, setPictureUrl] = useState('/images/default-avatar.png');
 
     const handleMouseEnter = () => {
         setShowModal(true);
@@ -103,7 +103,10 @@ export default function Navbar({ isAdmin }) {
             .then(res => {
                 // console.log(res.data);
                 setName(res.data.user_username);
-                setPictureUrl(res.data.user_avatarURL);
+                if(res.data.user_avatarURL != null)
+                    setPictureUrl(res.data.user_avatarURL);
+
+                console.log(pictureUrl);
             })
         }
     }, [id])

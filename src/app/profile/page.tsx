@@ -20,7 +20,7 @@ const { Title } = Typography;
 const Profile = () => {
     const router = useRouter();
     const [token, setToken] = useState(null);
-    const [avatar, setAvatar] = useState(null);
+    const [avatar, setAvatar] = useState('/images/default-avatar.png');
     const [id, setId] = useState(null);
     const [username, setUsername] = useState(null);
     const [email, setEmail] = useState(null);
@@ -45,7 +45,8 @@ const Profile = () => {
                 axios.get(process.env.NEXT_PUBLIC_API_URL + 'users/' + decodedToken._id, { headers: { 'Authorization': `Bearer ${token}` } })
                 .then((response) => {
                     // console.log(response.data.user_name);
-                    setAvatar(response.data.user_avatarURL);
+                    if (response.data.user_avatarURL != null)
+                        setAvatar(response.data.user_avatarURL);
                     setUsername(response.data.user_name);
                     setEmail(response.data.user_email);
                     setNIM(response.data.user_NIM);
