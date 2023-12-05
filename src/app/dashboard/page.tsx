@@ -1,5 +1,5 @@
 "use client";
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, use, useEffect, useState } from 'react';
 import Head from 'next/head';
 import Navbar from '../components/navbar/navbar';
 import React from 'react';
@@ -10,11 +10,9 @@ import axios from 'axios';
 import FadeIn from '../animations/FadeIn';
 import Posts from '../components/posts/posts';
 import SearchBar from '../components/searchbar/searchbar';
-import Button from '../components/button/button';
 import { checkAuthentication } from '../auth/checkAuthentication';
 import { useRouter } from 'next/navigation';
 import SearchButton from '../components/button/button';
-
 const Dashboard = () => {
     const router = useRouter();
 
@@ -60,6 +58,10 @@ const Dashboard = () => {
                     })
                     .finally(() => {
                         setLoading(false);
+                        console.log("Documents:" + documents.length);
+                        console.log("Limit:" + limitNum);
+                        const totalPages = Math.ceil(documents.length / limitNum);
+                        console.log("Pages:" + totalPages);
                     });
             }
         }
