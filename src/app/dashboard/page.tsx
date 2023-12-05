@@ -14,6 +14,7 @@ import SearchBar from '../components/searchbar/searchbar';
 import { checkAuthentication } from '../auth/checkAuthentication';
 import { useRouter } from 'next/navigation';
 import SearchButton from '../components/button/button';
+import PageNumbers from '../components/pagenumbers/pagenumbers';
 
 const Dashboard = () => {
     const router = useRouter();
