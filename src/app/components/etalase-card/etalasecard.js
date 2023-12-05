@@ -1,8 +1,15 @@
-import Image from 'next/image'
-import {IoEye} from 'react-icons/io5'
+'use client'
 
+import Image from 'next/image';
+import {IoEye} from 'react-icons/io5';
+import { useState } from "react";
+import Modal from "../modal/modal";
+import { useAtom } from "jotai";
+// import { modal } from "../../dashboard/page";
+// src/app/dashboard/page.tsx
+// src/app/components/etalase-card/etalasecard.js
 
-export default function EtalaseCard({data}) {
+export default function EtalaseCard({data, cardClick}) {
     const {
         doc_title,
         doc_year,
@@ -13,6 +20,12 @@ export default function EtalaseCard({data}) {
         doc_date_upload,
         doc_download,
     } = data;
+
+    // const [modal, setModal] = useState(false);
+    // const [showModal, setShowModal] = useAtom(modal);
+    // console.log(showModal);
+    // const showModal = showModal;
+    // const [selectedDoc, setSelectedDoc] = useState(null);
 
     const formatDate = (dateString) => {
         const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
@@ -31,9 +44,22 @@ export default function EtalaseCard({data}) {
 
     const mappedMajor = mapDocMajor(doc_major);
     const formattedDate = formatDate(doc_date_upload);
+
+    // const handleCardClick = () => {
+    //     // Add onClick function here
+    //     // setSelectedDoc(data);
+    //     setModal(!modal);
+    // }
     
+    const handleClickCard = () => {
+        cardClick();
+    }
+
     return(
-        <div className="flex flex-col justify-center items-center w-[285px] space-y-[8px] rounded-[12px] hover:shadow-[0_12px_20px_rgba(220,155,107,0.5)] duration-300 ease-in-out transition-all hover:scale-[101%] p-[10px]">
+        <div 
+            className="flex flex-col justify-center items-center w-[285px] space-y-[8px] rounded-[12px] hover:shadow-[0_12px_20px_rgba(220,155,107,0.5)] duration-300 ease-in-out transition-all hover:scale-[101%] hover:px-[10px] pb-[10px]"
+            onClick={handleClickCard}
+        >
             {/* Thumbnail */}
             <div className='relative h-[185px] w-[285px]' >
                 <Image
@@ -62,6 +88,7 @@ export default function EtalaseCard({data}) {
                 </div> 
                 <p className='text-[12px] font-medium text-neutral-500 '>{formattedDate}</p> 
             </div>
+            
         </div>
     )
 }

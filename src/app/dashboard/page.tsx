@@ -3,7 +3,8 @@ import { Fragment, useEffect, useState } from 'react';
 import Head from 'next/head';
 import Navbar from '../components/navbar/navbar';
 import React from 'react';
-import SeeBookModal from '../components/modal/seebookmodal';
+// import SeeBookModal from '../components/modal/seebookmodal';
+import Modal from '../components/modal/modal';
 import Content from '../components/content/content';
 import Link from 'next/link';
 import axios from 'axios';
@@ -14,6 +15,9 @@ import Button from '../components/button/button';
 import { checkAuthentication } from '../auth/checkAuthentication';
 import { useRouter } from 'next/navigation';
 import SearchButton from '../components/button/button';
+import { atom, useAtom } from 'jotai';
+
+// export const modal = atom(false);
 
 const Dashboard = () => {
     const router = useRouter();
@@ -25,7 +29,9 @@ const Dashboard = () => {
 
     const [isOpen, setIsOpen] = useState(false);
 
-    const [showModal, setShowModal] = useState(false);
+    // const [showModal, setShowModal] = useState(modal);
+    // const [showModal, setShowModal] = useAtom(modal);
+    // console.log(modal);
 
     useEffect(() => {
         checkAuthentication( router );
@@ -68,7 +74,7 @@ const Dashboard = () => {
     return (
         <>
             <FadeIn>
-                <div className="flex flex-col h-fit bg-orange-100 text-neutral-1000">
+                <div className="flex flex-col h-fit bg-orange-100 text-neutral-1000 min-h-screen">
                     <Head>
                         <title>Dashboard</title>
                         <meta name="description" content="Dashboard" />
@@ -77,7 +83,7 @@ const Dashboard = () => {
 
                     <Navbar isAdmin={true} />
 
-                    <div className='mt-10 mb-10 flex flex-col items-center'>1
+                    <div className='mt-10 mb-10 flex flex-col items-center'>
                         <h2 className='mx-auto text-center font-sans font-bold text-[38px] mb-10'>Cari dokumen kamu di bawah!</h2>
                         <div className="w-full flex justify-center h-auto font-sans drop-shadow-[0_12px_20px_rgba(220,155,107,0.24)]">
                             <form className="flex w-[90%] max-w-[794px] py-[18px] bg-neutral pl-[20px] rounded-full pr-[8px] relative items-center">
@@ -130,7 +136,11 @@ const Dashboard = () => {
                         {/* <pre>{JSON.stringify(documents, null, 2)}</pre> */}
 
                     </div>
-                <SeeBookModal isVisible={showModal} onClose={() => setShowModal(false)}/>
+                {/* <SeeBookModal isVisible={showModal} onClose={() => setShowModal(false)}/> */}
+                {/* {showModal && (
+                    <Modal />
+                )} */}
+                {/* <p>{{showModal}}</p> */}
                 </div>
             </FadeIn>    
         </>

@@ -12,7 +12,7 @@ export default function Filter(){
             },
           }}
         >
-            <div className="flex flex-row pb-[24px] w-full space-x-[20px] text-neutral-900 mb-[24px]">
+            <div className="flex flex-row pb-[24px] w-full space-x-[20px] text-neutral-900 mb-[24px] mt-[24px]">
                 <div className="flex flex-row space-x-[8px] ">
                     <p className="font-medium">Program Studi :</p>
                     <Space wrap>

@@ -1,11 +1,13 @@
+
 import React, { useEffect } from 'react';
 import { Card } from 'antd';
 import styles from './posts.module.css';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useState, } from 'react';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import EtalaseCard from '../etalase-card/etalasecard';
+import Modal from '../modal/modal';
 
 const { Meta } = Card;
 
@@ -28,6 +30,14 @@ const Posts = ({ posts }) => {
     const handleMouseLeave = (postId) => {
         setHoveredCards((prevHoveredCards) => ({ ...prevHoveredCards, [postId]: false }));
     };
+
+    const [modal, setModal] = useState(false);
+
+    const handleCardClick = () => {
+        // Add onClick function here
+        // setSelectedDoc(data);
+        setModal(!modal);
+    }
 
     return (
         // <div className={styles.container}>
@@ -70,10 +80,11 @@ const Posts = ({ posts }) => {
                         key={post._id}
                         onMouseEnter={() => handleMouseEnter(post._id)}
                         onMouseLeave={() => handleMouseLeave(post._id)}>
-                        <EtalaseCard key={index} data={post} />
+                        <EtalaseCard key={index} data={post} cardClick = {handleCardClick}/>
                     </div>
                 ))}
             </div>
+            {modal && <Modal/>}
         </div>
     );
 };
