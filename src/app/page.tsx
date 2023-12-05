@@ -16,6 +16,7 @@ import Posts from './components/posts/posts';
 import SearchBar from './components/searchbar/searchbar';
 import { Footer } from 'antd/es/layout/layout';
 import SearchButton from './components/button/button';
+import PageNumbers from './components/pagenumbers/pagenumbers';
 
 export default function Home() {
   const router = useRouter();
@@ -24,6 +25,11 @@ export default function Home() {
   const [searchKeyword, setSearchKeyword] = useState('');
   const [loading, setLoading] = useState(true);
   const [refetchTrigger, setRefetchTrigger] = useState(false);
+
+  // For pagination
+  const [pageNum, setPageNum] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [limitNum, setLimitNum] = useState(20);
 
   useEffect(() => {
     // Check if 'document' is defined to avoid issues during server-side rendering
@@ -39,14 +45,23 @@ export default function Home() {
             const urlParams = new URLSearchParams(window.location.search);
             let page = urlParams.get('page');
             let limit = urlParams.get('limit');
+            let totalDocuments = 0;
             
             // Convert page & limit to number
-            const pageNum = parseInt(page);
-            const limitNum = parseInt(limit);
-            axios.get(process.env.NEXT_PUBLIC_API_URL + 'documents' + '?page=' + String(pageNum) + '&limit=' + String(limitNum), { headers: { 'Authorization': `Bearer ${token}` } })
+            const pageNum = parseInt(page) || 1;
+            const limitNum = parseInt(limit) || 20;
+            axios.get(
+                  process.env.NEXT_PUBLIC_API_URL + 
+                  'documents' + 
+                  `?page=${pageNum}${limit ? `&limit=${limit}` : ''}`, { headers: { 'Authorization': `Bearer ${token}` } })
                 .then((response) => {
                     // console.log(JSON.stringify(response.data.results));
+                    setPageNum(pageNum);
+                    setLimitNum(limitNum);
                     setDocuments(response.data.results);
+                    totalDocuments = response.data.results.length;
+                    setTotalPages(Math.ceil(totalDocuments / limitNum));
+                    // console.log("Total Documents: " + totalDocuments);
                 })
                 .catch((error) => {
                     console.error('Error fetching documents:', error);
@@ -161,10 +176,13 @@ export default function Home() {
               />
           </form>
       </div>
-      
+
       <div className='flex flex-col justify-center align-middle bg-center w-full'>
         {/* Posts. Show 4 items per row */}
         <Posts posts={documents}/>
+        
+        {/* Page Numbers using a loop */}
+        <PageNumbers currentPage={pageNum} totalPages={totalPages} limit={limitNum}/>
       </div>
 
       {/* Contact Admin for Upload Requests */}

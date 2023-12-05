@@ -1,13 +1,12 @@
 'use client;'
-
+require('dotenv').config();
 import { ConfigProvider, Form, Input, Select } from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
 import { message, Upload } from 'antd';
 const { Dragger } = Upload;
 import Button from '../button/button';
 import axios from 'axios';
-import { on } from 'events';
-import { use, useState } from 'react';
+import { use, useState, useEffect, useRef } from 'react';
 
 
 export default function UploadFile({ onClose }) {
@@ -15,6 +14,57 @@ export default function UploadFile({ onClose }) {
     const [pdfPreview, setPdfPreview] = useState(null);
     const [loading, setLoading] = useState(false);
 
+    // Ref for modal container
+    const modalContainerRef = useRef(null);
+
+    // Close modal when clicked outside of modal container
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (modalContainerRef.current && !modalContainerRef.current.contains(event.target)) {
+                onClose();
+                enableBodyScroll();
+            }
+        }
+        
+        document.addEventListener("mousedown", handleClickOutside);
+        disableBodyScroll();
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+            enableBodyScroll();
+        }
+    }, [modalContainerRef, onClose]);
+
+    // Disable body scroll when modal is open
+    const disableBodyScroll = () => {
+        document.body.style.overflow = 'hidden';
+    }
+
+    // Enable body scroll when modal is closed
+    const enableBodyScroll = () => {
+        document.body.style.overflow = 'unset';
+    }
+
+    // Change cursor to pointer when mouse is outside of modal
+    useEffect(() => {
+        const handleCursorChange = (event) => {
+            const isMouseOutsideModal = modalContainerRef.current && !modalContainerRef.current.contains(event.target);
+            const isModalOpen = document.body.style.overflow == 'hidden';
+
+            if (isMouseOutsideModal && isModalOpen) {
+                document.body.style.cursor = 'pointer';
+            } else {
+                document.body.style.cursor = ''; // Reset to default cursor when inside the modal or when it's closed
+            }
+        };
+
+        document.addEventListener("mousemove", handleCursorChange);
+
+        return () => {
+            
+        };
+    }, [modalContainerRef]);
+
+    // Handle file preview
     const onFileChange = (e) => {
         const file = e.target.files[0];
         const reader = new FileReader();
@@ -54,7 +104,7 @@ export default function UploadFile({ onClose }) {
         }
         try {
             // const response = await axios.post('https://plain-toad-sweater.cyclic.app'+'/documents/', formData, {
-            const response = await axios.post('http://localhost:4000' + '/documents/', formData, {
+            const response = await axios.post(process.env.NEXT_PUBLIC_API_URL + 'documents/', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
@@ -120,7 +170,7 @@ export default function UploadFile({ onClose }) {
 
     return (
         <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50" >
-            <div className="bg-white p-10 rounded-lg flex flex-row-reverse  ">
+            <div ref={modalContainerRef} className="bg-white p-10 mt-16 rounded-lg flex flex-row-reverse h-5/6 overflow-auto">
                 <div>
                     <div>
                         <h1 className="text-[30px] font-bold text-neutral-900 pb-[8px] ">Unggah Dokumen Anda!</h1>
@@ -225,11 +275,11 @@ export default function UploadFile({ onClose }) {
                                     </Dragger>
                                 </Form.Item>
                                 <Form.Item>
-                                    <div className='flex flex-row pt-[24px] space-x-[12px] '>
+                                    <div className='flex flex-row pt-[24px] space-x-[12px] mb-10'>
                                         <Button
                                             htmlType='submit'
                                             text='Unggah'
-                                            className="hover:bg-green-2-600 "
+                                            className="hover:bg-green-2-600"
                                             loading={loading}
                                         />
                                         <Button
