@@ -13,6 +13,8 @@ import SearchBar from '../components/searchbar/searchbar';
 import { checkAuthentication } from '../auth/checkAuthentication';
 import { useRouter } from 'next/navigation';
 import SearchButton from '../components/button/button';
+import PageNumbers from '../components/pagenumbers/pagenumbers';
+
 const Dashboard = () => {
     const router = useRouter();
 
@@ -25,47 +27,58 @@ const Dashboard = () => {
 
     const [showModal, setShowModal] = useState(false);
 
+    // For pagination
+    const [pageNum, setPageNum] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
+    const [limitNum, setLimitNum] = useState(20);
+
     useEffect(() => {
         checkAuthentication( router );
       }, [])
 
-    useEffect(() => {
+      useEffect(() => {
         // Check if 'document' is defined to avoid issues during server-side rendering
         if (typeof document !== 'undefined') {
             const token = document.cookie
                 .split('; ')
                 .find(row => row.startsWith('token='))
                 ?.split('=')[1];
-
+    
             // Ensure token is defined before making the API request
             if (token) {
                 // Get parameter from URL
                 const urlParams = new URLSearchParams(window.location.search);
                 let page = urlParams.get('page');
                 let limit = urlParams.get('limit');
-
+                let totalDocuments = 0;
+                
                 // Convert page & limit to number
-                const pageNum = parseInt(page);
-                const limitNum = parseInt(limit);
-                axios.get(process.env.NEXT_PUBLIC_API_URL + 'documents' + '?page=' + String(pageNum) + '&limit=' + String(limitNum), { headers: { 'Authorization': `Bearer ${token}` } })
+                const pageNum = parseInt(page) || 1;
+                const limitNum = parseInt(limit) || 20;
+                axios.get(
+                      process.env.NEXT_PUBLIC_API_URL + 
+                      'documents' + 
+                      `?page=${pageNum}${limit ? `&limit=${limit}` : ''}`, { headers: { 'Authorization': `Bearer ${token}` } })
                     .then((response) => {
                         // console.log(JSON.stringify(response.data.results));
+                        setPageNum(pageNum);
+                        setLimitNum(limitNum);
                         setDocuments(response.data.results);
+                        totalDocuments = response.data.results.length;
+                        setTotalPages(Math.ceil(totalDocuments / limitNum));
+                        // console.log("Total Documents: " + totalDocuments);
                     })
                     .catch((error) => {
                         console.error('Error fetching documents:', error);
                         // Handle error (e.g., show an error message to the user)
+                        alert('Error fetching documents');
                     })
                     .finally(() => {
                         setLoading(false);
-                        console.log("Documents:" + documents.length);
-                        console.log("Limit:" + limitNum);
-                        const totalPages = Math.ceil(documents.length / limitNum);
-                        console.log("Pages:" + totalPages);
                     });
             }
         }
-    }, [refetchTrigger]);
+      }, [refetchTrigger])
 
     return (
         <>
@@ -110,26 +123,13 @@ const Dashboard = () => {
                                 />
                             </form>
                         </div>
+                        
                         {/* <h3 className='mx-auto text-center font-sans font-thin text-xl mt-10'><strong>[!TODO: Filter dan kategori di sini]</strong></h3> */}
                         <Content/>
                         <Posts posts={documents} />
 
                         {/* Clickable Page Number to change pages */}
-                        <div className="flex justify-center items-center mt-10">
-                            <a href="/dashboard?page=1">
-                                <div className="flex items-center justify-center h-10 w-10 mr-1 rounded-full bg-green-2-500 text-white font-sans cursor-pointer">
-                                    1
-                                </div>
-                            </a>
-                            <a href="/dashboard?page=2">
-                                <div className="flex items-center justify-center h-10 w-10 mr-1 rounded-full bg-green-2-500 text-white font-sans cursor-pointer">
-                                    2
-                                </div>
-                            </a>
-                        </div>
-
-                        {/* show raw response from API */}
-                        {/* <pre>{JSON.stringify(documents, null, 2)}</pre> */}
+                        <PageNumbers currentPage={pageNum} totalPages={totalPages} limit={limitNum}/>
 
                     </div>
                 <SeeBookModal isVisible={showModal} onClose={() => setShowModal(false)}/>
