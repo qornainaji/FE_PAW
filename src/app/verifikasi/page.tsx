@@ -11,12 +11,14 @@ const Verifikasi = () => {
     const [usersData, setUsersData] = useState([]);
 
     useEffect(() => {
+      console.log('Calling fetchData...');
       fetchData();
     }, []);
   
 
     const fetchData = async () => {
       try {
+        console.log('Fetching data from server...');
         const response = await axios.get(process.env.NEXT_PUBLIC_API_URL + 'users');
         console.log('Data from server:', response.data);
   
@@ -27,7 +29,7 @@ const Verifikasi = () => {
           user_email: user.user_email,
           user_isAdmin: user.user_isAdmin,
           user_isVerified: user.user_isVerified, // Pastikan nilainya adalah boolean
-          user_password: user.user_password
+          // user_password: user.user_password
           // properti lain yang diperlukan
         }));
   
@@ -103,25 +105,35 @@ const Verifikasi = () => {
     //   }
     // };
      
-    const handleSelectChange = (userId, value) => {
-      const updatedUsers = usersData.map(user => {
-        if (user._id === userId) {
-          return { ...user, accessType: value };
-        }
-        return user;
-      });
-      setUsersData(updatedUsers);
+    const handleSelectChange = async (userId, value) => {
+      console.log(userId, value);
+      if (!userId) {
+        console.error('Invalid user ID');
+        return;
+      }
+      const isAdmin = value === 'Admin'; // Mengubah string menjadi boolean
+    
+      try {
+        await axios.patch(`http://localhost:4000/users/${userId}`, {
+          user_isAdmin: isAdmin,
+        });
+        console.log('Data updated successfully on the server');
+        // Refresh data setelah perubahan berhasil
+        fetchData();
+      } catch (error) {
+        console.error('Error updating user:', error);
+      }
     };
   
     const handleEdit = async (userId, updatedData) => {
       console.log(`Editing user with ID: ${userId}`);
-    
+  
       try {
         const response = await axios.patch(`${process.env.NEXT_PUBLIC_API_URL}users/${userId}`, updatedData);
         console.log('Data updated successfully on the server:', response.data);
-    
+  
         // Refresh data setelah perubahan berhasil
-        fetchData();
+        fetchData(); // Memuat ulang data terbaru dari server
       } catch (error) {
         console.error('Error updating user:', error);
       }
@@ -171,6 +183,8 @@ const Verifikasi = () => {
                   selectChange={handleSelectChange}
                   edit={handleEdit}
                   onDelete={handleDelete}
+                  fetchData={fetchData}
+                  setUsersData={setUsersData}
                 />
             </div>
           </div>
