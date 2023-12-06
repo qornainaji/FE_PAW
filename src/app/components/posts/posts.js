@@ -32,12 +32,19 @@ const Posts = ({ posts }) => {
     };
 
     const [modal, setModal] = useState(false);
+    const [modalData, setModalData] = useState(null);
 
-    const handleCardClick = () => {
+    const handleCardClick = (etalaseData) => {
         // Add onClick function here
         // setSelectedDoc(data);
+        setModalData(etalaseData);
         setModal(!modal);
-    }
+
+    };
+
+    const handleCloseModal = () => {
+        setModal(!modal);
+    };
 
     return (
         // <div className={styles.container}>
@@ -80,11 +87,11 @@ const Posts = ({ posts }) => {
                         key={post._id}
                         onMouseEnter={() => handleMouseEnter(post._id)}
                         onMouseLeave={() => handleMouseLeave(post._id)}>
-                        <EtalaseCard key={index} data={post} cardClick = {handleCardClick}/>
+                        <EtalaseCard key={index} data={post} cardClick = {()=>handleCardClick(post)}/>
                     </div>
                 ))}
             </div>
-            {modal && <Modal/>}
+            {modal && <Modal data={modalData} closeModal={handleCloseModal}/>}
         </div>
     );
 };

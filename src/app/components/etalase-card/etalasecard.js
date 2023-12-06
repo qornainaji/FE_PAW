@@ -2,9 +2,6 @@
 
 import Image from 'next/image';
 import {IoEye} from 'react-icons/io5';
-import { useState } from "react";
-import Modal from "../modal/modal";
-import { useAtom } from "jotai";
 // import { modal } from "../../dashboard/page";
 // src/app/dashboard/page.tsx
 // src/app/components/etalase-card/etalasecard.js
@@ -52,7 +49,7 @@ export default function EtalaseCard({data, cardClick}) {
     // }
     
     const handleClickCard = () => {
-        cardClick();
+        cardClick(data);
     }
 
     return(
