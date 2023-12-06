@@ -1,7 +1,15 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const UserTable = ({ users, checkboxChange, selectChange, edit, onDelete }) => {
+const UserTable = ({
+  users,
+  checkboxChange,
+  selectChange,
+  edit,
+  onDelete,
+  fetchData,
+  setUsersData, // Menambahkan properti fetchData ke props
+}) => {
   const [editingUserId, setEditingUserId] = useState(null);
   const [editedData, setEditedData] = useState({});
   const getCurrentPageData = () => {
@@ -9,6 +17,10 @@ const UserTable = ({ users, checkboxChange, selectChange, edit, onDelete }) => {
       return [];
     }
     return users;
+  };
+
+  const updateUsersData = (updatedUsersData) => {
+    setUsersData(updatedUsersData);
   };
 
   const toggleCheckbox = async (userId, isChecked) => {
@@ -25,10 +37,14 @@ const UserTable = ({ users, checkboxChange, selectChange, edit, onDelete }) => {
       await edit(userId, updatedData);
       setEditingUserId(null);
       setEditedData({});
+
+      console.log('Data edited successfully, calling fetchData...');
+      fetchData(); // Memuat ulang data terbaru dari server
     } catch (error) {
       console.error('Error editing user:', error);
     }
   };
+  
 
   const [checked, setChecked] = useState(null);
 
@@ -147,16 +163,22 @@ const UserTable = ({ users, checkboxChange, selectChange, edit, onDelete }) => {
                 )}
               </td>
               <td className="px-6 py-3 whitespace-nowrap text-left text-xs font-sans">
-                <select value={user.user_accessType} onChange={(e) => selectChange(user._id, e.target.value)}>
-                  <option value="User">User</option>
-                  <option value="Admin">Admin</option>
+                <select
+                  value={user.user_isAdmin ? 'Admin' : 'User'}
+                  onChange={(e) => {
+                    const isAdmin = e.target.value === 'Admin';
+                    selectChange(user._id, isAdmin);
+                  }}
+                >
+                  <option value={'Admin'}>Admin</option>
+                  <option value={'User'}>User</option>
                 </select>
               </td>
               <td className="px-6 py-3 whitespace-nowrap text-left text-xs font-sans">
                 {user.user_isVerified ? "Verified" : "Not Verified"}
               </td>
-              <td className="px-6 py-3 whitespace-nowrap text-left text-xs font-sans flex">
-                {editingUserId === user._id ? (
+                  <td className="px-6 py-3 whitespace-nowrap text-left text-xs font-sans flex">
+                  {editingUserId === user._id ? (
                   <button onClick={() => handleEditUser(user._id, editedData)} className="text-green-2-500">
                     Save
                   </button>
