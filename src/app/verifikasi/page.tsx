@@ -21,12 +21,13 @@ const Verifikasi = () => {
         console.log('Data from server:', response.data);
   
         const formattedData = response.data.results.map(user => ({
-          _id: user.id,
+          _id: user._id,
           user_name: user.user_name,
           user_NIM: user.user_NIM,
           user_email: user.user_email,
           user_isAdmin: user.user_isAdmin,
-          user_isVerified: user.user_isVerified ? user.user_isVerified : false // Pastikan nilainya adalah boolean
+          user_isVerified: user.user_isVerified, // Pastikan nilainya adalah boolean
+          user_password: user.user_password
           // properti lain yang diperlukan
         }));
   
@@ -36,29 +37,75 @@ const Verifikasi = () => {
       }
     };  
   
-    const handleCheckboxChange = async (userId, checked) => {
-      const updatedUsers = usersData.map(user => {
-        if (user.id === userId) {
-          return { ...user, allowedLogin: checked };
-        }
-        return user;
-      });
-      setUsersData(updatedUsers);
+    // const handleCheckboxChange = async (userId, checked) => {
+    //   if (!userId) {
+    //     console.error('Invalid user ID');
+    //     return;
+    //   }
     
+    //   const updatedUsers = usersData.map(user => {
+    //     if (user._id === userId) {
+    //       return { ...user, user_isVerified: checked }; // Memperbarui user_isVerified berdasarkan checkbox
+    //     }
+    //     return user;
+    //   });
+    //   setUsersData(updatedUsers);
+    
+    //   try {
+    //     // Mengirim permintaan PATCH untuk memperbarui data di server
+    //     await axios.patch(process.env.NEXT_PUBLIC_API_URL + 'users/' + userId, { user_isVerified: checked });
+    //     console.log('Data updated successfully on the server');
+    //   } catch (error) {
+    //     console.error('Error updating user:', error);
+    //   }
+    // };
+    
+    const handleCheckboxChange = async (userId, checked) => {
+      console.log(userId, checked);
+      if (!userId) {
+        console.error('Invalid user ID or checked value');
+        return;
+      }
+  
       try {
-        // Mengirim permintaan PUT untuk memperbarui data di server
-        await axios.patch(process.env.NEXT_PUBLIC_API_URL + "users/" + userId , { allowedLogin: checked });
+        await axios.patch(`http://localhost:4000/users/${userId}`, {
+          user_isVerified: true,
+        });
+  
         console.log('Data updated successfully on the server');
+  
+        // Refresh data setelah perubahan berhasil
+        fetchData();
       } catch (error) {
         console.error('Error updating user:', error);
-        // Handle error jika permintaan ke server gagal
-        // Atau lakukan langkah yang sesuai, seperti membalik perubahan pada data lokal
       }
     };
+    
+
+      
+    // const handleCheckboxChange = async (userId, checked) => {
+    //   const updatedUsers = usersData.map(user => {
+    //     if (user.id === userId) {
+    //       return { ...user, allowedLogin: checked };
+    //     }
+    //     return user;
+    //   });
+    //   setUsersData(updatedUsers);
+    
+    //   try {
+    //     // Mengirim permintaan PUT untuk memperbarui data di server
+    //     await axios.patch(process.env.NEXT_PUBLIC_API_URL + "users/" + userId , { allowedLogin: checked });
+    //     console.log('Data updated successfully on the server');
+    //   } catch (error) {
+    //     console.error('Error updating user:', error);
+    //     // Handle error jika permintaan ke server gagal
+    //     // Atau lakukan langkah yang sesuai, seperti membalik perubahan pada data lokal
+    //   }
+    // };
      
     const handleSelectChange = (userId, value) => {
       const updatedUsers = usersData.map(user => {
-        if (user.id === userId) {
+        if (user._id === userId) {
           return { ...user, accessType: value };
         }
         return user;
@@ -66,8 +113,18 @@ const Verifikasi = () => {
       setUsersData(updatedUsers);
     };
   
-    const handleEdit = (userId) => {
+    const handleEdit = async (userId, updatedData) => {
       console.log(`Editing user with ID: ${userId}`);
+    
+      try {
+        const response = await axios.patch(`${process.env.NEXT_PUBLIC_API_URL}users/${userId}`, updatedData);
+        console.log('Data updated successfully on the server:', response.data);
+    
+        // Refresh data setelah perubahan berhasil
+        fetchData();
+      } catch (error) {
+        console.error('Error updating user:', error);
+      }
     };
   
     const handleDelete = (userId) => {
@@ -87,7 +144,7 @@ const Verifikasi = () => {
       })
       .finally(() => {
         // Menghapus data dari state setelah permintaan ke server berhasil
-        const updatedUsers = usersData.filter(user => user.id !== userId);
+        const updatedUsers = usersData.filter(user => user._id !== userId);
         setUsersData(updatedUsers);
       });
     };
@@ -110,10 +167,10 @@ const Verifikasi = () => {
                 {/* Menampilkan UserTable dengan properti yang diperlukan */}
                 <UserTable
                   users={usersData}
-                  handleCheckboxChange={handleCheckboxChange}
-                  handleSelectChange={handleSelectChange}
-                  handleEdit={handleEdit}
-                  handleDelete={handleDelete}
+                  checkboxChange={handleCheckboxChange}
+                  selectChange={handleSelectChange}
+                  edit={handleEdit}
+                  onDelete={handleDelete}
                 />
             </div>
           </div>
