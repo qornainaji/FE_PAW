@@ -20,7 +20,7 @@ export default function UploadFile({ onClose }) {
     // Close modal when clicked outside of modal container
     useEffect(() => {
         const handleClickOutside = (event) => {
-            if (modalContainerRef.current && !modalContainerRef.current.contains(event.target)) {
+            if (modalContainerRef.current && !modalContainerRef.current.contains(event.target) && !event.target.className.includes('rc-virtual-list')) {
                 onClose();
                 enableBodyScroll();
             }
@@ -45,9 +45,11 @@ export default function UploadFile({ onClose }) {
     }
 
     // Change cursor to pointer when mouse is outside of modal
+    // Dropdown menu is not considered as outside of modal
     useEffect(() => {
         const handleCursorChange = (event) => {
-            const isMouseOutsideModal = modalContainerRef.current && !modalContainerRef.current.contains(event.target);
+            const isMouseOutsideModal = modalContainerRef.current && !modalContainerRef.current.contains(event.target) && !event.target.className.includes('rc-virtual-list');
+
             const isModalOpen = document.body.style.overflow == 'hidden';
 
             if (isMouseOutsideModal && isModalOpen) {
