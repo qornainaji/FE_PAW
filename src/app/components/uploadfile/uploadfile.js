@@ -170,7 +170,7 @@ export default function UploadFile({ onClose }) {
 
     return (
         <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50" >
-            <div ref={modalContainerRef} className="bg-white p-10 mt-16 rounded-lg flex flex-row-reverse h-5/6 overflow-auto">
+            <div ref={modalContainerRef} className="bg-white p-10 mt-16 rounded-[12px] flex flex-row-reverse h-5/6 overflow-auto">
                 <div>
                     <div>
                         <h1 className="text-[30px] font-bold text-neutral-900 pb-[8px] ">Unggah Dokumen Anda!</h1>
