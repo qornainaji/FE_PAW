@@ -83,29 +83,6 @@ const Verifikasi = () => {
     const goToPage = (pageNumber) => {
       setCurrentPage(pageNumber);
     };
-  
-    // const handleCheckboxChange = async (userId, checked) => {
-    //   if (!userId) {
-    //     console.error('Invalid user ID');
-    //     return;
-    //   }
-    
-    //   const updatedUsers = usersData.map(user => {
-    //     if (user._id === userId) {
-    //       return { ...user, user_isVerified: checked }; // Memperbarui user_isVerified berdasarkan checkbox
-    //     }
-    //     return user;
-    //   });
-    //   setUsersData(updatedUsers);
-    
-    //   try {
-    //     // Mengirim permintaan PATCH untuk memperbarui data di server
-    //     await axios.patch(process.env.NEXT_PUBLIC_API_URL + 'users/' + userId, { user_isVerified: checked });
-    //     console.log('Data updated successfully on the server');
-    //   } catch (error) {
-    //     console.error('Error updating user:', error);
-    //   }
-    // };
     
     const handleCheckboxChange = async (userId, checked) => {
       console.log(userId, checked);
@@ -127,28 +104,6 @@ const Verifikasi = () => {
         console.error('Error updating user:', error);
       }
     };
-    
-
-      
-    // const handleCheckboxChange = async (userId, checked) => {
-    //   const updatedUsers = usersData.map(user => {
-    //     if (user.id === userId) {
-    //       return { ...user, allowedLogin: checked };
-    //     }
-    //     return user;
-    //   });
-    //   setUsersData(updatedUsers);
-    
-    //   try {
-    //     // Mengirim permintaan PUT untuk memperbarui data di server
-    //     await axios.patch(process.env.NEXT_PUBLIC_API_URL + "users/" + userId , { allowedLogin: checked });
-    //     console.log('Data updated successfully on the server');
-    //   } catch (error) {
-    //     console.error('Error updating user:', error);
-    //     // Handle error jika permintaan ke server gagal
-    //     // Atau lakukan langkah yang sesuai, seperti membalik perubahan pada data lokal
-    //   }
-    // };
      
     const handleSelectChange = async (userId, status) => {
       console.log(userId, status);
@@ -252,13 +207,13 @@ const currentItems = usersData.slice(indexOfFirstItem, indexOfLastItem);
             </div>
 
                   {/* Pagination */}
-                  <div className="mt-1 flex text-base font-sans items-center justify-center space-x-4">
+                  <div className="mt-1 flex text-lg font-medium font-sans items-center justify-center space-x-4">
             {generatePageNumbers().map((page, index) => (
               <div
                 key={index}
                 onClick={() => goToPage(page)}
-                className={`flex items-center text-base font-sans justify-center rounded-full text-neutral-500 border border-neutral-500 h-10 w-10 cursor-pointer ${
-                  currentPage === page ? 'bg-green-2-500 text-white text-base font-sans' : ''
+                className={`flex items-center text-lg font-medium font-sans justify-center rounded-full text-neutral-500 border border-neutral-500 h-10 w-10 cursor-pointer ${
+                  currentPage === page ? 'bg-green-2-500 text-white text-lg font-medium font-sans shadow-[0_10px_14px_rgba(220,155,107,0.5)]' : ''
                 }`}
               >
                 {page === '...' ? <div>{page}</div> : <div>{page}</div>}

@@ -17,10 +17,6 @@ const UserTable = ({
     return users;
   };
 
-  // const updateUsersData = (updatedUsersData) => {
-  //   setUsersData(updatedUsersData);
-  // };
-
   const selectStatus = async (userId, isAdmin) => {
     console.log(userId, isAdmin)
     try{
@@ -80,8 +76,8 @@ const UserTable = ({
 
   return (
     <div className="px-6 "  style={{ tableLayout: 'auto'}}> 
-    <table className="min-w-full divide-y divide-gray-200 rounded-lg overflow-hidden shadow-[0_12px_20px_rgba(220,155,107,0.5)]">
-        <thead className="bg-green-1-500">
+    <table className="min-w-full divide-y neutral-default rounded-lg overflow-hidden shadow-[0_12px_20px_rgba(220,155,107,0.5)]">
+        <thead className="bg-green-1-400">
           <tr>
           <th scope="col" className="px-6 py-4 text-left text-xs font-sans font-medium text-neutral-1000 uppercase tracking-wider" style={{ width: '12.5%' }}>
               Verification
@@ -116,23 +112,9 @@ const UserTable = ({
                 <input
                   type="checkbox"
                   checked={user.user_isVerified}
-                  // checked={handleCheckedStatus(user.user_isVerified)}
-                  // checked={()=>handleCheckedStatus(user.user_isVerified)}
-                  // value={user.user_isVerified}
-                  // onChange={(e) => toggleCheckbox(user._id, e.target.checked)}
                   onChange={(e) => {
                     const isChecked = e.target.checked;
                     toggleCheckbox(user._id, isChecked);
-                    // Optionally update the UI immediately based on the local state
-                    // const updatedUsers = getCurrentPageData().map((u) => {
-                    //   if (u._id === user._id) {
-                    //     return { ...u, user_isVerified: isChecked };
-                    //   }
-                    //   return u;
-                    // });
-                    // Update the UI after the checkbox state change
-                    // setUsers(!isChecked); // Assuming 'setUsers' is a state updater function
-                    // handleCheckedString(isChecked);
                   }}
                 />
               </td>
