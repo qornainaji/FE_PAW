@@ -85,11 +85,11 @@ const UserTable = ({
   };
 
   return (
-    <div className="px-8 "  style={{ tableLayout: 'auto'}}> 
-    <table className="min-w-full divide-y neutral-default rounded-lg overflow-hidden shadow-[0_12px_20px_rgba(220,155,107,0.5)]">
+    <div className="table-container bg-orange-100 w-fit min-w-screen overflow-x-auto"  style={{ tableLayout: 'auto'}}> 
+      <table className="min-w-full neutral-default rounded-lg shadow-[0_12px_20px_rgba(220,155,107,0.5)]">
         <thead className="bg-green-1-400">
           <tr>
-          <th scope="col" className="px-6 py-4 text-left text-xs font-sans font-medium text-neutral-1000 uppercase tracking-wider" style={{ width: '12.5%' }}>
+          <th scope="col" className="w-fit px-3 py-4 text-left text-xs font-sans font-medium text-neutral-1000 uppercase tracking-wider" >
               Verification
             </th>
             <th
@@ -124,9 +124,10 @@ const UserTable = ({
         <tbody className="bg-white divide-y divide-gray-200">
           {sortedUsers.map((user) => (
             <tr key={user._id}>
-              <td className="px-6 py-3 whitespace-nowrap text-left flex">
+              <td className="px-0 py-2 whitespace-nowrap text-left flex justify-center items-center">
                 <input
                   type="checkbox"
+                  className='h-5 w-5 text-green-600 focus:ring-green-500 border-gray-300 rounded'
                   checked={user.user_isVerified}
                   onChange={(e) => {
                     const isChecked = e.target.checked;
@@ -134,7 +135,7 @@ const UserTable = ({
                   }}
                 />
               </td>
-              <td className="px-6 py-3 whitespace-nowrap font-bold text-left text-xs font-sans" style={{ width: '12.5%', wordBreak: 'break-all' }}>
+              <td className="px-6 py-3 whitespace-nowrap font-bold text-left text-xs font-sans text-ellipsis" style={{ width: '12.5%', wordBreak: 'break-all' }}>
                 {editingUserId === user._id ? (
                   <input
                     type="text"
@@ -218,6 +219,17 @@ const UserTable = ({
           ))}
         </tbody>
       </table>
+      <style jsx>{`
+      .table-container {
+        max-width: 100%;
+        overflow: auto;
+      }
+      @media (max-width: 600px) {
+        th, td {
+          font-size: 12px; /* Adjust the font size for smaller screens */
+        }
+      }
+    `}</style>
     </div>
   );
 };

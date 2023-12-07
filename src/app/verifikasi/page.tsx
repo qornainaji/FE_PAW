@@ -108,7 +108,7 @@ const Verifikasi = () => {
           message.loading('Account is being unverified');
         }
     
-        const response = await axios.patch(`http://localhost:4000/users/${userId}`, {
+        const response = await axios.patch(process.env.NEXT_PUBLIC_API_URL + `users/${userId}`, {
           user_isVerified: checked,
         });
     
@@ -152,7 +152,7 @@ const Verifikasi = () => {
     
         message.loading(messageText);
     
-        const response = await axios.patch(`http://localhost:4000/users/${userId}`, {
+        const response = await axios.patch(process.env.NEXT_PUBLIC_API_URL + `users/${userId}`, {
           user_isAdmin: accessType,
         });
     
@@ -297,7 +297,6 @@ const currentItems = usersData.slice(indexOfFirstItem, indexOfLastItem);
                     selectChange={handleSelectChange}
                     edit={handleEdit}
                     fetchData={fetchData}
-                    // setUsersData={setUsersData}
                   />
               </div>
 
