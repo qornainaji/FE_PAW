@@ -1,6 +1,8 @@
+'use client';
 import Button from "../button/button";
 import { IoEye, IoDownloadOutline, IoClose } from "react-icons/io5";
 import Image from "next/image";
+import axios from "axios";
 
 
 export default function Modal({ data, closeModal }) {
@@ -45,6 +47,11 @@ export default function Modal({ data, closeModal }) {
     }
   }
 
+  // const handleDownload = (fileId) => {
+  //   const downloadUrl = `https://drive.google.com/u/1/uc?id=${fileId}&export=download`;
+  //   window.open(downloadUrl, "_self");
+  // };
+
   return (
     <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50 font-sans"
       onClick={handleBackgroundClick}
@@ -87,7 +94,9 @@ export default function Modal({ data, closeModal }) {
           <div className="flex space-x-[133px]">
             <div className="flex space-x-[12px]">
               {/* Button Unduh */}
-              <Button text="Download" />
+              <Button text="Download" 
+                // onClick={handleDownload(doc_id)}
+              />
               {/* Button Edit */}
               <Button
                 text='Edit'

@@ -85,6 +85,12 @@ export default function UploadFile({ onClose }) {
         console.log('Failed:', errorInfo);
     };
 
+    const handleBackgroundClick = (e) => {
+        if (e.target.classList.contains('bg-black')) {
+          closeModal();
+        }
+      }
+
     const props = {
         name: 'file',
         multiple: false,
@@ -122,7 +128,9 @@ export default function UploadFile({ onClose }) {
     };
 
     return (
-        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50" >
+        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50"
+            onClick={handleBackgroundClick}
+        >
             <div
                 className="bg-white p-10 mt-16 rounded-[12px] flex flex-row-reverse h-5/6 overflow-auto">
                 <div>
