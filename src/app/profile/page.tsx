@@ -53,8 +53,20 @@ const Profile = () => {
             try {
                 axios.get(process.env.NEXT_PUBLIC_API_URL + 'users/' + decodedToken._id, { headers: { 'Authorization': `Bearer ${token}` } })
                 .then((response) => {
-                    if (response.data.user_avatarURL != null)
-                        setAvatar(response.data.user_avatarURL);
+                    if(response.data.user_avatarImage != null)
+                    {
+                        var buffer = Buffer.from(response.data.user_avatarImage.data);
+                        var blob = new Blob([buffer], {type: "image/png"});
+                        var urlCreator = window.URL || window.webkitURL;
+                        var imageUrl = urlCreator.createObjectURL(blob);
+                        setAvatar(imageUrl);
+                    }
+                    else
+                    {
+                        if (response.data.user_avatarURL != null)
+                            setAvatar(response.data.user_avatarURL);
+                    }
+                    
                     setUsername(response.data.user_username);
                     setName(response.data.user_name);
                     setBio(response.data.user_bio);
@@ -170,6 +182,71 @@ const Profile = () => {
         };
     };
 
+    const handleProfileImageChange = async (e) => {
+        // Get the file from the input
+        const file = e.target.files[0];
+        
+        // Convert the file to base64 text
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+            // Make a fileInfo Object
+            const fileInfo = {
+                name: file.name,
+                type: file.type,
+                size: Math.round(file.size / 1000) + ' kB',
+                base64: reader.result as string,
+                file: file,
+            };
+
+            // Check if the image is not in a 1:1 ratio
+            const img = document.createElement('img');
+            img.src = fileInfo.base64;
+            img.onload = () => {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                const minSize = Math.min(img.width, img.height);
+                const offsetX = (minSize - img.width) / 2;
+                const offsetY = (minSize - img.height) / 2;
+
+                // Set canvas size to 1:1 ratio
+                canvas.width = minSize;
+                canvas.height = minSize;
+
+                // Draw the image on the canvas
+                ctx.drawImage(img, offsetX, offsetY);
+
+                // Get the cropped image as base64
+                const croppedBase64 = canvas.toDataURL(fileInfo.type);
+
+                // Set the cropped image to the state
+                setAvatar(croppedBase64);
+
+                try {
+                    // Update the data
+                    const response = axios.patch(process.env.NEXT_PUBLIC_API_URL + 'users/' + id, { user_avatarImage: croppedBase64 }, {
+                        headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json', CrossOrigin: 'true', AccessControlAllowOrigin: '*'}
+                    });
+                    
+                    // Alert the whole data
+                    console.log(response);
+
+                    // Refresh the page
+                    // window.location.reload();
+                } catch(error) {
+                    if (error.response && error.response.status === 400) {
+                        // successToast(error.response.data.message);
+                        alert(error.response.data.error);
+
+                    } else {
+                        console.error('An error occurred during registration:', error);
+                        alert('An unexpected error occurred. Please try again later.');
+                    }
+                };
+            };
+        };
+    }
+
     return (
         // Loading screen\
         <FadeIn>
@@ -222,22 +299,31 @@ const Profile = () => {
                                     <Form.Item
                                         name="avatar"
                                         initialValue={avatar}
-                                        className='flex justify-center'
+                                        className='flex justify-center items-center'
                                     >
-                                        {/* Rounded Image */}
-                                        <Image
-                                            src={avatar}
-                                            alt="Avatar"
-                                            width={200}
-                                            height={200}
-                                            className="rounded-full justify-center align-middle text-center flex items-center"
-                                        />
-                                        <style jsx global>{`
-                                            .ant-image-mask {
-                                                border-radius: 50%;
+                                        <div className='w-full flex flex-col justify-center items-center'>
+                                            {/* Rounded Image */}
+                                            <Image
+                                                src={avatar}
+                                                alt="Avatar"
+                                                width={200}
+                                                height={200}
+                                                className="rounded-full flex justify-center items-center"
+                                            />
+                                            <style jsx global>{`
+                                                .ant-image-mask {
+                                                    border-radius: 50%;
+                                                }
+                                            `}</style>
+                                        </div>
 
-                                            }
-                                        `}</style>
+                                        {/* Upload picture */}
+                                        <div className='flex flex-col items-center justify-center'>
+                                            <label className='font-sans'>
+                                                <p>Change Profile Picture</p>
+                                            </label>
+                                            <input type="file" id="avatar" name="avatar" accept="image/*"  className='py-3 w-fit rounded-lg bg-green-2-600 justify-center items-center text-center px-3 text-neutral-100' onChange={handleProfileImageChange}/>
+                                        </div>
                                     </Form.Item>
                         
                                     
