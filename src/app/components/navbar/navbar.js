@@ -49,7 +49,7 @@ export default function Navbar({ isAdmin }) {
     const [pictureUrl, setPictureUrl] = useState('/images/default-avatar.png');
     const [animationIsPlaying, setAnimationIsPlaying] = useState(false);
     
-    const currentPathname = window.location.pathname;
+    const currentPathname = typeof window !== 'undefined' ? window.location.pathname : null;
 
     const handleMouseEnter = () => {
         setShowModal(true);
@@ -121,7 +121,7 @@ export default function Navbar({ isAdmin }) {
         // else, push to /
         if(currentPathname == '/')
         {
-            setAnimationsPlaying(true);
+            setAnimationIsPlaying(true);
             
             // animate the dragon moving from left to right inside div with name 'dragon-frame'
 
@@ -129,7 +129,7 @@ export default function Navbar({ isAdmin }) {
             // delay 5 seconds
             setTimeout(() => {
                 setAnimationIsPlaying(false);
-            }, 5000);
+            }, 6000);
         }
         else
             router.push('/');
@@ -139,9 +139,11 @@ export default function Navbar({ isAdmin }) {
         <FadeIn>
             {/* if animationIsPlaying is true, show the dragon going from left to right */}
             {animationIsPlaying && (
-                <div name="dragon-frame" className='fixed justify-center items-center w-fit h-fit bg-transparent'>
+                <div name="dragon-frame" className='fixed flex justify-center items-center w-screen h-fit bg-transparent'>
                     <div className='w-[300px] h-auto flex flex-col justify-center items-center'>
-                        <Lottie className='' animationData={animationData}/>
+                        <Lottie className='translate-x-full' 
+                                animationData={animationData}
+                                styles={{}} />
                     </div>
                 </div>
             )}
