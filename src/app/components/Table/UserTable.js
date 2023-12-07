@@ -47,32 +47,6 @@ const UserTable = ({
       console.error('Error editing user:', error);
     }
   };
-  
-
-  // const [checked, setChecked] = useState(null);
-
-  
-  // const handleCheckedMap = (isChecked) => {
-  //   const checkedMap = {
-  //     checked : true,
-  //      "" : false
-  //   }
-  //   // How to make isChecked from boolean to string
-
-  //   return checkedMap[String(isChecked)] || String(isChecked);
-  // };
-
-  
-  // const handleCheckedStatus = (isChecked) => {
-  //   // setChecked(isChecked);
-  //   return isChecked ? "checked" : "";
-  // };
-
-  // const handleCheckedString = (isChecked) => {
-  //   // handleCheckedMap(isChecked)
-  //   setChecked(!handleCheckedMap(isChecked))
-  // }
-  // const isCheckedMapped = handleCheckedStatus(user.user_isVerified);
 
   return (
     <div className="px-6 "  style={{ tableLayout: 'auto'}}> 
