@@ -13,6 +13,7 @@ export default function EtalaseCard({data, cardClick}) {
         doc_major,
         doc_description,
         doc_link,
+        doc_id,
         doc_view,
         doc_date_upload,
         doc_download,
@@ -61,7 +62,7 @@ export default function EtalaseCard({data, cardClick}) {
             <div className='relative h-[185px] w-[285px]' >
                 <Image
                     // src="https://drive.google.com/thumbnail?id=1s6WyScMBfm-wHtHoN3ttmwq46cLHUrwu"
-                    src={`https://drive.google.com/thumbnail?id=${doc_link}`}
+                    src={`https://drive.google.com/thumbnail?id=${doc_id}`}
                     layout='fill'
                     objectFit='cover'
                     // width={285}

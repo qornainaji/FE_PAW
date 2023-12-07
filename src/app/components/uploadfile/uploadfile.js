@@ -14,58 +14,7 @@ export default function UploadFile({ onClose }) {
     const [pdfPreview, setPdfPreview] = useState(null);
     const [loading, setLoading] = useState(false);
 
-    // Ref for modal container
-    const modalContainerRef = useRef(null);
-
-    // Close modal when clicked outside of modal container
-    useEffect(() => {
-        const handleClickOutside = (event) => {
-            if (modalContainerRef.current && !modalContainerRef.current.contains(event.target) && !event.target.className.includes('rc-virtual-list')) {
-                onClose();
-                enableBodyScroll();
-            }
-        }
-        
-        document.addEventListener("mousedown", handleClickOutside);
-        disableBodyScroll();
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-            enableBodyScroll();
-        }
-    }, [modalContainerRef, onClose]);
-
-    // Disable body scroll when modal is open
-    const disableBodyScroll = () => {
-        document.body.style.overflow = 'hidden';
-    }
-
-    // Enable body scroll when modal is closed
-    const enableBodyScroll = () => {
-        document.body.style.overflow = 'unset';
-    }
-
-    // Change cursor to pointer when mouse is outside of modal
-    // Dropdown menu is not considered as outside of modal
-    useEffect(() => {
-        const handleCursorChange = (event) => {
-            const isMouseOutsideModal = modalContainerRef.current && !modalContainerRef.current.contains(event.target) && !event.target.className.includes('rc-virtual-list');
-
-            const isModalOpen = document.body.style.overflow == 'hidden';
-
-            if (isMouseOutsideModal && isModalOpen) {
-                document.body.style.cursor = 'pointer';
-            } else {
-                document.body.style.cursor = ''; // Reset to default cursor when inside the modal or when it's closed
-            }
-        };
-
-        document.addEventListener("mousemove", handleCursorChange);
-
-        return () => {
-            
-        };
-    }, [modalContainerRef]);
-
+    
     // Handle file preview
     const onFileChange = (e) => {
         const file = e.target.files[0];
@@ -88,8 +37,8 @@ export default function UploadFile({ onClose }) {
     const { TextArea } = Input;
 
     const onFinish = async (values) => {
-        setLoading(true);
 
+        setLoading(true);
         const formData = new FormData();
         formData.append('doc_title', values.doc_title);
         formData.append('doc_year', values.doc_year);
@@ -106,7 +55,10 @@ export default function UploadFile({ onClose }) {
         }
         try {
             // const response = await axios.post('https://plain-toad-sweater.cyclic.app'+'/documents/', formData, {
+            message.loading('Data is being uploaded.');
+
             const response = await axios.post(process.env.NEXT_PUBLIC_API_URL + 'documents/', formData, {
+            // const response = await axios.post("http://localhost:4000/" + 'documents/', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
@@ -129,11 +81,14 @@ export default function UploadFile({ onClose }) {
     };
 
 
+    const onFinishFailed = (errorInfo) => {
+        console.log('Failed:', errorInfo);
+    };
+
     const props = {
         name: 'file',
         multiple: false,
         accept: '.pdf',
-        // action : 'https://http://localhost:3000/testing-component/content',
         beforeUpload: (file) => {
             // Perform any pre-upload actions here, such as storing the file
             // You can store the file in state or perform any necessary processing
@@ -156,10 +111,6 @@ export default function UploadFile({ onClose }) {
             }
             if (status === 'done') {
                 message.success(`${info.file.name} file uploaded successfully.`);
-                // const fileData = info.file.originFileObj;
-                // setSelectedFile(fileData);
-                // Perform any additional logic after successful upload
-                // For MongoDB upload, use the stored file from the state (fileList)
             } else if (status === 'error') {
                 message.error(`${info.file.name} file upload failed.`);
             }
@@ -172,7 +123,8 @@ export default function UploadFile({ onClose }) {
 
     return (
         <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50" >
-            <div ref={modalContainerRef} className="bg-white p-10 mt-16 rounded-[12px] flex flex-row-reverse h-5/6 overflow-auto">
+            <div
+                className="bg-white p-10 mt-16 rounded-[12px] flex flex-row-reverse h-5/6 overflow-auto">
                 <div>
                     <div>
                         <h1 className="text-[30px] font-bold text-neutral-900 pb-[8px] ">Unggah Dokumen Anda!</h1>
@@ -194,6 +146,8 @@ export default function UploadFile({ onClose }) {
                                 autoComplete='off'
                                 onFinish={onFinish}
                                 className='space-y-[8px]'
+                                onFinishFailed={onFinishFailed}
+                                // loading={loading}
                             // enctype="multipart/form-data"
                             >
                                 <Form.Item
@@ -279,6 +233,7 @@ export default function UploadFile({ onClose }) {
                                 <Form.Item>
                                     <div className='flex flex-row pt-[24px] space-x-[12px] mb-10'>
                                         <Button
+                                            type='primarygit '
                                             htmlType='submit'
                                             text='Unggah'
                                             className="hover:bg-green-2-600"
