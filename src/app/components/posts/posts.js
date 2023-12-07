@@ -15,6 +15,8 @@ const Posts = ({ posts }) => {
     let rawDate, formattedDate;
 
     const [hoveredCards, setHoveredCards] = useState({});
+    const [selectedMajor, setSelectedMajor] = useState(null);
+    const [selectedYear, setSelectedYear] = useState(null);
 
     useEffect(() => {
         AOS.init({
@@ -45,6 +47,27 @@ const Posts = ({ posts }) => {
     const handleCloseModal = () => {
         setModal(!modal);
     };
+
+    const FilterMethod = ({ documents, selectedMajor, selectedYear }) => {
+        let filteredDocuments = documents;
+    
+        if (selectedMajor) {
+        filteredDocuments = filteredDocuments.filter(
+            (doc) => doc.doc_major === selectedMajor
+        );
+        }
+    
+        if (selectedYear) {
+        filteredDocuments = filteredDocuments.filter(
+            (doc) => doc.doc_year === selectedYear
+        );
+        }
+    
+        return filteredDocuments;
+    }
+
+    const filteredDocuments = FilterMethod({ posts, selectedMajor, selectedYear })
+    console.log(filteredDocuments)
 
     return (
         <div className='flex items-center w-full justify-center pt-[60px]'>

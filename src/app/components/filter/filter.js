@@ -1,8 +1,10 @@
-
+import { useState } from "react";
 import { ConfigProvider, Select, Space } from "antd";
 
 
 export default function Filter(){
+    const [selectedMajor, setSelectedMajor] = useState(null);
+    const [selectedYear, setSelectedYear] = useState(null);
     return(
         <ConfigProvider 
         theme={{
@@ -20,25 +22,26 @@ export default function Filter(){
                             placeholder="e.g. Teknologi Informasi"
                             style={{ width: 296, borderColor: '#48A516' }}
                             
-                            // onChange={{/*onChange*/}}
+                            onChange={(value) => setSelectedMajor(value)}
                             options={[
                                 {value: null, label: null},
-                                {value: 'tif', label: 'Teknologi Informasi'},
-                                {value: 'te', label: 'Teknik Elektro'},
-                                {value: 'tb', label: 'Teknik Biomedis'},
+                                {value: "tif", label: 'Teknologi Informasi'},
+                                {value: "te", label: 'Teknik Elektro'},
+                                {value: "tb", label: 'Teknik Biomedis'},
                             ]}
                         />
                     </Space>
                 </div>
                 <div className="flex flex-row space-x-[8px] ">
-                    <p className="font-medium">Program Studi :</p>
+                    <p className="font-medium">Tahun :</p>
                     <Space wrap>
                         <Select
                             placeholder="2023"
                             style={{ width: 296, borderColor: '#48A516' }}
                             
-                            // onChange={{/*onChange*/}}
+                            onChange={(value) => setSelectedYear(value)}
                             options={[
+                                {value: null, label: null},
                                 {value: 2023, label: '2023'},
                                 {value: 2022, label: '2022'},
                                 {value: 2021, label: '2021'},

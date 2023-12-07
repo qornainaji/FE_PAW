@@ -8,7 +8,7 @@ import { IoFilter, IoAddCircleOutline } from "react-icons/io5";
 import UploadFile from "../uploadfile/uploadfile";
 import Etalase from "../etalase/etalase";
 
-export default function Content(){
+export default function Content({documents}){
 
     const [isFilterInvisible, setFilterInvisible] = useState(false);
     const [isUploadFileInvisible, setUploadFileInvisible] = useState(false);
@@ -20,6 +20,14 @@ export default function Content(){
         setUploadFileInvisible(!isUploadFileInvisible);
     }
 
+    //console.log('content: ', documents);
+    
+    const sortedDocuments = documents.sort(
+        (a, b) => b.doc_view - a.doc_view
+    );
+    
+    //console.log('sorted content',sortedDocuments)
+
     return(
         <div className="flex flex-col items-center justify-between bg-orange-100 px-[120px] font-sans text-neutral-1000 w-[1200px]">
             {/* <h1 className="font-bold text-[38px] ">Cari dokumen kamu di bawah!</h1>
@@ -30,7 +38,7 @@ export default function Content(){
                         <div>
                             <button 
                             className="px-[24px] py-[10px] font-semibold text-[14px] truncate text-neutral-500 hover:text-green-2-500 max-w-[200px] hover:bg-neutral transition-colors rounded-[12px] hover:drop-shadow-[0_12px_20px_rgba(220,155,107,0.12)]">
-                                Text Aljabar Linear AOWKDAWOKDJOADJWODKJAWODKJAO
+                                {sortedDocuments[0]?.doc_title}
                             </button>
                         </div>
                 </div>
@@ -53,7 +61,7 @@ export default function Content(){
                     />
                 </div>
             </div>
-            {isFilterInvisible && <Filter/>}
+            {isFilterInvisible && <Filter documents={documents}/>}
             {isUploadFileInvisible && <UploadFile onClose = {handleModal}/>}
             {/* List Bank Soal / Meteri */}
             {/* <Etalase/> */}

@@ -35,6 +35,9 @@ const Dashboard = () => {
     const [totalPages, setTotalPages] = useState(1);
     const [limitNum, setLimitNum] = useState(20);
 
+    const [selectedMajor, setSelectedMajor] = useState(null);
+    const [selectedYear, setSelectedYear] = useState(null);
+
     useEffect(() => {
         checkAuthentication( router );
       }, [])
@@ -63,13 +66,14 @@ const Dashboard = () => {
                       'documents' + 
                       `?page=${pageNum}${limit ? `&limit=${limit}` : ''}`, { headers: { 'Authorization': `Bearer ${token}` } })
                     .then((response) => {
-                        // console.log(JSON.stringify(response.data.results));
+                        //console.log(JSON.stringify(response.data.results));
                         setPageNum(pageNum);
                         setLimitNum(limitNum);
                         setDocuments(response.data.results);
+                        console.log('dashboard', response.data.results);
                         totalDocuments = response.data.results.length;
                         setTotalPages(Math.ceil(totalDocuments / limitNum));
-                        // console.log("Total Documents: " + totalDocuments);
+                        //console.log("Total Documents: " + totalDocuments);
                     })
                     .catch((error) => {
                         console.error('Error fetching documents:', error);
@@ -129,8 +133,8 @@ const Dashboard = () => {
                         </div>
                         
                         {/* <h3 className='mx-auto text-center font-sans font-thin text-xl mt-10'><strong>[!TODO: Filter dan kategori di sini]</strong></h3> */}
-                        <Content/>
-                        <Posts posts={documents} />
+                        <Content documents={documents}/>
+                        <Posts posts={documents}/>
 
                         {/* Clickable Page Number to change pages */}
                         <PageNumbers currentPage={pageNum} totalPages={totalPages} limit={limitNum}/>
