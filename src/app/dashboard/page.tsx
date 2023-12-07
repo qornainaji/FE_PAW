@@ -98,7 +98,22 @@ const Dashboard = () => {
                     <div className='mt-10 mb-10 flex flex-col items-center'>
                         <h2 className='mx-auto text-center font-sans font-bold text-[38px] mb-10'>Cari dokumen kamu di bawah!</h2>
                         <div className="w-full flex justify-center h-auto font-sans drop-shadow-[0_12px_20px_rgba(220,155,107,0.24)]">
-                            <form className="flex w-[90%] max-w-[794px] py-[18px] bg-neutral pl-[20px] rounded-full pr-[8px] relative items-center">
+                            <form className="flex w-[90%] max-w-[794px] py-[18px] bg-neutral pl-[20px] rounded-full pr-[8px] relative items-center"
+                            onSubmit={(e) => {
+                                e.preventDefault();
+                                if(searchKeyword == '') {
+                                  setRefetchTrigger(!refetchTrigger);
+                                  return;
+                                }
+                                const result = documents.filter((document) => {
+                                    return document.doc_title.toLowerCase().includes(searchKeyword.toLowerCase());
+                                })
+                                setDocuments(result)
+                                if(!result.length) {
+                                    alert("Dokumen tidak ditemukan");
+                                    setRefetchTrigger(!refetchTrigger);
+                                }
+                              }}>
                                 <input
                                     type="text"
                                     className="w-full font-medium  text-[16px] text-neutral-900 placeholder:text-neutral-500 focus:outline-none"
@@ -108,21 +123,7 @@ const Dashboard = () => {
                                 />
                                 <SearchButton
                                     className="absolute right-[8px] hover:bg-green-2-600"
-                                    onClick={(e) => {
-                                        e.preventDefault();
-                                        if(searchKeyword == '') {
-                                            setRefetchTrigger(!refetchTrigger);
-                                            return;
-                                        }
-                                        const result = documents.filter((document) => {
-                                            return document.doc_title.toLowerCase().includes(searchKeyword.toLowerCase());
-                                        })
-                                        setDocuments(result)
-                                        if(!result.length) {
-                                            alert("Dokumen tidak ditemukan");
-                                            setRefetchTrigger(!refetchTrigger);
-                                        }
-                                    }}
+                                    type='submit'
                                 />
                             </form>
                         </div>
