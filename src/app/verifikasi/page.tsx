@@ -24,6 +24,7 @@ const Verifikasi = () => {
   
         const formattedData = response.data.results.map(user => ({
           _id: user._id,
+          user_username: user.user_username,
           user_name: user.user_name,
           user_NIM: user.user_NIM,
           user_email: user.user_email,
@@ -170,12 +171,13 @@ const Verifikasi = () => {
           </Head>
   
           <Navbar isAdmin={true} />
-  
+          <div style={{ marginTop: '40px' }}></div>
           <div className='mt-20 text-center text-4xl font-sans'>
             <h1 className="text-3xl font-bold mb-2">Welcome to the Verifikasi, Admin!</h1>
               <p className="text-xl">This is where you can manage the members of our community!</p>
                 <div className="px-8 pb-8">
                 {/* Menampilkan UserTable dengan properti yang diperlukan */}
+                <div style={{ marginTop: '32px' }}></div>
                 <UserTable
                   users={usersData}
                   checkboxChange={handleCheckboxChange}
