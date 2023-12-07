@@ -1,5 +1,6 @@
 'use client'
-
+require('dotenv').config();
+import axios from 'axios';
 import Image from 'next/image';
 import {IoEye} from 'react-icons/io5';
 // import { modal } from "../../dashboard/page";
@@ -50,7 +51,18 @@ export default function EtalaseCard({data, cardClick}) {
     // }
     
     const handleClickCard = () => {
+        data.doc_view = data.doc_view + 1;
         cardClick(data);
+        // update doc_view
+        axios.patch(process.env.NEXT_PUBLIC_API_URL + `documents/${doc_id}`, {
+            doc_view: data.doc_view
+        })
+        .then(res => {
+            console.log(res.data);
+        })
+        .catch(err => {
+            console.log(err);
+        })
     }
 
     return(
