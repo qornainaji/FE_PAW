@@ -37,8 +37,16 @@ const handleCloseModal = () => {
   closeModal();
 }
 
+const handleBackgroundClick = (e) => {
+  if(e.target.classList.contains('bg-black')) {
+    closeModal();
+  }
+}
+
   return (
-    <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50 font-sans">
+    <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50 font-sans"
+      onClick={handleBackgroundClick}
+    >
       <div className="bg-white p-10 mt-16 rounded-[12px] flex overflow-auto space-x-10">
         {/* Buat preview pdf */}
         {/* Buat Data pdf */}

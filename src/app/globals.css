@@ -41,9 +41,10 @@ body {
 }
 
 .sticky-navbar {
-  position: sticky;
+  /* make the navbar stick on top of the page */
+  position: fixed;
   top: 0;
-  z-index: 1000; /* Adjust the z-index as needed */
+  z-index: 40; /* Adjust the z-index as needed */
   /* Add other styling properties if necessary */
 }
 .shadow-search-bar {

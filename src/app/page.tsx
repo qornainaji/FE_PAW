@@ -126,7 +126,7 @@ export default function Home() {
   return (
     <FadeIn>
     <ToastContainer />
-    <div className="flex flex-col h-fit items-center bg-orange-100 text-neutral-1000 font-sans">
+    <div className="flex flex-col h-fit pt-20 items-center bg-orange-100 text-neutral-1000 font-sans">
       <Navbar isAdmin={isAdmin}/>
       <div className="flex flex-col items-center  w-full min-h-[100vh] bg-cover bg-bottom bg-[url('/images/Hero_Banner.png')]">
         <div className='flex flex-col items-center space-y-[12px] mt-[70px]'>

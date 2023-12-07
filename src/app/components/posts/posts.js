@@ -47,8 +47,6 @@ const Posts = ({ posts }) => {
     };
 
     return (
-        // <div className={styles.container}>
-            // <div className={styles.grid}>
         <div className='flex items-center w-full justify-center pt-[60px]'>
             <div className="grid grid-cols-4 gap-x-[20px] gap-y-[40px] w-full justify-items-center max-w-[1200px]">
                 {posts.map((post, index) => (
@@ -56,33 +54,6 @@ const Posts = ({ posts }) => {
                     rawDate = new Date(post.doc_date_upload),
                     formattedDate = `${rawDate.getDate().toString().padStart(2, '0')}/${(rawDate.getMonth() + 1).toString().padStart(2, '0')}/${rawDate.getFullYear()}`,
 
-                    // <div data-aos='fade-up-bottom' data-aos-delay={`${index * 50}`} className='max-w-sm rounded justify-center items-center flex font-sans text-neutral-1000'
-                    //     key={post._id}    
-                    //     onMouseEnter={() => handleMouseEnter(post._id)}
-                    //     onMouseLeave={() => handleMouseLeave(post._id)}>
-                    //     <Card
-                    //         key={post._id}
-                    //         hoverable
-                    //         style={{
-                    //             width: '90%',
-                    //             height: '95%',
-                    //             borderRadius: '10px',
-                    //             padding: '10px',
-                    //             backgroundColor: hoveredCards[post._id] ? 'rgba(255, 255, 255, 1)' : 'rgba(255, 255, 255, 0)',
-                    //             boxShadow: hoveredCards[post._id] ? '0 4px 8px rgba(41, 55, 33, 1)' : '0 4px 8px rgba(41, 55, 33, 0)',
-                    //             transition: hoveredCards[post._id] ? 'all 0.3s ease-in-out' : 'all 0.3s ease-in-out',
-                    //             transform: hoveredCards[post._id] ? 'scale(1.05)' : 'scale(1)',
-                    //           }}
-                    //         cover={<Image src="/images/mockup-docs01.png" alt={post.doc_title} borderRadius={10} width={300} height={300} padStart={10}/>}
-                    //     >
-                    //         <Meta title={post.doc_title} description={`Uploaded at ${formattedDate}`} />
-                    //         <p className='font-bold'>{post.doc_major}</p>
-                    //         {/* Limit description to two rows only. If more, use ellipses */}
-                    //         <p className='line-clamp-2'>{post.doc_description}</p>
-                    //         {/* Tags */}
-                    //         <Meta tags={post.doc_year} />
-                    //     </Card>
-                    // </div>
                     <div data-aos='fade-up-bottom' data-aos-delay={`${index * 50}`} className='max-w-sm rounded justify-center items-center flex font-sans text-neutral-1000'
                         key={post._id}
                         onMouseEnter={() => handleMouseEnter(post._id)}

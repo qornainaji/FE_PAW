@@ -26,7 +26,7 @@ const CustomModal = forwardRef((props, ref) => {
                 mask={true}
                 maskClosable={true}
                 width={220}
-                style={{ position: 'absolute', top: '80px', right: '118px', zIndex: 1000 }}
+                style={{ position: 'absolute', top: '80px', right: '118px', zIndex: '9999' }}
                 getContainer={false}
                 modalRoot={() => document.getElementById('modal-root')}
                 ref={ref}
