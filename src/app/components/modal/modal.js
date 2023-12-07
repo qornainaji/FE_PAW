@@ -57,8 +57,23 @@ export default function Modal({ data, closeModal }) {
     }
   }
 
-  const handleDownload = (fileId) => {
-    const downloadUrl = `https://drive.google.com/u/1/uc?id=${fileId}&export=download`;
+  const handleDownload = (file) => {
+    console.log(file);
+    file.doc_download = file.doc_download + 1;
+    // update doc_download
+    axios.patch(process.env.NEXT_PUBLIC_API_URL + `documents/${file.doc_id}`, {
+      doc_download: file.doc_download
+    })
+      .then(res => {
+        console.log(res.data);
+      }
+      )
+      .catch(err => {
+        console.log(err);
+      }
+      )
+
+    const downloadUrl = `https://drive.google.com/u/1/uc?id=${file.doc_id}&export=download`;
     window.open(downloadUrl, "_self");
   };
 
@@ -122,7 +137,7 @@ export default function Modal({ data, closeModal }) {
             <div className="flex space-x-[12px]">
               {/* Button Unduh */}
               <Button text="Download" 
-                  onClick={() => handleDownload(doc_id)}
+                  onClick={() => handleDownload(data)}
               />
               {/* Button Edit */}
               <Button

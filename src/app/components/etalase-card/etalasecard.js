@@ -43,12 +43,6 @@ export default function EtalaseCard({data, cardClick}) {
 
     const mappedMajor = mapDocMajor(doc_major);
     const formattedDate = formatDate(doc_date_upload);
-
-    // const handleCardClick = () => {
-    //     // Add onClick function here
-    //     // setSelectedDoc(data);
-    //     setModal(!modal);
-    // }
     
     const handleClickCard = () => {
         data.doc_view = data.doc_view + 1;
