@@ -79,34 +79,33 @@ const UserTable = ({
   // const isCheckedMapped = handleCheckedStatus(user.user_isVerified);
 
   return (
-    <div className="flex justify-center">
-    <div className="px-6"> 
-      <table className="min-w-full divide-y divide-gray-200 rounded-lg overflow-hidden shadow-[0_12px_20px_rgba(220,155,107,0.5)]  ">
-        <thead className="bg-green-1-400">
+    <div className="px-6 "  style={{ tableLayout: 'auto'}}> 
+    <table className="min-w-full divide-y divide-gray-200 rounded-lg overflow-hidden shadow-[0_12px_20px_rgba(220,155,107,0.5)]">
+        <thead className="bg-green-1-500">
           <tr>
-            <th scope="col" className="px-6 py-4 text-left text-xs font-sans font-medium text-neutral-1000 uppercase tracking-wider">
-              Verifikasi
+          <th scope="col" className="px-6 py-4 text-left text-xs font-sans font-medium text-neutral-1000 uppercase tracking-wider" style={{ width: '12.5%' }}>
+              Verification
             </th>
-            <th scope="col" className="px-6 py-4 text-left text-xs font-medium font-sans text-neutral-1000 uppercase tracking-wider">
+            <th scope="col" className="px-6 py-4 text-left text-xs font-sans font-medium text-neutral-1000 uppercase tracking-wider" style={{ width: '12.5%' }}>
               Username
             </th>
-            <th scope="col" className="px-6 py-4 text-left text-xs font-medium font-sans text-neutral-1000 uppercase tracking-wider">
-              Nama Pengguna
+            <th scope="col" className="px-6 py-4 text-left text-xs font-sans font-medium text-neutral-1000 uppercase tracking-wider" style={{ width: '12.5%' }}>
+              Full name
             </th>
-            <th scope="col" className="px-6 py-4 text-left text-xs font-medium font-sans text-neutral-1000 uppercase tracking-wider">
+            <th scope="col" className="px-6 py-4 text-left text-xs font-sans font-medium text-neutral-1000 uppercase tracking-wider" style={{ width: '12.5%' }}>
               Email
             </th>
-            <th scope="col" className="px-6 py-4 text-left text-xs font-medium font-sans text-neutral-1000 uppercase tracking-wider">
+            <th scope="col" className="px-6 py-4 text-left text-xs font-sans font-medium text-neutral-1000 uppercase tracking-wider" style={{ width: '12.5%' }}>
               NIM
             </th>
-            <th scope="col" className="px-6 py-4 text-left text-xs font-medium font-sans text-neutral-1000 uppercase tracking-wider">
-              Tipe Akses
+            <th scope="col" className="px-6 py-4 text-left text-xs font-sans font-medium text-neutral-1000 uppercase tracking-wider" style={{ width: '12.5%' }}>
+              Access Type
             </th>
-            <th scope="col" className="px-6 py-4 text-left text-xs font-medium font-sans text-neutral-1000 uppercase tracking-wider">
+            <th scope="col" className="px-6 py-4 text-left text-xs font-sans font-medium text-neutral-1000 uppercase tracking-wider" style={{ width: '12.5%' }}>
               Status
             </th>
-            <th scope="col" className="px-6 py-4 text-left text-xs font-medium font-sans text-neutral-1000 uppercase tracking-wider">
-              Aksi
+            <th scope="col" className="px-6 py-4 text-left text-xs font-sans font-medium text-neutral-1000 uppercase tracking-wider" style={{ width: '12.5%' }}>
+              Action
             </th>
           </tr>
         </thead>
@@ -137,7 +136,7 @@ const UserTable = ({
                   }}
                 />
               </td>
-              <td className="px-6 py-3 whitespace-nowrap font-bold text-left text-xs font-sans">
+              <td className="px-6 py-3 whitespace-nowrap font-bold text-left text-xs font-sans" style={{ width: '12.5%', wordBreak: 'break-all' }}>
                 {editingUserId === user._id ? (
                   <input
                     type="text"
@@ -149,7 +148,7 @@ const UserTable = ({
                   user.user_username
                 )}
               </td>
-              <td className="px-6 py-3 whitespace-nowrap font-bold text-left text-xs font-sans">
+              <td className="px-6 py-3 whitespace-nowrap font-bold text-left text-xs font-sans" style={{ width: '12.5%', wordBreak: 'break-all' }}>
                 {editingUserId === user._id ? (
                   <input
                     type="text"
@@ -161,7 +160,7 @@ const UserTable = ({
                   user.user_name
                 )}
               </td>
-              <td className="px-6 py-3 whitespace-nowrap text-left  text-xs font-sans">
+              <td className="px-6 py-3 whitespace-nowrap text-left  text-xs font-sans" style={{ width: '12.5%', wordBreak: 'break-all' }}>
                 {editingUserId === user._id ? (
                   <input
                     type="text"
@@ -173,7 +172,7 @@ const UserTable = ({
                   user.user_email
                 )}
               </td>
-              <td className="px-6 py-3 whitespace-nowrap text-left text-xs font-sans">
+              <td className="px-6 py-3 whitespace-nowrap text-left text-xs font-sans" style={{ width: '12.5%', wordBreak: 'break-all' }}>
                 {editingUserId === user._id ? (
                   <input
                     type="text"
@@ -185,7 +184,7 @@ const UserTable = ({
                   user.user_NIM
                 )}
               </td>
-              <td className="px-6 py-3 whitespace-nowrap text-left text-xs font-sans">
+              <td className="px-6 py-3 whitespace-nowrap text-left text-xs font-sans" style={{ width: '12.5%', wordBreak: 'break-all' }}>
               <select
                 value={user.user_isAdmin } //? 'Admin' : 'User'
                 onChange={(e) => {
@@ -197,10 +196,10 @@ const UserTable = ({
                 <option value={false}>User</option>
               </select>
               </td>
-              <td className="px-6 py-3 whitespace-nowrap text-left text-xs font-sans">
+              <td className="px-6 py-3 whitespace-nowrap text-left text-xs font-sans" style={{ width: '12.5%', wordBreak: 'break-all' }}>
                 {user.user_isVerified ? "Verified" : "Not Verified"}
               </td>
-                  <td className="px-6 py-3 whitespace-nowrap text-left text-xs font-sans flex">
+                  <td className="px-6 py-3 whitespace-nowrap text-left text-xs font-sans flex" style={{ width: '12.5%', wordBreak: 'break-all' }}>
                   {editingUserId === user._id ? (
                   <button onClick={() => handleEditUser(user._id, editedData)} className="text-green-2-500">
                     Save
@@ -221,7 +220,6 @@ const UserTable = ({
           ))}
         </tbody>
       </table>
-    </div>
     </div>
   );
 };
