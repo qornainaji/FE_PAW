@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 
 const UserTable = ({
   users,
@@ -80,12 +79,16 @@ const UserTable = ({
   // const isCheckedMapped = handleCheckedStatus(user.user_isVerified);
 
   return (
-    <div className="px-6" style={{ padding: '32px 120px' }}>
-      <table className="min-w-full divide-y divide-gray-200 rounded-lg overflow-hidden shadow-[0_12px_20px_rgba(220,155,107,0.5)] ">
+    <div className="flex justify-center">
+    <div className="px-6"> 
+      <table className="min-w-full divide-y divide-gray-200 rounded-lg overflow-hidden shadow-[0_12px_20px_rgba(220,155,107,0.5)]  ">
         <thead className="bg-green-1-400">
           <tr>
             <th scope="col" className="px-6 py-4 text-left text-xs font-sans font-medium text-neutral-1000 uppercase tracking-wider">
               Verifikasi
+            </th>
+            <th scope="col" className="px-6 py-4 text-left text-xs font-medium font-sans text-neutral-1000 uppercase tracking-wider">
+              Username
             </th>
             <th scope="col" className="px-6 py-4 text-left text-xs font-medium font-sans text-neutral-1000 uppercase tracking-wider">
               Nama Pengguna
@@ -133,6 +136,18 @@ const UserTable = ({
                     // handleCheckedString(isChecked);
                   }}
                 />
+              </td>
+              <td className="px-6 py-3 whitespace-nowrap font-bold text-left text-xs font-sans">
+                {editingUserId === user._id ? (
+                  <input
+                    type="text"
+                    value={editedData.user_username || user.user_username}
+                    onChange={(e) => setEditedData({ ...editedData, user_username: e.target.value })}
+                    placeholder="Username"
+                  />
+                ) : (
+                  user.user_username
+                )}
               </td>
               <td className="px-6 py-3 whitespace-nowrap font-bold text-left text-xs font-sans">
                 {editingUserId === user._id ? (
@@ -206,6 +221,7 @@ const UserTable = ({
           ))}
         </tbody>
       </table>
+    </div>
     </div>
   );
 };
