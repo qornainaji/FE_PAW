@@ -7,8 +7,7 @@ const UserTable = ({
   selectChange,
   edit,
   onDelete,
-  fetchData,
-  setUsersData, // Menambahkan properti fetchData ke props
+  fetchData
 }) => {
   const [editingUserId, setEditingUserId] = useState(null);
   const [editedData, setEditedData] = useState({});
@@ -19,9 +18,18 @@ const UserTable = ({
     return users;
   };
 
-  const updateUsersData = (updatedUsersData) => {
-    setUsersData(updatedUsersData);
-  };
+  // const updateUsersData = (updatedUsersData) => {
+  //   setUsersData(updatedUsersData);
+  // };
+
+  const selectStatus = async (userId, isAdmin) => {
+    console.log(userId, isAdmin)
+    try{
+      await selectChange(userId, isAdmin);
+    } catch (error){
+      console.error('Error updating user:', error);
+    }
+  }
 
   const toggleCheckbox = async (userId, isChecked) => {
     console.log(userId, isChecked)
@@ -46,38 +54,38 @@ const UserTable = ({
   };
   
 
-  const [checked, setChecked] = useState(null);
+  // const [checked, setChecked] = useState(null);
 
   
-  const handleCheckedMap = (isChecked) => {
-    const checkedMap = {
-      checked : true,
-       "" : false
-    }
-    // How to make isChecked from boolean to string
+  // const handleCheckedMap = (isChecked) => {
+  //   const checkedMap = {
+  //     checked : true,
+  //      "" : false
+  //   }
+  //   // How to make isChecked from boolean to string
 
-    return checkedMap[String(isChecked)] || String(isChecked);
-  };
+  //   return checkedMap[String(isChecked)] || String(isChecked);
+  // };
 
   
-  const handleCheckedStatus = (isChecked) => {
-    // setChecked(isChecked);
-    return isChecked ? "checked" : "";
-  };
+  // const handleCheckedStatus = (isChecked) => {
+  //   // setChecked(isChecked);
+  //   return isChecked ? "checked" : "";
+  // };
 
-  const handleCheckedString = (isChecked) => {
-    // handleCheckedMap(isChecked)
-    setChecked(!handleCheckedMap(isChecked))
-  }
+  // const handleCheckedString = (isChecked) => {
+  //   // handleCheckedMap(isChecked)
+  //   setChecked(!handleCheckedMap(isChecked))
+  // }
   // const isCheckedMapped = handleCheckedStatus(user.user_isVerified);
 
   return (
     <div className="px-6" style={{ padding: '32px 120px' }}>
-      <table className="min-w-full divide-y divide-gray-200 rounded-lg overflow-hidden">
+      <table className="min-w-full divide-y divide-gray-200 rounded-lg overflow-hidden shadow-[0_12px_20px_rgba(220,155,107,0.5)] ">
         <thead className="bg-green-1-400">
           <tr>
             <th scope="col" className="px-6 py-4 text-left text-xs font-sans font-medium text-neutral-1000 uppercase tracking-wider">
-              Checkbox
+              Verifikasi
             </th>
             <th scope="col" className="px-6 py-4 text-left text-xs font-medium font-sans text-neutral-1000 uppercase tracking-wider">
               Nama Pengguna
@@ -163,16 +171,16 @@ const UserTable = ({
                 )}
               </td>
               <td className="px-6 py-3 whitespace-nowrap text-left text-xs font-sans">
-                <select
-                  value={user.user_isAdmin ? 'Admin' : 'User'}
-                  onChange={(e) => {
-                    const isAdmin = e.target.value === 'Admin';
-                    selectChange(user._id, isAdmin);
-                  }}
-                >
-                  <option value={'Admin'}>Admin</option>
-                  <option value={'User'}>User</option>
-                </select>
+              <select
+                value={user.user_isAdmin } //? 'Admin' : 'User'
+                onChange={(e) => {
+                  const isAdmin = e.target.value; //=== 'Admin';
+                  selectStatus(user._id, isAdmin);
+                }}
+              >
+                <option value={true}>Admin</option>
+                <option value={false}>User</option>
+              </select>
               </td>
               <td className="px-6 py-3 whitespace-nowrap text-left text-xs font-sans">
                 {user.user_isVerified ? "Verified" : "Not Verified"}
