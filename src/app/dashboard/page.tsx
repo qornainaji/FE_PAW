@@ -45,6 +45,15 @@ const Dashboard = () => {
         console.log('Filtered Dashboard:', filteredResult);
     }
 
+    // useEffect( () => {
+    //     function handleFilteredDocuments (filteredResult) {
+    //             // const doc
+    //             setFilterDocuments(filteredResult);
+    //             // console.log("Filtered Dashboard : ", filterDocuments)
+    //             console.log('Filtered Dashboard:', filteredResult);
+    //         }
+    // })
+
     // console.log("Filtered Dashboard : ", filteredDocuments)
 
     useEffect(() => {
@@ -154,8 +163,10 @@ const Dashboard = () => {
 
                             // filteredDocuments={setFilteredDocuments}
                         />
-                        <button onClick={()=>console.log(filterDocuments)} >test</button>
-                        <Posts posts={documents} />
+                        {/* <button onClick={()=>console.log(filterDocuments)} >test</button> */}
+                        <Posts posts={documents} 
+                            filtered={filterDocuments}
+                        />
                         {/* Clickable Page Number to change pages */}
                         <PageNumbers currentPage={pageNum} totalPages={totalPages} limit={limitNum}/>
 

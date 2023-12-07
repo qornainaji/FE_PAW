@@ -1,5 +1,5 @@
-
-import React, { useEffect } from 'react';
+'use client;'
+import React, { use, useEffect } from 'react';
 import { Card } from 'antd';
 import styles from './posts.module.css';
 import Image from 'next/image';
@@ -11,11 +11,31 @@ import Modal from '../modal/modal';
 
 const { Meta } = Card;
 
-const Posts = ({ posts }) => {
+const Posts = ({ 
+    posts, filtered 
+}) => {
     let rawDate, formattedDate;
 
     const [hoveredCards, setHoveredCards] = useState({});
-    const [filteredDocuments, setFilteredDocuments] = useState([]);
+    // const [filteredDocuments, setFilteredDocuments] = useState([]);
+    const [displayPosts, setDisplayPosts] = useState([]);
+
+    let filteredDocuments;
+    useEffect(() => {
+        if (filtered && Array.isArray(filtered) && filtered.length > 0) {
+            setDisplayPosts(filtered);
+        } else {
+            setDisplayPosts(posts);
+        }
+        
+        // setDisplayPosts(posts);
+        // filteredDocuments = filtered;
+        console.log('filtered posts: ', filteredDocuments);
+        console.log('documents posts: ', posts);
+        // const selectedPosts = filtered && Array.isArray(filtered) && filtered.length < posts.length ? filtered : posts;
+        // setDisplayPosts(selectedPosts);
+        console.log('display posts: ', displayPosts);
+    }, [filtered, posts])
 
     useEffect(() => {
         AOS.init({
@@ -47,14 +67,16 @@ const Posts = ({ posts }) => {
         setModal(!modal);
     };
 
-    const handleFilteredDocuments = (documents) => {
-        setFilteredDocuments(documents)
-    }
+    // const handleFilteredDocuments = (documents) => {
+    //     setFilteredDocuments(documents)
+    // }
+
+    // const displayPosts = Array.isArray(filteredDocuments) < posts.length ? filteredDocuments : posts;
 
     return (
         <div className='flex items-center w-full justify-center pt-[60px]'>
             <div className="grid grid-cols-4 gap-x-[20px] gap-y-[40px] w-full justify-items-center max-w-[1200px]">
-                {posts.map((post, index) => (
+                {displayPosts.map((post, index) => (
                     // Format the date to be more readable
                     rawDate = new Date(post.doc_date_upload),
                     formattedDate = `${rawDate.getDate().toString().padStart(2, '0')}/${(rawDate.getMonth() + 1).toString().padStart(2, '0')}/${rawDate.getFullYear()}`,
