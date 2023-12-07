@@ -28,9 +28,7 @@ const Register = () => {
             return; // Stop the registration process if the email is not from UGM
         }
 
-        message.loading('Registering...', 0);
-
-        axios.post(process.env.NEXT_PUBLIC_API_URL + 'users/register', {
+        let userData = {
             user_name: values.name,
             user_username: values.username,
             user_email: values.email,
@@ -38,27 +36,19 @@ const Register = () => {
             user_NIM: values.nim,
             user_isAdmin: false,
             user_isVerified: false,
-            user_bio: '',
-        }).then((response) => {
+        };
+
+        message.loading('Registering...', 0);
+
+        axios.post(process.env.NEXT_PUBLIC_API_URL + 'users/register', userData
+        ).then((response) => {
             message.destroy();
             message.success('Registration successful!');
             message.success(response.data.message)
             // showAlert(response.data.message, 'success');
             window.location.href = '/auth/login';
         }).catch((error) => {
-            let userData = {
-                user_name: values.name,
-                user_username: values.username,
-                user_email: values.email,
-                user_password: values.password,
-                user_NIM: values.nim,
-                user_isAdmin: false,
-                user_isVerified: false,
-                user_bio: '',
-            }
-
             message.destroy();
-            message.success(JSON.stringify(userData));
             if (error.response && error.response.status === 400) {
                 // showAlert(error.response.data.message, 'error');
                 // message.error(JSON.stringify(userData));
