@@ -8,13 +8,14 @@ import UserTable from '../components/Table/UserTable.js';
 import FadeIn from '../animations/FadeIn';
 
 const Verifikasi = () => {
-    const [usersData, setUsersData] = useState([]);
+  const [usersData, setUsersData] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6; // Ubah jumlah item per halaman sesuai kebutuhan
 
-    useEffect(() => {
-      console.log('Calling fetchData...');
-      fetchData();
-    }, []);
-  
+  useEffect(() => {
+    console.log('Calling fetchData...');
+    fetchData();
+  }, [currentPage]); // Panggil fetchData saat currentPage berubah
 
     const fetchData = async () => {
       try {
@@ -39,6 +40,49 @@ const Verifikasi = () => {
         console.error('Error fetching users:', error);
       }
     };  
+
+    const generatePageNumbers = () => {
+      const pages = [];
+      const maxVisiblePages = 5;
+      const ellipsis = '...';
+    
+      // Jika total halaman kurang dari sama dengan 5
+      if (totalPages <= maxVisiblePages) {
+        for (let i = 1; i <= totalPages; i++) {
+          pages.push(i);
+        }
+      } else {
+        const leftSide = Math.floor(maxVisiblePages / 2);
+        const rightSide = totalPages - leftSide;
+    
+        if (currentPage > rightSide) {
+          for (let i = totalPages - maxVisiblePages + 1; i <= totalPages; i++) {
+            pages.push(i);
+          }
+        } else if (currentPage < leftSide) {
+          for (let i = 1; i <= maxVisiblePages; i++) {
+            pages.push(i);
+          }
+        } else {
+          for (let i = currentPage - Math.floor(maxVisiblePages / 2); i <= currentPage + Math.floor(maxVisiblePages / 2); i++) {
+            pages.push(i);
+          }
+        }
+    
+        if (pages[0] !== 1) {
+          pages.unshift(ellipsis);
+        }
+        if (pages[pages.length - 1] !== totalPages) {
+          pages.push(ellipsis);
+        }
+      }
+    
+      return pages;
+    };
+
+    const goToPage = (pageNumber) => {
+      setCurrentPage(pageNumber);
+    };
   
     // const handleCheckboxChange = async (userId, checked) => {
     //   if (!userId) {
@@ -160,6 +204,24 @@ const Verifikasi = () => {
         setUsersData(updatedUsers);
       });
     };
+
+// Fungsi untuk mengatur data per halaman
+const indexOfLastItem = currentPage * itemsPerPage;
+const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+const currentItems = usersData.slice(indexOfFirstItem, indexOfLastItem);
+
+  // Fungsi untuk menghitung total halaman
+  const totalPages = Math.ceil(usersData.length / itemsPerPage);
+
+  // Fungsi untuk pindah ke halaman selanjutnya
+  const nextPage = () => {
+    setCurrentPage(prev => prev + 1);
+  };
+
+  // Fungsi untuk pindah ke halaman sebelumnya
+  const prevPage = () => {
+    setCurrentPage(prev => prev - 1);
+  };
   
     return (
       <FadeIn>
@@ -179,7 +241,7 @@ const Verifikasi = () => {
                 {/* Menampilkan UserTable dengan properti yang diperlukan */}
                 <div style={{ marginTop: '32px' }}></div>
                 <UserTable
-                  users={usersData}
+                  users={currentItems}
                   checkboxChange={handleCheckboxChange}
                   selectChange={handleSelectChange}
                   edit={handleEdit}
@@ -188,10 +250,26 @@ const Verifikasi = () => {
                   // setUsersData={setUsersData}
                 />
             </div>
+
+                  {/* Pagination */}
+                  <div className="mt-1 flex text-base font-sans items-center justify-center space-x-4">
+            {generatePageNumbers().map((page, index) => (
+              <div
+                key={index}
+                onClick={() => goToPage(page)}
+                className={`flex items-center text-base font-sans justify-center rounded-full text-neutral-500 border border-neutral-500 h-10 w-10 cursor-pointer ${
+                  currentPage === page ? 'bg-green-2-500 text-white text-base font-sans' : ''
+                }`}
+              >
+                {page === '...' ? <div>{page}</div> : <div>{page}</div>}
+              </div>
+            ))}
           </div>
+          <div style={{ marginBottom: '60px' }}></div>
         </div>
-      </FadeIn>
-    );
-  };
+      </div>
+    </FadeIn>
+  );
+};
   
   export default Verifikasi;
