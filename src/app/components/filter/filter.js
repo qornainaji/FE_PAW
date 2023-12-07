@@ -1,39 +1,61 @@
-import { useState } from "react";
+import { use, useEffect, useState } from "react";
 import { ConfigProvider, Select, Space } from "antd";
 import Posts from '../posts/posts';
-import { useHistory } from 'react-router-dom';
+// import { useHistory } from 'react-router-dom';
 
 export default function Filter({ documents, filterDocuments }){
     const [selectedMajor, setSelectedMajor] = useState(null);
     const [selectedYear, setSelectedYear] = useState(null);
-    const history = useHistory();
+    // const history = useHistory();
     
+    // const FilterMethod = () => {
+    //     // let filteredDocuments;
+    
+    //     if (selectedMajor) {
+    //     return documents.filter(
+    //         (doc) => doc.doc_major === selectedMajor
+    //     );
+    //     }
+    
+    //     if (selectedYear) {
+    //     return documents.filter(
+    //         (doc) => doc.doc_year === selectedYear
+    //     );
+    //     }
+    //     // handleFilteredDocuments(filteredDocuments);
+    //     // return filteredDocuments
+    // }
+
     const FilterMethod = () => {
         let filteredDocuments = documents;
     
         if (selectedMajor) {
-        filteredDocuments = filteredDocuments.filter(
-            (doc) => doc.doc_major === selectedMajor
-        );
+          filteredDocuments = documents.filter((doc) => doc.doc_major === selectedMajor);
         }
     
         if (selectedYear) {
-        filteredDocuments = filteredDocuments.filter(
-            (doc) => doc.doc_year === selectedYear
-        );
+          filteredDocuments = documents.filter((doc) => doc.doc_year === selectedYear);
         }
+    
+        return filteredDocuments;
+      };
 
-        return filteredDocuments
-    }
+    // const filteredDocuments = FilterMethod();
+    // console.log(filteredDocuments);
 
-    const filteredDocuments = FilterMethod();
-    console.log(filteredDocuments);
+    useEffect(() => {
+        // filterDocuments(FilterMethod());
+        // const docs = FilterMethod();
+        const filteredResult = FilterMethod();
+        filterDocuments(filteredResult);
+        console.log("Welcome to my life: ", filteredResult);
+        // history.push('../../dashboard', { filteredDocuments: docs });
+    }, [selectedMajor, selectedYear]);
 
-    const handleFilteredDocuments = () => {
-        const docs = FilterMethod();
-        filterDocuments(docs);
-        history.push('../../dashboard', { filteredDocuments: docs });
-    }
+    // const handleFilteredDocuments = (documents) => {
+    //     filterDocuments(documents);
+    //     console.log("Welcome to my life: ", documents);
+    // }
 
     
 
@@ -56,7 +78,8 @@ export default function Filter({ documents, filterDocuments }){
                             
                             onChange={(value) => {
                                 setSelectedMajor(value);
-                                handleFilteredDocuments();
+                                // const filteredDocuments = FilterMethod();
+                                // handleFilteredDocuments(filteredDocuments);
                             }}
                             
                             options={[
@@ -77,7 +100,8 @@ export default function Filter({ documents, filterDocuments }){
                             
                             onChange={(value) => {
                                 setSelectedYear(value);
-                                handleFilteredDocuments();
+                                // const filteredDocuments = FilterMethod();   
+                                // handleFilteredDocuments(filteredDocuments);
                             }}
                             options={[
                                 {value: 2023, label: '2023'},
