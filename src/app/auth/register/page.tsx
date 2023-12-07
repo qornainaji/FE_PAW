@@ -3,10 +3,7 @@ import React, { useState } from 'react';
 import { Form, Input, Button, Typography, ConfigProvider, message } from 'antd';
 import axios from 'axios';
 import CustomAlert from '../../components/CustomAlert/CustomAlert';
-import { error } from 'console';
-import ColorChange from '../../animations/ColorChange';
 import FadeIn from '../../animations/FadeIn';
-import GateAnimation from '../../animations/GateAnimation';
 
 const { Title } = Typography;
 

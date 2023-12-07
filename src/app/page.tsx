@@ -128,7 +128,7 @@ export default function Home() {
     <FadeIn>
       {/* Loading Screen */}
       <div className={`fixed top-0 left-0 w-screen h-screen z-50 flex justify-center items-center bg-white ${isLoading ? 'visible' : 'invisible'}`}>
-        {/* <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-green-600"></div> */}
+        {/* <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-green-600"></div> */}  
         <LoadingScreen />
       </div>
 

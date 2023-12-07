@@ -128,8 +128,10 @@ const Profile = () => {
         // Loading screen\
         <FadeIn>
             {loading ? (
-                <div className={`fixed top-0 left-0 w-screen h-screen z-50 flex justify-center items-center bg-white visible`}>
-                    <LoadingScreen />
+                <div className="flex flex-col h-fit bg-orange-100 min-h-screen">
+                    <div className={`fixed top-0 left-0 w-screen h-screen z-50 flex justify-center items-center bg-white visible`}>
+                        <LoadingScreen />
+                    </div>
                 </div>
             ) : (
                 <div className='flex flex-col font-sans bg-orange-100 text-neutral-1000 w-auto h-fill min-h-screen pt-24'>

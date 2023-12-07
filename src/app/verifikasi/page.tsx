@@ -7,6 +7,7 @@ import axios from 'axios';
 import UserTable from '../components/Table/UserTable.js';
 import FadeIn from '../animations/FadeIn';
 import { message, Modal } from 'antd';
+import LoadingScreen from '../components/loadingScreen/loadingScreen';
 
 
 const Verifikasi = () => {
@@ -16,6 +17,8 @@ const Verifikasi = () => {
   const [usersData, setUsersData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10; // Ubah jumlah item per halaman sesuai kebutuhan
+
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     console.log('Calling fetchData...');
@@ -43,6 +46,8 @@ const Verifikasi = () => {
         setUsersData(formattedData);
       } catch (error) {
         console.error('Error fetching users:', error);
+      } finally {
+        setLoading(false);
       }
     };  
 
@@ -250,62 +255,71 @@ const currentItems = usersData.slice(indexOfFirstItem, indexOfLastItem);
   
     return (
       <FadeIn>
-        <div className="flex flex-col min-h-screen h-fit bg-orange-100 text-neutral-1000">
-          <Head>
-            <title>Dashboard</title>
-            <meta name="description" content="Dashboard" />
-            <link rel="icon" href="/favicon.ico" />
-          </Head>
-  
-          <Navbar isAdmin={true} />
-          <div style={{ marginTop: '40px' }}></div>
-          <div className='mt-20 text-center text-4xl font-sans'>
-            <h1 className="text-3xl font-bold mb-2">Welcome to the Verifikasi, Admin!</h1>
-              <p className="text-xl">This is where you can manage the members of our community!</p>
-                <div className="px-8 pb-8">
-                  <Modal
-                    title="Confirmation"
-                    visible={deleteModalVisible}
-                    onCancel={handleCancelDelete}
-                    onOk={() => handleDelete(deleteUserId)}
-                    okText="Delete" // Teks pada tombol OK
-                    cancelText="Cancel" // Teks pada tombol Cancel
-                    okButtonProps={{ style: { backgroundColor: '#E73032', color: 'white', borderColor: '#E73032' } }}
-                    cancelButtonProps={{ style: { backgroundColor: '#BAB9BA', color: 'white', borderColor: '#BAB9BA' } }}
-                    bodyStyle={{ fontSize: '16px', fontFamily: 'Quicksand, sans-serif' }} // Pengaturan font
-                  >
-                    <p>Are you sure you want to delete this user?</p>
-                </Modal>
-                {/* Menampilkan UserTable dengan properti yang diperlukan */}
-                <div style={{ marginTop: '32px' }}></div>
-                <UserTable
-                  users={currentItems}
-                  onDelete={(userId) => showDeleteModal(userId)}
-                  checkboxChange={handleCheckboxChange}
-                  selectChange={handleSelectChange}
-                  edit={handleEdit}
-                  fetchData={fetchData}
-                  // setUsersData={setUsersData}
-                />
-            </div>
-
-                  {/* Pagination */}
-                  <div className="mt-1 flex text-lg font-medium font-sans items-center justify-center space-x-4">
-            {generatePageNumbers().map((page, index) => (
-              <div
-                key={index}
-                onClick={() => goToPage(page)}
-                className={`flex items-center text-lg font-medium font-sans justify-center rounded-full text-neutral-500 border border-neutral-500 h-10 w-10 cursor-pointer ${
-                  currentPage === page ? 'bg-green-2-500 text-white text-lg font-medium font-sans shadow-[0_10px_14px_rgba(220,155,107,0.5)]' : ''
-                }`}
-              >
-                {page === '...' ? <div>{page}</div> : <div>{page}</div>}
+        {loading ? (
+          <div className="flex flex-col h-fit bg-orange-100 min-h-screen">
+              <div className={`fixed top-0 left-0 w-screen h-screen z-50 flex justify-center items-center bg-white visible`}>
+                  <LoadingScreen />
               </div>
-            ))}
           </div>
-          <div style={{ marginBottom: '60px' }}></div>
+        ) : (
+          <div className="flex flex-col min-h-screen h-fit bg-orange-100 text-neutral-1000">
+            <Head>
+              <title>Dashboard</title>
+              <meta name="description" content="Dashboard" />
+              <link rel="icon" href="/favicon.ico" />
+            </Head>
+    
+            <Navbar isAdmin={true} />
+            <div style={{ marginTop: '40px' }}></div>
+            <div className='mt-20 text-center text-4xl font-sans'>
+              <h1 className="text-3xl font-bold mb-2">Welcome to the Verifikasi, Admin!</h1>
+                <p className="text-xl">This is where you can manage the members of our community!</p>
+                  <div className="px-8 pb-8">
+                    <Modal
+                      title="Confirmation"
+                      visible={deleteModalVisible}
+                      onCancel={handleCancelDelete}
+                      onOk={() => handleDelete(deleteUserId)}
+                      okText="Delete" // Teks pada tombol OK
+                      cancelText="Cancel" // Teks pada tombol Cancel
+                      okButtonProps={{ style: { backgroundColor: '#E73032', color: 'white', borderColor: '#E73032' } }}
+                      cancelButtonProps={{ style: { backgroundColor: '#BAB9BA', color: 'white', borderColor: '#BAB9BA' } }}
+                      bodyStyle={{ fontSize: '16px', fontFamily: 'Quicksand, sans-serif' }} // Pengaturan font
+                    >
+                      <p>Are you sure you want to delete this user?</p>
+                  </Modal>
+                  {/* Menampilkan UserTable dengan properti yang diperlukan */}
+                  <div style={{ marginTop: '32px' }}></div>
+                  <UserTable
+                    users={currentItems}
+                    onDelete={(userId) => showDeleteModal(userId)}
+                    checkboxChange={handleCheckboxChange}
+                    selectChange={handleSelectChange}
+                    edit={handleEdit}
+                    fetchData={fetchData}
+                    // setUsersData={setUsersData}
+                  />
+              </div>
+
+                    {/* Pagination */}
+                    <div className="mt-1 flex text-lg font-medium font-sans items-center justify-center space-x-4">
+              {generatePageNumbers().map((page, index) => (
+                <div
+                  key={index}
+                  onClick={() => goToPage(page)}
+                  className={`flex items-center text-lg font-medium font-sans justify-center rounded-full text-neutral-500 border border-neutral-500 h-10 w-10 cursor-pointer ${
+                    currentPage === page ? 'bg-green-2-500 text-white text-lg font-medium font-sans shadow-[0_10px_14px_rgba(220,155,107,0.5)]' : ''
+                  }`}
+                >
+                  {page === '...' ? <div>{page}</div> : <div>{page}</div>}
+                </div>
+              ))}
+            </div>
+            <div style={{ marginBottom: '60px' }}></div>
+          </div>
         </div>
-      </div>
+        )}
+
     </FadeIn>
   );
 };
