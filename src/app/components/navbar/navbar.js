@@ -10,7 +10,7 @@ import cookieCutter from 'cookie-cutter';
 import { Modal, Button } from 'antd';
 import FadeIn from '../../animations/FadeIn';
 import Lottie from 'lottie-react';
-import animationData from '../LoadingScreen/dragonloading.json';
+import animationData from '../loadingScreen/dragonloading.json';
 
 
 const jwt = require('jsonwebtoken');
