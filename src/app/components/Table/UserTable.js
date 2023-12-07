@@ -85,8 +85,8 @@ const UserTable = ({
   };
 
   return (
-    <div className="table-container bg-orange-100 w-fit min-w-screen overflow-x-auto"  style={{ tableLayout: 'auto'}}> 
-      <table className="min-w-full neutral-default rounded-lg shadow-[0_12px_20px_rgba(220,155,107,0.5)]">
+    <div className="px-[40px] pb-[40px] table-container bg-orange-100 w-full min-w-screen overflow-x-auto"  style={{ tableLayout: 'auto'}}> 
+      <table className="min-w-full neutral-default rounded-lg overflow-hidden shadow-[0_12px_20px_rgba(220,155,107,0.5)]">
         <thead className="bg-green-1-400">
           <tr>
           <th scope="col" className="w-fit px-3 py-4 text-left text-xs font-sans font-medium text-neutral-1000 uppercase tracking-wider" >
