@@ -22,9 +22,9 @@ export default function Content({documents, filteredDocuments}){
 
     //console.log('content: ', documents);
     
-    const sortedDocuments = documents.sort(
-        (a, b) => b.doc_view - a.doc_view
-    );
+    //const sortedDocuments = documents.sort(
+      //  (a, b) => b.doc_view - a.doc_view
+    //);
 
     const handleFilteredDocuments = () => {
         filteredDocuments();
@@ -42,7 +42,7 @@ export default function Content({documents, filteredDocuments}){
                         <div>
                             <button 
                             className="px-[24px] py-[10px] font-semibold text-[14px] truncate text-neutral-500 hover:text-green-2-500 max-w-[200px] hover:bg-neutral transition-colors rounded-[12px] hover:drop-shadow-[0_12px_20px_rgba(220,155,107,0.12)]">
-                                {sortedDocuments[0]?.doc_title}
+                                {/* {sortedDocuments[0]?.doc_title} */}
                             </button>
                         </div>
                 </div>

@@ -3,11 +3,13 @@ import Button from "../button/button";
 import { IoEye, IoDownloadOutline, IoClose } from "react-icons/io5";
 import Image from "next/image";
 import axios from "axios";
-
+import EditModal from './modaledit'
+import React, { useState } from 'react';
 
 export default function Modal({ data, closeModal }) {
 
   const {
+    _id,
     doc_title,
     doc_year,
     doc_major,
@@ -37,6 +39,14 @@ export default function Modal({ data, closeModal }) {
   const mappedMajor = mapDocMajor(doc_major);
   const formattedDate = formatDate(doc_date_upload);
 
+  const [counter, setCounter] = useState(0);
+
+  const [isEditFileInvisible, setEditFileInvisible] = useState(false);
+
+  const handleEditModal = () => {
+    setEditFileInvisible(!isEditFileInvisible);
+}
+
   const handleCloseModal = () => {
     closeModal();
   }
@@ -47,10 +57,27 @@ export default function Modal({ data, closeModal }) {
     }
   }
 
-  // const handleDownload = (fileId) => {
-  //   const downloadUrl = `https://drive.google.com/u/1/uc?id=${fileId}&export=download`;
-  //   window.open(downloadUrl, "_self");
-  // };
+  const handleDownload = (fileId) => {
+    const downloadUrl = `https://drive.google.com/u/1/uc?id=${fileId}&export=download`;
+    window.open(downloadUrl, "_self");
+  };
+
+  const handleDelete = async (docId) => {
+    try {
+      const response = await axios.delete(process.env.NEXT_PUBLIC_API_URL + `documents/${docId}`);
+      console.log(response.data.message); 
+    } catch (error) {
+      console.error(error);
+    }
+    closeModal();
+    // Increment a counter to force a re-render
+    setCounter(prevCounter => prevCounter + 1);
+
+    // Reload the page after a short delay
+    setTimeout(() => {
+      window.location.reload();
+    }, 500); // Adjust the delay as needed
+  };
 
   return (
     <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50 font-sans"
@@ -95,27 +122,30 @@ export default function Modal({ data, closeModal }) {
             <div className="flex space-x-[12px]">
               {/* Button Unduh */}
               <Button text="Download" 
-                // onClick={handleDownload(doc_id)}
+                  onClick={() => handleDownload(doc_id)}
               />
               {/* Button Edit */}
               <Button
                 text='Edit'
                 className='group border-[1px] border-green-2-500 hover:border-green-1-500 '
                 color='bg-transparent'
-                textColor='text-green-2-500 group-hover:text-green-1-500' />
+                textColor='text-green-2-500 group-hover:text-green-1-500'
+                onClick={handleEditModal} />
             </div>
             {/* Button Delete */}
             <Button
               text='Delete'
               className='group border-[1px] border-green-2-500 hover:border-green-1-500 '
               color='bg-transparent'
-              textColor='text-green-2-500 group-hover:text-green-1-500'
+              textColor='text-green-2-500 group-hover:text-green-1-500' 
+              onClick={() => handleDelete(_id)}
             />
           </div>
           {/* <input type="checkbox"/> */}
         </div>
         <IoClose className="text-[24px] text-neutral-700" onClick={handleCloseModal} />
       </div>
+      {isEditFileInvisible && <EditModal onClose = {handleEditModal} data={data}/>}
     </div>
   )
 }

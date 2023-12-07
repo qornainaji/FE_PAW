@@ -9,11 +9,25 @@ import axios from 'axios';
 import { use, useState, useEffect, useRef } from 'react';
 
 
-export default function UploadFile({ onClose }) {
+export default function EditFile({ data, onClose }) {
+
+    const {
+        _id,
+        doc_title,
+        doc_year,
+        doc_major,
+        doc_description,
+        doc_id,
+        doc_link,
+        doc_view,
+        doc_date_upload,
+        doc_download,
+    } = data;
+
     const [selectedFile, setSelectedFile] = useState(null);
     const [pdfPreview, setPdfPreview] = useState(null);
     const [loading, setLoading] = useState(false);
-    const [counter, setCounter] = useState(0);
+
     
     // Handle file preview
     const onFileChange = (e) => {
@@ -34,16 +48,27 @@ export default function UploadFile({ onClose }) {
         onClose();
     }
 
+    const [existingFileData, setExistingFileData] = useState({
+        link: `https://drive.google.com/u/1/uc?id=${doc_id}&export=download`, // Assuming doc_link is the link to the existing file
+        name: doc_title, // You may want to store the file name as well
+    });
+    
+
+    // const handleDownload = (fileId) => {
+    //     const downloadUrl = `https://drive.google.com/u/1/uc?id=${fileId}&export=download`;
+    //     window.open(downloadUrl, "_self");
+    //   };
+
     const { TextArea } = Input;
 
     const onFinish = async (values) => {
 
         setLoading(true);
         const formData = new FormData();
-        formData.append('doc_title', values.doc_title);
-        formData.append('doc_year', values.doc_year);
-        formData.append('doc_major', values.doc_major);
-        formData.append('doc_description', values.doc_description);
+        formData.append('doc_title', values.output_doc_title);
+        formData.append('doc_year', values.output_doc_year);
+        formData.append('doc_major', values.output_doc_major);
+        formData.append('doc_description', values.output_doc_description);
         formData.append('doc_view', 0);
         // get current date
         const currentDate = new Date();
@@ -57,12 +82,12 @@ export default function UploadFile({ onClose }) {
             // const response = await axios.post('https://plain-toad-sweater.cyclic.app'+'/documents/', formData, {
             message.loading('Data is being uploaded.');
 
-            const response = await axios.post(process.env.NEXT_PUBLIC_API_URL + 'documents/', formData, {
+            const response = await axios.patch(process.env.NEXT_PUBLIC_API_URL + 'documents/' + `${_id}`, formData, {
             // const response = await axios.post("http://localhost:4000/" + 'documents/', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
-            });
+            },);
 
             if (response.status === 200) {
                 message.success('Data uploaded successfully.');
@@ -72,19 +97,12 @@ export default function UploadFile({ onClose }) {
                 message.error('Failed to upload data.');
                 // Handle error scenarios
             }
-
         } catch (error) {
             message.error('Error occurred while uploading data. Please try again later.');
+            closeModal();
         } finally {
             setLoading(false);
         }
-        // Increment a counter to force a re-render
-        setCounter(prevCounter => prevCounter + 1);
-
-        // Reload the page after a short delay
-        setTimeout(() => {
-        window.location.reload();
-        }, 500); // Adjust the delay as needed
     };
 
 
@@ -96,7 +114,7 @@ export default function UploadFile({ onClose }) {
         if (e.target.classList.contains('bg-black')) {
           closeModal();
         }
-      }
+    }
 
     const props = {
         name: 'file',
@@ -142,7 +160,7 @@ export default function UploadFile({ onClose }) {
                 className="bg-white p-10 mt-16 rounded-[12px] flex flex-row-reverse h-5/6 overflow-auto">
                 <div>
                     <div>
-                        <h1 className="text-[30px] font-bold text-neutral-900 pb-[8px] ">Unggah Dokumen Anda!</h1>
+                        <h1 className="text-[30px] font-bold text-neutral-900 pb-[8px] ">Edit Dokumen Anda!</h1>
                         <p className="text-[14px] font-medium text-neutral-500 ">Description</p>
                     </div>
                     <div>
@@ -167,7 +185,7 @@ export default function UploadFile({ onClose }) {
                             >
                                 <Form.Item
                                     label='Program Studi'
-                                    name='doc_major'
+                                    name='output_doc_major'
                                     rules={[
                                         {
                                             required: true,
@@ -176,7 +194,11 @@ export default function UploadFile({ onClose }) {
                                     ]}
                                 >
                                     <Select
+                                    onChange={(e) => {}}
                                         placeholder="e.g. Teknologi Informasi"
+                                        defaultValue={doc_major}
+                                        setFields={doc_major}
+                                        value={doc_major}
                                         style={{ borderColor: '#48A516' }}
                                         options={[
                                             { value: 'tif', label: 'Teknologi Informasi' },
@@ -188,7 +210,7 @@ export default function UploadFile({ onClose }) {
                                 </Form.Item>
                                 <Form.Item
                                     label='Tahun'
-                                    name='doc_year'
+                                    name='output_doc_year'
                                     rules={[
                                         {
                                             required: true,
@@ -196,12 +218,12 @@ export default function UploadFile({ onClose }) {
                                         },
                                     ]}
                                 >
-                                    <Input placeholder='e.g. 2023' type='number' />
+                                    <Input placeholder='e.g. 2023' type='number' defaultValue={doc_year} value={doc_year}/>
 
                                 </Form.Item>
                                 <Form.Item
                                     label='Judul'
-                                    name='doc_title'
+                                    name='output_doc_title'
                                     rules={[
                                         {
                                             required: true,
@@ -209,12 +231,12 @@ export default function UploadFile({ onClose }) {
                                         },
                                     ]}
                                 >
-                                    <Input placeholder='e.g. Soal Latihan Aljabar Linear' type='text' />
+                                    <Input placeholder='e.g. Soal Latihan Aljabar Linear' type='text' defaultValue={doc_title} value={doc_title}/>
 
                                 </Form.Item>
                                 <Form.Item
                                     label='Deskripsi'
-                                    name='doc_description'
+                                    name='output_doc_description'
                                     rules={[
                                         {
                                             required: true,
@@ -222,10 +244,10 @@ export default function UploadFile({ onClose }) {
                                         },
                                     ]}
                                 >
-                                    <TextArea placeholder='Materi tentang ...' autoSize={{ minRows: 3, maxRows: 6 }} />
+                                    <TextArea placeholder='Materi tentang ...' autoSize={{ minRows: 3, maxRows: 6 }} defaultValue={doc_description} value={doc_description}/>
                                 </Form.Item>
                                 <Form.Item
-                                    name='doc_file'
+                                    name='output_doc_file'
                                     rules={[
                                         {
                                             required: true,
@@ -234,7 +256,7 @@ export default function UploadFile({ onClose }) {
                                     ]}
                                     onChange={onFileChange}
                                 >
-                                    <Dragger {...props}>
+                                    <Dragger {...props} defaultFileList={[{ uid: '-1', name: existingFileData.name, status: 'done' }]}>
                                         <p className="ant-upload-drag-icon">
                                             <InboxOutlined />
                                         </p>
@@ -248,9 +270,9 @@ export default function UploadFile({ onClose }) {
                                 <Form.Item>
                                     <div className='flex flex-row pt-[24px] space-x-[12px] mb-10'>
                                         <Button
-                                            type='primarygit '
+                                            type='primary'
                                             htmlType='submit'
-                                            text='Unggah'
+                                            text='Simpan'
                                             className="hover:bg-green-2-600"
                                             loading={loading}
                                         />
@@ -272,7 +294,7 @@ export default function UploadFile({ onClose }) {
 
                         <div>
                             {/* <h3>Preview:</h3> */}
-                            <embed src={pdfPreview} type="application/pdf" width="100%" height="400px" className='rounded-[12px]' />
+                            <embed src={pdfPreview} type="application/pdf" width="100%" height="400px" className='rounded-[12px]' defaultValue={doc_link} />
                         </div>
                         {/* // <object data={`${pdfPreview}#page=1`} type="application/pdf" width="100%" height="600px">
                         // </object> */}
