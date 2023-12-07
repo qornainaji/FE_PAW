@@ -71,7 +71,7 @@ const Verifikasi = () => {
   
       try {
         await axios.patch(`http://localhost:4000/users/${userId}`, {
-          user_isVerified: true,
+          user_isVerified: checked,
         });
   
         console.log('Data updated successfully on the server');
@@ -105,17 +105,16 @@ const Verifikasi = () => {
     //   }
     // };
      
-    const handleSelectChange = async (userId, value) => {
-      console.log(userId, value);
+    const handleSelectChange = async (userId, status) => {
+      console.log(userId, status);
       if (!userId) {
         console.error('Invalid user ID');
         return;
       }
-      const isAdmin = value === 'Admin'; // Mengubah string menjadi boolean
     
       try {
         await axios.patch(`http://localhost:4000/users/${userId}`, {
-          user_isAdmin: isAdmin,
+          user_isAdmin: status,
         });
         console.log('Data updated successfully on the server');
         // Refresh data setelah perubahan berhasil
@@ -184,7 +183,7 @@ const Verifikasi = () => {
                   edit={handleEdit}
                   onDelete={handleDelete}
                   fetchData={fetchData}
-                  setUsersData={setUsersData}
+                  // setUsersData={setUsersData}
                 />
             </div>
           </div>
