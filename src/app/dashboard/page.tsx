@@ -15,6 +15,7 @@ import { checkAuthentication } from '../auth/checkAuthentication';
 import { useRouter } from 'next/navigation';
 import SearchButton from '../components/button/button';
 import PageNumbers from '../components/pageNumbers/pageNumbers';
+import Filter from '../components/filter/filter';
 
 const Dashboard = () => {
     const router = useRouter();
@@ -35,8 +36,14 @@ const Dashboard = () => {
     const [totalPages, setTotalPages] = useState(1);
     const [limitNum, setLimitNum] = useState(20);
 
-    const [selectedMajor, setSelectedMajor] = useState(null);
-    const [selectedYear, setSelectedYear] = useState(null);
+    const [filteredDocuments, setFilteredDocuments] = useState([]);
+
+    const handleFilteredDocuments = (doc) => {
+        setFilteredDocuments(doc);
+        console.log("Filterd Dashboard : ", doc)
+    }
+
+    console.log("Filtered Dashboard : ", filteredDocuments)
 
     useEffect(() => {
         checkAuthentication( router );
@@ -133,9 +140,11 @@ const Dashboard = () => {
                         </div>
                         
                         {/* <h3 className='mx-auto text-center font-sans font-thin text-xl mt-10'><strong>[!TODO: Filter dan kategori di sini]</strong></h3> */}
-                        <Content documents={documents}/>
-                        <Posts posts={documents}/>
-
+                        <Content documents={documents} 
+                            filteredDocuments={handleFilteredDocuments}
+                            // filteredDocuments={setFilteredDocuments}
+                        />
+                        <Posts posts={documents} />
                         {/* Clickable Page Number to change pages */}
                         <PageNumbers currentPage={pageNum} totalPages={totalPages} limit={limitNum}/>
 

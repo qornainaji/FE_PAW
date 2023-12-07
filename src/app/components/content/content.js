@@ -8,7 +8,7 @@ import { IoFilter, IoAddCircleOutline } from "react-icons/io5";
 import UploadFile from "../uploadfile/uploadfile";
 import Etalase from "../etalase/etalase";
 
-export default function Content({documents}){
+export default function Content({documents, filteredDocuments}){
 
     const [isFilterInvisible, setFilterInvisible] = useState(false);
     const [isUploadFileInvisible, setUploadFileInvisible] = useState(false);
@@ -25,7 +25,11 @@ export default function Content({documents}){
     const sortedDocuments = documents.sort(
         (a, b) => b.doc_view - a.doc_view
     );
-    
+
+    const handleFilteredDocuments = () => {
+        filteredDocuments();
+    }
+
     //console.log('sorted content',sortedDocuments)
 
     return(
@@ -61,7 +65,7 @@ export default function Content({documents}){
                     />
                 </div>
             </div>
-            {isFilterInvisible && <Filter documents={documents}/>}
+            {isFilterInvisible && <Filter documents={documents} filterDocuments={handleFilteredDocuments}/>}
             {isUploadFileInvisible && <UploadFile onClose = {handleModal}/>}
             {/* List Bank Soal / Meteri */}
             {/* <Etalase/> */}
