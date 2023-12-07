@@ -108,6 +108,7 @@ const Verifikasi = () => {
         });
     
         console.log('Data updated successfully on the server');
+        message.destroy();
     
         if (response.status === 200) {
           if (checked) {
@@ -151,6 +152,7 @@ const Verifikasi = () => {
         });
     
         console.log('Data updated successfully on the server');
+        message.destroy();
     
         if (response.status === 200) {
           if (accessType == 'true') {
@@ -181,6 +183,7 @@ const Verifikasi = () => {
     
         const response = await axios.patch(`${process.env.NEXT_PUBLIC_API_URL}users/${userId}`, updatedData);
         console.log('Data updated successfully on the server:', response.data);
+        message.destroy();
     
         if (response.status === 200) {
           message.success('Changes saved successfully.'); // Menampilkan pesan sukses jika edit berhasil
