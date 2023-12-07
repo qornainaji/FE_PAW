@@ -3,8 +3,7 @@ import { Fragment, use, useEffect, useState } from 'react';
 import Head from 'next/head';
 import Navbar from '../components/navbar/navbar';
 import React from 'react';
-// import SeeBookModal from '../components/modal/seebookmodal';
-import Modal from '../components/modal/modal';
+import Image from 'next/image';
 import Content from '../components/content/content';
 import Link from 'next/link';
 import axios from 'axios';
@@ -16,6 +15,7 @@ import { useRouter } from 'next/navigation';
 import SearchButton from '../components/button/button';
 import PageNumbers from '../components/pageNumbers/pageNumbers';
 import Filter from '../components/filter/filter';
+import LoadingScreen from '../components/loadingScreen/loadingScreen';
 
 const Dashboard = () => {
     const router = useRouter();
@@ -99,7 +99,14 @@ const Dashboard = () => {
     return (
         <>
             <FadeIn>
-                <div className="flex flex-col h-fit bg-orange-100 text-neutral-1000 min-h-screen">
+                {loading ? (
+                    <div className="flex flex-col h-fit bg-orange-100 min-h-screen">
+                        <div className={`fixed top-0 left-0 w-screen h-screen z-50 flex justify-center items-center bg-white visible`}>
+                            <LoadingScreen />
+                        </div>
+                    </div>
+                ) : (
+                <div className="flex flex-col h-fit bg-orange-100 pt-24 text-neutral-1000 min-h-screen">
                     <Head>
                         <title>Dashboard</title>
                         <meta name="description" content="Dashboard" />
@@ -159,6 +166,7 @@ const Dashboard = () => {
                 )} */}
                 {/* <p>{{showModal}}</p> */}
                 </div>
+                )}
             </FadeIn>    
         </>
     );

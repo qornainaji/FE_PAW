@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from 'react';
-import { Form, Input, Button, Typography, ConfigProvider } from 'antd';
+import { Form, Input, Button, Typography, ConfigProvider, message } from 'antd';
 import axios from 'axios';
 import CustomAlert from '../../components/CustomAlert/CustomAlert';
 import { GithubOutlined } from '@ant-design/icons';
@@ -15,11 +15,15 @@ const Login = () => {
     const router = useRouter();
 
     const handleGitHubSignIn = async () => {
+        // setGithubSignInMessage('Signing in with GitHub...');
+        message.loading('Signing in with GitHub...', 0);
         const githubURL = process.env.NEXT_PUBLIC_API_URL + 'auth/signup/github';
         try{
             router.push(githubURL);
         } catch (error) {
             console.error('Error signing in with GitHub:', error);
+            message.destroy();
+            message.error('Error signing in with GitHub');
             setGithubSignInMessage('Error signing in with GitHub');
         }
     };
@@ -29,6 +33,8 @@ const Login = () => {
     // treat it as a username.
     const isEmail = values.email.includes('@') && values.email.includes('.');
 
+    message.loading('Logging in...', 0);
+
     if(isEmail) { // If email
         axios.post(process.env.NEXT_PUBLIC_API_URL + 'users/login', {
         user_email: values.email,
@@ -36,8 +42,10 @@ const Login = () => {
         withCredentials: true,
         Credentials: 'include',
         }).then((response) => {
+            message.destroy();
             // Handle successful login (e.g., redirect to dashboard)
-            alert(response.data.message + "\nWelcome, " + response.data.user.user_name + "!");
+            // alert(response.data.message + "\nWelcome, " + response.data.user.user_name + "!");
+            
             // document.cookie = "token=" + response.data.token;
             cookieCutter.set('token', response.data.token);
             
@@ -47,10 +55,12 @@ const Login = () => {
             router.push(callbackUrl);
         }).catch((error) => {
             if (error.response && error.response.status === 401) {
-                alert("Invalid email or password");
+                // alert("Invalid email or password");
+                message.error('Invalid email or password');
             } else {
                 console.error('An error occurred during login:', error);
-                alert('An unexpected error occurred. Please try again later.');
+                message.error('An error occurred during login');
+                // alert('An unexpected error occurred. Please try again later.');
             }
         });
     } else { // if username
@@ -60,11 +70,11 @@ const Login = () => {
         withCredentials: true,
         Credentials: 'include',
         }).then((response) => {
-            alert(response.data.message + "\nWelcome, " + response.data.user.user_name + "!");
+            message.destroy();
+            // message.success(response.data.message);
+            // alert(response.data.message + "\nWelcome, " + response.data.user.user_name + "!");
             // insert token to cookie
             cookieCutter.set('token', response.data.token);
-            // document.cookie = "token=" + response.data.token;
-            // localStorage.setItem('token', response.data.token);
 
             // Handle successful login (e.g., redirect to dashboard)
             const currentUrl = window.location.href;
@@ -73,10 +83,12 @@ const Login = () => {
             router.push(callbackUrl);
         }).catch((error) => {
             if (error.response && error.response.status === 401) {
-                alert("Invalid username or password");
+                // alert("Invalid username or password");
+                message.error('Invalid username or password');
             } else {
                 console.error('An error occurred during login:', error);
-                alert(error.message);
+                // alert(error.message);
+                message.error('An error occurred during login');
             }
         });
     }
@@ -84,6 +96,8 @@ const Login = () => {
 
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
+    message.error('Login failed');
+    message.error(errorInfo);
   };
 
   return (

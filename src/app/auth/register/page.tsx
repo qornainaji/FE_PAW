@@ -1,12 +1,9 @@
 "use client";
 import React, { useState } from 'react';
-import { Form, Input, Button, Typography, ConfigProvider } from 'antd';
+import { Form, Input, Button, Typography, ConfigProvider, message } from 'antd';
 import axios from 'axios';
 import CustomAlert from '../../components/CustomAlert/CustomAlert';
-import { error } from 'console';
-import ColorChange from '../../animations/ColorChange';
 import FadeIn from '../../animations/FadeIn';
-import GateAnimation from '../../animations/GateAnimation';
 
 const { Title } = Typography;
 
@@ -23,27 +20,40 @@ const Register = () => {
         const isUgmMail = values.email.includes("@mail.ugm.ac.id");
 
         if (!isUgmMail) {
-            showAlert('Please register using UGM mail', 'error');
+            // showAlert('Please register using UGM mail', 'error');
+            message.error('Please register using UGM mail');
             return; // Stop the registration process if the email is not from UGM
         }
 
-        axios.post(process.env.NEXT_PUBLIC_API_URL + 'users/register', {
-        user_name: values.name,
-        user_username: values.username,
-        user_email: values.email,
-        user_password: values.password,
-        user_NIM: values.nim,
-        user_isAdmin: false,
-        user_isVerified: false,
-        }).then((response) => {
-            showAlert(response.data.message, 'success');
+        let userData = {
+            user_name: values.name,
+            user_username: values.username,
+            user_email: values.email,
+            user_password: values.password,
+            user_NIM: values.nim,
+            user_isAdmin: false,
+            user_isVerified: false,
+        };
+
+        message.loading('Registering...', 0);
+
+        axios.post(process.env.NEXT_PUBLIC_API_URL + 'users/register', userData
+        ).then((response) => {
+            message.destroy();
+            message.success('Registration successful!');
+            message.success(response.data.message)
+            // showAlert(response.data.message, 'success');
             window.location.href = '/auth/login';
         }).catch((error) => {
+            message.destroy();
             if (error.response && error.response.status === 400) {
-                showAlert(error.response.data.message, 'error');
+                // showAlert(error.response.data.message, 'error');
+                // message.error(JSON.stringify(userData));
+                message.error(error.response.data.error);
             } else {
-                console.error('An error occurred during registration:', error);
-                showAlert('An unexpected error occurred. Please try again later.', 'error');
+                // console.error('An error occurred during registration:', error);
+                message.error('An error occurred during registration');
+                // showAlert('An unexpected error occurred. Please try again later.', 'error');
             }
         });
     };

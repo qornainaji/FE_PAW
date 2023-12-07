@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { IoCaretDownOutline, IoCaretUpOutline } from 'react-icons/io5';
 
 const UserTable = ({
   users,
@@ -47,43 +48,58 @@ const UserTable = ({
       console.error('Error editing user:', error);
     }
   };
+
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: 'ascending' });
+
+  useEffect(() => {
+    // Set default sorting saat komponen pertama kali dirender
+    setSortConfig({ key: 'user_username', direction: 'ascending' });
+  }, []);
+
+  const sortData = (key) => {
+    let direction = 'ascending';
+    if (sortConfig && sortConfig.key === key && sortConfig.direction === 'ascending') {
+      direction = 'descending';
+    }
+    setSortConfig({ key, direction });
+  };
+
+  const sortedUsers = [...getCurrentPageData()].sort((a, b) => {
+    if (!a[sortConfig.key] || !b[sortConfig.key]) {
+      return 0;
+    }
   
+    if (sortConfig.direction === 'ascending') {
+      return a[sortConfig.key].toLowerCase() > b[sortConfig.key].toLowerCase() ? 1 : -1;
+    } else {
+      return a[sortConfig.key].toLowerCase() < b[sortConfig.key].toLowerCase() ? 1 : -1;
+    }
+  });
 
-  // const [checked, setChecked] = useState(null);
-
-  
-  // const handleCheckedMap = (isChecked) => {
-  //   const checkedMap = {
-  //     checked : true,
-  //      "" : false
-  //   }
-  //   // How to make isChecked from boolean to string
-
-  //   return checkedMap[String(isChecked)] || String(isChecked);
-  // };
-
-  
-  // const handleCheckedStatus = (isChecked) => {
-  //   // setChecked(isChecked);
-  //   return isChecked ? "checked" : "";
-  // };
-
-  // const handleCheckedString = (isChecked) => {
-  //   // handleCheckedMap(isChecked)
-  //   setChecked(!handleCheckedMap(isChecked))
-  // }
-  // const isCheckedMapped = handleCheckedStatus(user.user_isVerified);
+  const getSortIcon = (key) => {
+    if (sortConfig && sortConfig.key === key) {
+      return sortConfig.direction === 'ascending' ? <IoCaretUpOutline /> : <IoCaretDownOutline />;
+    }
+    // Return null jika bukan kolom yang diurutkan saat ini
+    return null;
+  };
 
   return (
-    <div className="px-6 "  style={{ tableLayout: 'auto'}}> 
+    <div className="px-8 "  style={{ tableLayout: 'auto'}}> 
     <table className="min-w-full divide-y neutral-default rounded-lg overflow-hidden shadow-[0_12px_20px_rgba(220,155,107,0.5)]">
         <thead className="bg-green-1-400">
           <tr>
           <th scope="col" className="px-6 py-4 text-left text-xs font-sans font-medium text-neutral-1000 uppercase tracking-wider" style={{ width: '12.5%' }}>
               Verification
             </th>
-            <th scope="col" className="px-6 py-4 text-left text-xs font-sans font-medium text-neutral-1000 uppercase tracking-wider" style={{ width: '12.5%' }}>
-              Username
+            <th
+              scope="col"
+              className="px-6 py-4 text-left text-xs font-sans font-medium text-neutral-1000 uppercase tracking-wider flex items-center"
+              style={{ width: '12.5%', verticalAlign: 'middle' }}
+              onClick={() => sortData('user_username')}
+            >
+              <span>Username</span>
+              <span className="py-4">{getSortIcon('user_username')}</span>
             </th>
             <th scope="col" className="px-6 py-4 text-left text-xs font-sans font-medium text-neutral-1000 uppercase tracking-wider" style={{ width: '12.5%' }}>
               Full name
@@ -106,7 +122,7 @@ const UserTable = ({
           </tr>
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
-          {getCurrentPageData().map((user) => (
+          {sortedUsers.map((user) => (
             <tr key={user._id}>
               <td className="px-6 py-3 whitespace-nowrap text-left flex">
                 <input

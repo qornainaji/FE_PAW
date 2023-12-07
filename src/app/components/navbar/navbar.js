@@ -9,6 +9,8 @@ import { Router, useRouter } from 'next/navigation';
 import cookieCutter from 'cookie-cutter';
 import { Modal, Button } from 'antd';
 import FadeIn from '../../animations/FadeIn';
+import Lottie from 'lottie-react';
+import animationData from '../LoadingScreen/dragonloading.json';
 
 
 const jwt = require('jsonwebtoken');
@@ -45,6 +47,9 @@ export default function Navbar({ isAdmin }) {
     const [name, setName] = useState("");
     const [showModal, setShowModal] = useState(false);
     const [pictureUrl, setPictureUrl] = useState('/images/default-avatar.png');
+    const [animationIsPlaying, setAnimationIsPlaying] = useState(false);
+    
+    const currentPathname = typeof window !== 'undefined' ? window.location.pathname : null;
 
     const handleMouseEnter = () => {
         setShowModal(true);
@@ -110,16 +115,45 @@ export default function Navbar({ isAdmin }) {
             })
         }
     }, [id])
+
+    const handleLogoClick = () => {
+        // if path is already /, then show loading screen
+        // else, push to /
+        if(currentPathname == '/')
+        {
+            setAnimationIsPlaying(true);
+            
+            // animate the dragon moving from left to right inside div with name 'dragon-frame'
+
+
+            // delay 5 seconds
+            setTimeout(() => {
+                setAnimationIsPlaying(false);
+            }, 6000);
+        }
+        else
+            router.push('/');
+    }
       
     return (
         <FadeIn>
+            {/* if animationIsPlaying is true, show the dragon going from left to right */}
+            {animationIsPlaying && (
+                <div name="dragon-frame" className='fixed flex justify-center items-center w-screen h-fit bg-transparent'>
+                    <div className='w-[300px] h-auto flex flex-col justify-center items-center'>
+                        <Lottie className='translate-x-full' 
+                                animationData={animationData}
+                                styles={{}} />
+                    </div>
+                </div>
+            )}
             <div className='sticky-navbar w-full'>
                 {/* {token} */}
                 {/* {id} */}
                 <nav className='flex font-sans text-xl text-neutral-500 justify-between items-center px-[120px] py-[0px] bg-orange-100'>
                     {/* <h1 className='font-bold text-green-1-900'>ACADEMIA DTETI</h1> */}
                     <div className='flex items-center'>
-                        <Image src='/images/AcademiaDTETI.png' alt='Logo' width={195.2} height={32} className='mb-2 items-center justify-center' />
+                        <Image src='/images/AcademiaDTETI.png' alt='Logo' width={195.2} height={32} className='mb-2 items-center justify-center' onClick={handleLogoClick} />
                         {isAdmin && <p className='ml-2 font-semibold text-green-1-900 items-center justify-center'>Admin</p>}
                     </div>
                     {isAdmin ? (
