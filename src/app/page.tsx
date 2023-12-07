@@ -16,7 +16,7 @@ import Posts from './components/posts/posts';
 import SearchBar from './components/searchbar/searchbar';
 import { Footer } from 'antd/es/layout/layout';
 import SearchButton from './components/button/button';
-import PageNumbers from './components/pagenumbers/pagenumbers';
+import PageNumbers from './components/pageNumbers/pageNumbers';
 
 export default function Home() {
   const router = useRouter();
