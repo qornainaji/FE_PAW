@@ -8,7 +8,10 @@ import { IoFilter, IoAddCircleOutline } from "react-icons/io5";
 import UploadFile from "../uploadfile/uploadfile";
 import Etalase from "../etalase/etalase";
 
-export default function Content({documents, filteredDocuments}){
+export default function Content({
+    documents, 
+    filteredDocuments
+}){
 
     const [isFilterInvisible, setFilterInvisible] = useState(false);
     const [isUploadFileInvisible, setUploadFileInvisible] = useState(false);
@@ -26,8 +29,22 @@ export default function Content({documents, filteredDocuments}){
       //  (a, b) => b.doc_view - a.doc_view
     //);
 
-    const handleFilteredDocuments = () => {
-        filteredDocuments();
+        const [filterDocuments, setFilteredDocuments] = useState([]);
+    
+    // const handleExport = () => {
+    //     filteredDocuments(filterDocuments);
+    // }
+
+    // const handleFilteredDocuments = (docs) => {
+    //     // filteredDocuments();
+    //     setFilteredDocuments(docs);
+    //     console.log('filtered content: ', filterDocuments);
+    // }
+
+    function handleFilteredDocuments(docs) {
+        setFilteredDocuments(docs);
+        filteredDocuments(docs);
+        console.log('filtered content: ', docs);
     }
 
     //console.log('sorted content',sortedDocuments)
@@ -65,7 +82,14 @@ export default function Content({documents, filteredDocuments}){
                     />
                 </div>
             </div>
-            {isFilterInvisible && <Filter documents={documents} filterDocuments={handleFilteredDocuments}/>}
+            {isFilterInvisible && <Filter documents={documents} 
+            // filterDocuments={filteredDocuments}
+                filterDocuments={handleFilteredDocuments}
+                // filterDocuments={()=>{
+                //     handleFilteredDocuments;
+                //     handleExport;
+                // }}
+            />}
             {isUploadFileInvisible && <UploadFile onClose = {handleModal}/>}
             {/* List Bank Soal / Meteri */}
             {/* <Etalase/> */}

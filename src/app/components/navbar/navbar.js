@@ -157,7 +157,8 @@ export default function Navbar({ isAdmin }) {
                         {isAdmin && <p className='ml-2 font-semibold text-green-1-900 items-center justify-center'>Admin</p>}
                     </div>
                     {isAdmin ? (
-                        <ul className='flex font-semibold text-[16px] space-x-[72px]'>
+                        <ul className='flex font-semibold 
+                        text-[16px] lg:space-x-[72px]'>
                         <li className='hover:text-green-2-600 transition-colors'>
                             <Link href='/'>Beranda</Link>
                         </li>

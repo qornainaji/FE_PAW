@@ -36,14 +36,16 @@ const Dashboard = () => {
     const [totalPages, setTotalPages] = useState(1);
     const [limitNum, setLimitNum] = useState(20);
 
-    const [filteredDocuments, setFilteredDocuments] = useState([]);
+    const [filterDocuments, setFilterDocuments] = useState([]);
 
-    const handleFilteredDocuments = (doc) => {
-        setFilteredDocuments(doc);
-        console.log("Filterd Dashboard : ", doc)
+    function handleFilteredDocuments (filteredResult) {
+        // const doc
+        setFilterDocuments(filteredResult);
+        // console.log("Filtered Dashboard : ", filterDocuments)
+        console.log('Filtered Dashboard:', filteredResult);
     }
 
-    console.log("Filtered Dashboard : ", filteredDocuments)
+    // console.log("Filtered Dashboard : ", filteredDocuments)
 
     useEffect(() => {
         checkAuthentication( router );
@@ -149,8 +151,10 @@ const Dashboard = () => {
                         {/* <h3 className='mx-auto text-center font-sans font-thin text-xl mt-10'><strong>[!TODO: Filter dan kategori di sini]</strong></h3> */}
                         <Content documents={documents} 
                             filteredDocuments={handleFilteredDocuments}
+
                             // filteredDocuments={setFilteredDocuments}
                         />
+                        <button onClick={()=>console.log(filterDocuments)} >test</button>
                         <Posts posts={documents} />
                         {/* Clickable Page Number to change pages */}
                         <PageNumbers currentPage={pageNum} totalPages={totalPages} limit={limitNum}/>

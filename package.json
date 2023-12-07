@@ -12,6 +12,7 @@
     "antd": "^5.11.1",
     "aos": "^2.3.4",
     "axios": "^1.6.1",
+    "bcryptjs": "^2.4.3",
     "cookie-cutter": "^0.2.0",
     "dotenv": "^16.3.1",
     "framer-motion": "^10.16.5",
