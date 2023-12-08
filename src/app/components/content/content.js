@@ -7,6 +7,7 @@ import Filter from "../filter/filter";
 import { IoFilter, IoAddCircleOutline } from "react-icons/io5";
 import UploadFile from "../uploadfile/uploadfile";
 import Etalase from "../etalase/etalase";
+import Modal from "../modal/modal";
 
 export default function Content({
     documents, 
@@ -15,6 +16,12 @@ export default function Content({
 
     const [isFilterInvisible, setFilterInvisible] = useState(false);
     const [isUploadFileInvisible, setUploadFileInvisible] = useState(false);
+    const [modalData, setModalData] = useState(null);
+    const [modal, setModal] = useState(false);
+
+    const handleCloseModal = () => {
+        setModal(!modal);
+    };
 
     const handleFilter = () => {
         setFilterInvisible(!isFilterInvisible);
@@ -28,6 +35,8 @@ export default function Content({
     const sortedDocuments = documents.sort(
        (a, b) => b.doc_view - a.doc_view
     );
+
+    const firstThreeDocuments = sortedDocuments.slice(0, 3);
 
         const [filterDocuments, setFilteredDocuments] = useState([]);
     
@@ -57,10 +66,15 @@ export default function Content({
                 <div className="flex space-x-[119px]">
                     <p className="font-bold text-[16px] text-neutral-1000 py-[8px] pr-[20px] ">Populer:</p>
                         <div>
-                            <button 
-                            className="px-[24px] py-[10px] font-semibold text-[14px] truncate text-neutral-500 hover:text-green-2-500 max-w-[200px] hover:bg-neutral transition-colors rounded-[12px] hover:drop-shadow-[0_12px_20px_rgba(220,155,107,0.12)]">
-                                {sortedDocuments[0]?.doc_title}
-                            </button>
+                            {firstThreeDocuments.map((doc_title, index) => (
+                                <button 
+                                key={index}
+                                onClick={() => {setModalData(doc_title); setModal(!modal)}}
+                                className="px-[24px] py-[10px] font-semibold text-[14px] truncate text-neutral-500 hover:text-green-2-500 max-w-[200px] hover:bg-neutral transition-colors rounded-[12px] hover:drop-shadow-[0_12px_20px_rgba(220,155,107,0.12)]">
+                                    {/* {sortedDocuments[0]?.doc_title} */}
+                                    {doc_title.doc_title}
+                                </button>
+                            ))}
                         </div>
                 </div>
                 <div className="flex flex-row space-x-[21px]">
@@ -93,6 +107,8 @@ export default function Content({
             {isUploadFileInvisible && <UploadFile onClose = {handleModal}/>}
             {/* List Bank Soal / Meteri */}
             {/* <Etalase/> */}
+
+            {modal && <Modal data={modalData} closeModal={handleCloseModal}/>}
         </div>
     )
 }
