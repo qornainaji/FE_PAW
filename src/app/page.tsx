@@ -196,7 +196,7 @@ export default function Home() {
 
         <div className='flex flex-col justify-center align-middle bg-center w-full'>
           {/* Posts. Show 4 items per row */}
-          <Posts posts={documents}/>
+          <Posts posts={documents} filtered={{}}/>
           
           {/* Page Numbers using a loop */}
           <PageNumbers currentPage={pageNum} totalPages={totalPages} limit={limitNum}/>
