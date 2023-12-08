@@ -23,11 +23,11 @@ export default function Content({
         setUploadFileInvisible(!isUploadFileInvisible);
     }
 
-    //console.log('content: ', documents);
+    console.log('content: ', documents);
     
-    //const sortedDocuments = documents.sort(
-      //  (a, b) => b.doc_view - a.doc_view
-    //);
+    const sortedDocuments = documents.sort(
+       (a, b) => b.doc_view - a.doc_view
+    );
 
         const [filterDocuments, setFilteredDocuments] = useState([]);
     
@@ -47,7 +47,7 @@ export default function Content({
         console.log('filtered content: ', docs);
     }
 
-    //console.log('sorted content',sortedDocuments)
+    console.log('sorted content',sortedDocuments)
 
     return(
         <div className="flex flex-col items-center justify-between bg-orange-100 px-[120px] font-sans text-neutral-1000 w-[1200px]">
@@ -59,7 +59,7 @@ export default function Content({
                         <div>
                             <button 
                             className="px-[24px] py-[10px] font-semibold text-[14px] truncate text-neutral-500 hover:text-green-2-500 max-w-[200px] hover:bg-neutral transition-colors rounded-[12px] hover:drop-shadow-[0_12px_20px_rgba(220,155,107,0.12)]">
-                                {/* {sortedDocuments[0]?.doc_title} */}
+                                {sortedDocuments[0]?.doc_title}
                             </button>
                         </div>
                 </div>
