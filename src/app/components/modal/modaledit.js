@@ -256,7 +256,7 @@ export default function EditFile({ data, onClose }) {
                                     ]}
                                     onChange={onFileChange}
                                 >
-                                    <Dragger {...props} defaultFileList={[{ uid: '-1', name: existingFileData.name, status: 'done' }]}>
+                                    <Dragger {...props}>
                                         <p className="ant-upload-drag-icon">
                                             <InboxOutlined />
                                         </p>
