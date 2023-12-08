@@ -58,10 +58,10 @@ export default function Modal({ data, closeModal }) {
   }
 
   const handleDownload = (file) => {
-    console.log(file);
+    console.log("FILE/DATA:" + file);
     file.doc_download = file.doc_download + 1;
     // update doc_download
-    axios.patch(process.env.NEXT_PUBLIC_API_URL + `documents/${file.doc_id}`, {
+    axios.patch(process.env.NEXT_PUBLIC_API_URL + `documents/${file._id}`, {
       doc_download: file.doc_download
     })
       .then(res => {

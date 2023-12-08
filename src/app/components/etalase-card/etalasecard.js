@@ -9,6 +9,7 @@ import {IoEye} from 'react-icons/io5';
 
 export default function EtalaseCard({data, cardClick}) {
     const {
+        _id,
         doc_title,
         doc_year,
         doc_major,
@@ -48,7 +49,7 @@ export default function EtalaseCard({data, cardClick}) {
         data.doc_view = data.doc_view + 1;
         cardClick(data);
         // update doc_view
-        axios.patch(process.env.NEXT_PUBLIC_API_URL + `documents/${doc_id}`, {
+        axios.patch(process.env.NEXT_PUBLIC_API_URL + `documents/${data._id}`, {
             doc_view: data.doc_view
         })
         .then(res => {
